@@ -1,0 +1,420 @@
+<?xml version='1.0'?>
+<alert xmlns='urn:oasis:names:tc:emergency:cap:1.2'>
+  <identifier>urn:oid:2.49.0.1.124.1576205950.2019</identifier>
+  <sender>cap-pac@canada.ca</sender>
+  <sent>2019-10-20T19:56:43-00:00</sent>
+  <status>Actual</status>
+  <msgType>Update</msgType>
+  <source>Env. Can. - Can. Met. Ctr. – Montréal</source>
+  <scope>Public</scope>
+  <code>profile:CAP-CP:0.4</code>
+  <code>layer:SOREM:1.0</code>
+  <code>layer:EC-MSC-SMC:1.0</code>
+  <code>layer:WPAM:1.0</code>
+  <code>layer:EC-MSC-SMC:1.1</code>
+  <code>layer:SOREM:2.0</code>
+  <note>
+    Service Notice: New and improved polygons have been implemented in ECCC CAP
+    during the Spring of 2019. They are a more accurate representation of the
+    areas identified in the CAP Alert Message. Further improvements to those
+    polygons to clean up self intersecting and duplicate vertices issues are
+    occurring as the summer of 2019 progresses. Also, look for an update message
+    regarding Tsunami Alerts in Canada soon. To have access to notices as they
+    become available you are invited to subscribe to the following mailing list:
+    http://lists.cmc.ec.gc.ca/mailman/listinfo/dd_info | Notification de
+    service: Des améliorations ainsi que de nouveaux polygones ont été
+    implémentés au PAC d’ECCC au printemps 2019. Ils représentent plus
+    précisément les régions identifiées dans le message d’alerte du PAC. Au
+    courant de l’été 2019, d’autres améliorations seront apportées à ces
+    polygones afin de supprimer les sommets qui s’entrecroisent et se
+    dupliquent. De plus, attendez-vous à voir sous peu un message mis à jour
+    concernant les alertes de tsunami au Canada. Afin d’avoir accès aux
+    notifications dès qu’elles sont disponibles, vous êtes invités à vous
+    inscrire à la liste de diffusion suivante:
+    http://lists.cmc.ec.gc.ca/mailman/listinfo/dd_info
+  </note>
+  <references>
+    cap-pac@canada.ca,urn:oid:2.49.0.1.124.4119129247.2019,2019-10-20T19:55:43-00:00
+  </references>
+  <info>
+    <language>en-CA</language>
+    <category>Met</category>
+    <event>weather</event>
+    <responseType>Monitor</responseType>
+    <urgency>Future</urgency>
+    <severity>Minor</severity>
+    <certainty>Possible</certainty>
+    <audience>general public</audience>
+    <eventCode>
+      <valueName>profile:CAP-CP:Event:0.4</valueName>
+      <value>weather</value>
+    </eventCode>
+    <effective>2019-10-20T19:55:43-00:00</effective>
+    <expires>2019-10-21T11:55:43-00:00</expires>
+    <senderName>Environment Canada</senderName>
+    <headline>special weather statement in effect</headline>
+    <description>
+      Significant rainfall expected Monday night. Rain will begin Monday
+      afternoon. Total rainfall amounts of 40 to 50 mm are expected before the
+      rain tapers off to a few showers on Tuesday morning. The rain is the
+      result of a Colorado Low that will track over Northwestern Ontario Monday
+      night into Tuesday. ### Please continue to monitor alerts and forecasts
+      issued by Environment Canada. To report severe weather, send an email to
+      ONstorm@canada.ca or tweet reports using #ONStorm.
+    </description>
+    <web>http://weather.gc.ca/warnings/index_e.html?prov=non</web>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Type</valueName>
+      <value>statement</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Broadcast_Intrusive</valueName>
+      <value>no</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:SOREM:1.0:Broadcast_Immediately</valueName>
+      <value>No</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Parent_URI</valueName>
+      <value>
+        msc/alert/environment/hazard/alert-3.0-ascii/consolidated-xml-2.0/20191020195543359/WS_12_72_CWTO/SPS/1732589211444629601201910200503_WS_12_72_CWTO/actual/en_proper_complete_u-fr_proper_complete_c/NinJo
+      </value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:CAP_count</valueName>
+      <value>A:5041 M:29714 C:52566</value>
+    </parameter>
+    <parameter>
+      <valueName>profile:CAP-CP:0.4:MinorChange</valueName>
+      <value>text</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Location_Status</valueName>
+      <value>active</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Name</valueName>
+      <value>special weather statement</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Coverage</valueName>
+      <value>Northern Ontario</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Designation_Code</valueName>
+      <value>WS_12_72_CWTO</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:SOREM:2.0:WirelessImmediate</valueName>
+      <value>No</value>
+    </parameter>
+    <area>
+      <areaDesc>City of Thunder Bay</areaDesc>
+      <polygon>
+        48.5448,-89.0388 48.5001,-89.0231 48.4482,-89.0071 48.3079,-89.1102
+        48.3096,-89.1933 48.3065,-89.2028 48.3101,-89.2143 48.3119,-89.271
+        48.334,-89.3597 48.3528,-89.3957 48.3838,-89.4298 48.4198,-89.4449
+        48.484,-89.432 48.519,-89.4061 48.551,-89.3458 48.59,-89.1847
+        48.5859,-89.1228 48.568,-89.0639 48.5448,-89.0388
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>048100</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558003</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558004</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558011</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558028</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558090</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Cloud Bay - Dorion</areaDesc>
+      <polygon>
+        48.2896,-88.9702 48.5107,-88.828 48.4482,-89.0071 48.5001,-89.0231
+        48.5448,-89.0388 48.568,-89.0639 48.5859,-89.1228 48.59,-89.1847
+        48.551,-89.3458 48.519,-89.4061 48.484,-89.432 48.4198,-89.4449
+        48.3838,-89.4298 48.3528,-89.3957 48.334,-89.3597 48.3119,-89.271
+        48.3101,-89.2143 48.3065,-89.2028 48.3096,-89.1933 48.3079,-89.1102
+        48.2327,-88.9231 48.034,-89.2481 47.9704,-89.6069 48.0095,-89.6337
+        48.7365,-89.3858 49.1101,-88.6636 48.6611,-88.1405 48.475,-87.9958
+        48.3327,-88.5412 48.2896,-88.9702
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>048510</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558001</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558003</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558004</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558011</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558028</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558034</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558090</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Kakabeka Falls - Whitefish Lake - Arrow Lake</areaDesc>
+      <polygon>
+        48.1209,-90.5764 48.5979,-89.6538 48.7365,-89.3858 48.0095,-89.6337
+        48.004,-89.637 47.9812,-89.8952 48.0754,-90.1265 48.0971,-90.6192
+        48.1209,-90.5764
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>048520</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558001</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558011</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558012</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558016</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558019</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558090</value>
+      </geocode>
+    </area>
+  </info>
+  <info>
+    <language>fr-CA</language>
+    <category>Met</category>
+    <event>météo</event>
+    <responseType>Monitor</responseType>
+    <urgency>Future</urgency>
+    <severity>Minor</severity>
+    <certainty>Possible</certainty>
+    <audience>grand public</audience>
+    <eventCode>
+      <valueName>profile:CAP-CP:Event:0.4</valueName>
+      <value>weather</value>
+    </eventCode>
+    <effective>2019-10-20T19:55:43-00:00</effective>
+    <expires>2019-10-21T11:55:43-00:00</expires>
+    <senderName>Environnement Canada</senderName>
+    <headline>bulletin météorologique spécial en vigueur</headline>
+    <description>
+      D&apos;importantes quantités de pluie sont attendues dans la nuit de lundi
+      à mardi. De la pluie commencera à tomber lundi après-midi. On prévoit une
+      quantité totale de pluie de 40 à 50 mm avant que la pluie ne se change en
+      quelques averses de pluie mardi matin. La pluie tombe sous l&apos;effet
+      d&apos;une dépression du Colorado qui traversera le nord-ouest de
+      l&apos;Ontario dans la nuit de lundi à mardi. ### Veuillez continuer à
+      surveiller les alertes et les prévisions émises par Environnement Canada.
+      Pour signaler du temps violent, envoyez un courriel à meteoON@canada.ca ou
+      publiez un gazouillis en utilisant le mot-clic #ONMeteo.
+    </description>
+    <web>http://meteo.gc.ca/warnings/index_f.html?prov=non</web>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Type</valueName>
+      <value>statement</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Broadcast_Intrusive</valueName>
+      <value>no</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:SOREM:1.0:Broadcast_Immediately</valueName>
+      <value>No</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Parent_URI</valueName>
+      <value>
+        msc/alert/environment/hazard/alert-3.0-ascii/consolidated-xml-2.0/20191020195543359/WS_12_72_CWTO/SPS/1732589211444629601201910200503_WS_12_72_CWTO/actual/en_proper_complete_u-fr_proper_complete_c/NinJo
+      </value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:CAP_count</valueName>
+      <value>A:5041 M:29714 C:52566</value>
+    </parameter>
+    <parameter>
+      <valueName>profile:CAP-CP:0.4:MinorChange</valueName>
+      <value>text</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Location_Status</valueName>
+      <value>active</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Name</valueName>
+      <value>bulletin météorologique spécial</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Coverage</valueName>
+      <value>nord de l&apos;Ontario</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Designation_Code</valueName>
+      <value>WS_12_72_CWTO</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:SOREM:2.0:WirelessImmediate</valueName>
+      <value>No</value>
+    </parameter>
+    <area>
+      <areaDesc>ville de Thunder Bay</areaDesc>
+      <polygon>
+        48.5448,-89.0388 48.5001,-89.0231 48.4482,-89.0071 48.3079,-89.1102
+        48.3096,-89.1933 48.3065,-89.2028 48.3101,-89.2143 48.3119,-89.271
+        48.334,-89.3597 48.3528,-89.3957 48.3838,-89.4298 48.4198,-89.4449
+        48.484,-89.432 48.519,-89.4061 48.551,-89.3458 48.59,-89.1847
+        48.5859,-89.1228 48.568,-89.0639 48.5448,-89.0388
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>048100</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558003</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558004</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558011</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558028</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558090</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Cloud Bay - Dorion</areaDesc>
+      <polygon>
+        48.2896,-88.9702 48.5107,-88.828 48.4482,-89.0071 48.5001,-89.0231
+        48.5448,-89.0388 48.568,-89.0639 48.5859,-89.1228 48.59,-89.1847
+        48.551,-89.3458 48.519,-89.4061 48.484,-89.432 48.4198,-89.4449
+        48.3838,-89.4298 48.3528,-89.3957 48.334,-89.3597 48.3119,-89.271
+        48.3101,-89.2143 48.3065,-89.2028 48.3096,-89.1933 48.3079,-89.1102
+        48.2327,-88.9231 48.034,-89.2481 47.9704,-89.6069 48.0095,-89.6337
+        48.7365,-89.3858 49.1101,-88.6636 48.6611,-88.1405 48.475,-87.9958
+        48.3327,-88.5412 48.2896,-88.9702
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>048510</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558001</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558003</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558004</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558011</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558028</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558034</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558090</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Kakabeka Falls - lac Whitefish - lac Arrow</areaDesc>
+      <polygon>
+        48.1209,-90.5764 48.5979,-89.6538 48.7365,-89.3858 48.0095,-89.6337
+        48.004,-89.637 47.9812,-89.8952 48.0754,-90.1265 48.0971,-90.6192
+        48.1209,-90.5764
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>048520</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558001</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558011</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558012</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558016</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558019</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558090</value>
+      </geocode>
+    </area>
+  </info>
+</alert>
+

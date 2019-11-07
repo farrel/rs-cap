@@ -13,34 +13,24 @@ pub struct EventCode {
     value: String,
 }
 
-fn parse_name(reader: &mut Reader<&[u8]>) -> String {
+fn parse_name(reader: &Reader<&[u8]>) -> String {
     let mut buf = Vec::new();
     let mut ns_buf = Vec::new();
     let mut name_string = String::new();
 
     match reader.read_namespaced_event(&mut buf, &mut ns_buf) {
-        Ok((_, Event::Text(name))) => {
-            name_string.push_str(&name.unescape_and_decode(reader).unwrap());
-        }
-        _ => (),
+        Ok(_, Event::Text(name)) => {name_string.push_str(&name.unescape_and_decode(reader).unwrap());},
+        _ => ()
     }
-
-    return name_string;
+    
+    return name_string
 }
 
-fn parse_value(reader: &mut Reader<&[u8]>) -> String {
+fn parse_value(reader: &Reader<&[u8]>) -> String {
     let mut buf = Vec::new();
     let mut ns_buf = Vec::new();
-    let mut value_string = String::new();
-
-    match reader.read_namespaced_event(&mut buf, &mut ns_buf) {
-        Ok((_, Event::Text(value))) => {
-            value_string.push_str(&value.unescape_and_decode(reader).unwrap());
-        }
-        _ => (),
-    }
-
-    return value_string;
+    let (_, Event::Text(value)) = reader.read_namespaced_event(&mut buf, &mut ns_buf).unwrap();
+    return value.unescape_and_decode(reader).unwrap();
 }
 
 impl DeserializeFromXml for EventCode {
@@ -68,8 +58,8 @@ impl DeserializeFromXml for EventCode {
                             name: attributes.get(NAME_TAG).unwrap().to_string(),
                             value: attributes.get(VALUE_TAG).unwrap().to_string(),
                         }));
-                    }
-                    _ => (),
+                    },
+                    _ => ()
                 },
                 _ => (),
             }
