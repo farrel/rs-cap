@@ -1,3 +1,4 @@
+mod utilities;
 mod deserialize_from_xml;
 
 mod point;
