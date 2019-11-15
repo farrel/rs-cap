@@ -12,7 +12,7 @@ pub fn parse_string(reader: &mut Reader<&[u8]>) -> Result<String, SerializeError
         Ok((_, Event::Text(name))) => {
             name_string.push_str(&name.unescape_and_decode(reader).unwrap());
         }
-        _ => return Err(SerializeError::TextNotFound("Expecting string")),
+        _ => return Err(SerializeError::TextNotFound("".to_string())),
     }
 
     return Ok(name_string);

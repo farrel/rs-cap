@@ -2,9 +2,10 @@ use quick_xml::Reader;
 
 #[derive(Debug)]
 pub enum SerializeError {
-    Error(&'static str),
-    TextNotFound(&'static str),
-    TagNotRecognised(&'static str)
+    Error(String),
+    TextNotFound(String),
+    TagNotRecognised(String),
+    TagNotFound(String),
 }
 
 pub trait DeserializeFromXml {

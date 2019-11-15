@@ -1,11 +1,10 @@
-use std::collections::HashMap;
 use std::str;
 
 use quick_xml::events::Event;
 use quick_xml::Reader;
 
-use crate::common_alerting_protocol::utilities::*;
 use crate::common_alerting_protocol::deserialize_from_xml::{DeserializeFromXml, SerializeError};
+use crate::common_alerting_protocol::utilities::*;
 
 const NAME_TAG: &str = "valueName";
 const VALUE_TAG: &str = "value";
@@ -20,7 +19,7 @@ fn parse_name(reader: &mut Reader<&[u8]>) -> Result<String, SerializeError> {
     return Ok(parse_string(reader)?);
 }
 
-fn parse_value(reader: &mut Reader<&[u8]>) -> Result<String, SerializeError> { 
+fn parse_value(reader: &mut Reader<&[u8]>) -> Result<String, SerializeError> {
     return Ok(parse_string(reader)?);
 }
 
@@ -34,16 +33,20 @@ impl DeserializeFromXml for EventCode {
 
         loop {
             match reader.read_namespaced_event(&mut buf, &mut ns_buf) {
-                Ok((ref ns, Event::Start(ref e))) =>{ match str::from_utf8(e.name()).unwrap() {
-                    NAME_TAG => {
-                        name.push_str(&parse_name(reader)?)
+                Ok((ref ns, Event::Start(ref e))) => {
+                    let tag = str::from_utf8(e.name()).unwrap();
+                    match tag {
+                        EVENT_CODE_TAG => (),
+                        NAME_TAG => name.push_str(&parse_name(reader)?),
+                        VALUE_TAG => value.push_str(&parse_value(reader)?),
+                        _ => {
+                            return Err(SerializeError::TagNotRecognised(format!(
+                                "Not expecting {} tag",
+                                tag
+                            )))
+                        }
                     }
-                    VALUE_TAG => {
-                        value.push_str(&parse_value(reader)?)
-                    }                                                           
-                    EVENT_CODE_TAG => (),
-                    _ => {return Err(SerializeError::TagNotRecognised("Unknwon tag when parsing event code"))},
-                }},
+                }
                 Ok((ref ns, Event::End(ref e))) => match str::from_utf8(e.name()).unwrap() {
                     EVENT_CODE_TAG => {
                         return Ok(Box::new(EventCode {
@@ -51,9 +54,13 @@ impl DeserializeFromXml for EventCode {
                             value: value,
                         }))
                     }
-                    _ => ()
+                    _ => (),
                 },
-                _ => {return Err(SerializeError::Error("No!"))},
+                _ => {
+                    return Err(SerializeError::TagNotFound(
+                        "Expecting to encounter tag".to_string(),
+                    ))
+                }
             }
         }
     }
