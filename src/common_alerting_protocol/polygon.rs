@@ -3,7 +3,7 @@ use std::str;
 use quick_xml::events::Event;
 use quick_xml::Reader;
 
-use crate::common_alerting_protocol::deserialize_from_xml::{DeserializeFromXml, SerializeError};
+use crate::common_alerting_protocol::deserialize_from_xml::{DeserialiseError, DeserializeFromXml};
 use crate::common_alerting_protocol::point::Point;
 use crate::common_alerting_protocol::utilities::*;
 
@@ -14,23 +14,19 @@ pub struct Polygon {
 }
 
 impl DeserializeFromXml for Polygon {
-    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Box<Polygon>, SerializeError> {
+    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Box<Polygon>, DeserialiseError> {
         let mut buf = Vec::new();
         let mut ns_buf = Vec::new();
 
         loop {
             match reader.read_namespaced_event(&mut buf, &mut ns_buf) {
-                Ok((ref ns, Event::Start(ref e))) => {
-                    let tag = str::from_utf8(e.name()).unwrap();
-
-                    match tag {
-                        POLYGON_TAG => (),
-                        _ => return Err(SerializeError::TagNotRecognised(tag.to_string())),
-                    }
-                }
-                Ok((ref ns, Event::Text(ref e))) => {
+                Ok((ref _ns, Event::Start(ref e))) => match str::from_utf8(e.name())? {
+                    POLYGON_TAG => (),
+                    unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
+                },
+                Ok((ref _ns, Event::Text(ref e))) => {
                     return Ok(Box::new(Polygon {
-                        points: Point::parse_points_string(&e.unescape_and_decode(reader).unwrap()),
+                        points: Point::parse_points_string(&e.unescape_and_decode(reader)?),
                     }));
                 }
                 _ => (),
