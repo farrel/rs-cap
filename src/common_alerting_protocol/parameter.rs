@@ -3,7 +3,7 @@ use std::str;
 use quick_xml::events::Event;
 use quick_xml::Reader;
 
-use crate::common_alerting_protocol::deserialize_from_xml::{DeserialiseError, DeserializeFromXml};
+use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
 
 const NAME_TAG: &str = "valueName";
@@ -15,8 +15,8 @@ pub struct Parameter {
     value: String,
 }
 
-impl DeserializeFromXml for Parameter {
-    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Box<Parameter>, DeserialiseError> {
+impl Parameter {
+    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Parameter, DeserialiseError> {
         let mut text = String::new();
         let mut name = String::new();
         let mut value = String::new();
@@ -42,7 +42,7 @@ impl DeserializeFromXml for Parameter {
                         value.push_str(&text);
                         text.clear()
                     }
-                    PARAMETER_TAG => return Ok(Box::new(Parameter { name: name, value: value })),
+                    PARAMETER_TAG => return Ok(Parameter { name: name, value: value }),
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
                 },
                 _ => (),
@@ -53,7 +53,6 @@ impl DeserializeFromXml for Parameter {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::deserialize_from_xml::DeserializeFromXml;
     use crate::common_alerting_protocol::parameter::Parameter;
     use quick_xml::Reader;
 

@@ -3,7 +3,7 @@ use std::str;
 use quick_xml::events::Event;
 use quick_xml::Reader;
 
-use crate::common_alerting_protocol::deserialize_from_xml::{DeserialiseError, DeserializeFromXml};
+use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
 
 const RESOURCE_TAG: &str = "resource";
@@ -23,8 +23,8 @@ pub struct Resource {
     digest: String,
 }
 
-impl DeserializeFromXml for Resource {
-    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Box<Resource>, DeserialiseError> {
+impl Resource {
+    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Resource, DeserialiseError> {
         let mut text = String::new();
         let mut resource_desc = String::new();
         let mut mime_type = String::new();
@@ -47,14 +47,14 @@ impl DeserializeFromXml for Resource {
 
                 (ref _ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
                     RESOURCE_TAG => {
-                        return Ok(Box::new(Resource {
+                        return Ok(Resource {
                             resource_desc: resource_desc,
                             mime_type: mime_type,
                             size: size,
                             uri: uri,
                             deref_uri: deref_uri,
                             digest: digest,
-                        }))
+                        })
                     }
                     RESOURCE_DESC_TAG => {
                         resource_desc.push_str(&text);
@@ -90,7 +90,6 @@ impl DeserializeFromXml for Resource {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::deserialize_from_xml::DeserializeFromXml;
     use crate::common_alerting_protocol::resource::Resource;
     use quick_xml::Reader;
 

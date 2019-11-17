@@ -3,7 +3,7 @@ use std::str;
 use quick_xml::events::Event;
 use quick_xml::Reader;
 
-use crate::common_alerting_protocol::deserialize_from_xml::{DeserialiseError, DeserializeFromXml};
+use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
 
 const NAME_TAG: &str = "valueName";
@@ -15,8 +15,8 @@ pub struct Geocode {
     value: String,
 }
 
-impl DeserializeFromXml for Geocode {
-    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Box<Geocode>, DeserialiseError> {
+impl Geocode {
+    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Geocode, DeserialiseError> {
         let mut text = String::new();
         let mut name = String::new();
         let mut value = String::new();
@@ -42,7 +42,7 @@ impl DeserializeFromXml for Geocode {
                         value.push_str(&text);
                         text.clear()
                     }
-                    GEOCODE_TAG => return Ok(Box::new(Geocode { name: name, value: value })),
+                    GEOCODE_TAG => return Ok(Geocode { name: name, value: value }),
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
                 },
                 _ => (),
@@ -53,7 +53,6 @@ impl DeserializeFromXml for Geocode {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::deserialize_from_xml::DeserializeFromXml;
     use crate::common_alerting_protocol::geocode::Geocode;
     use quick_xml::Reader;
 

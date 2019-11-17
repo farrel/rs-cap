@@ -1,7 +1,7 @@
 use quick_xml::events::Event;
 use quick_xml::Reader;
 
-use crate::common_alerting_protocol::deserialize_from_xml::DeserialiseError;
+use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 
 pub fn parse_string(reader: &mut Reader<&[u8]>) -> Result<String, DeserialiseError> {
     let mut buf = Vec::new();

@@ -3,18 +3,18 @@ use std::str;
 use quick_xml::events::Event;
 use quick_xml::Reader;
 
-use crate::common_alerting_protocol::deserialize_from_xml::{DeserialiseError, DeserializeFromXml};
+use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::point::Point;
 use crate::common_alerting_protocol::utilities::*;
 
 const POLYGON_TAG: &str = "polygon";
 
 pub struct Polygon {
-    points: Vec<Box<Point>>,
+    points: Vec<Point>,
 }
 
-impl DeserializeFromXml for Polygon {
-    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Box<Polygon>, DeserialiseError> {
+impl Polygon {
+    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Polygon, DeserialiseError> {
         let mut buf = Vec::new();
         let mut ns_buf = Vec::new();
 
@@ -25,9 +25,9 @@ impl DeserializeFromXml for Polygon {
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
                 },
                 (ref _ns, Event::Text(ref e)) => {
-                    return Ok(Box::new(Polygon {
+                    return Ok(Polygon {
                         points: Point::parse_points_string(&e.unescape_and_decode(reader)?)?,
-                    }));
+                    });
                 }
                 _ => (),
             }
@@ -37,7 +37,6 @@ impl DeserializeFromXml for Polygon {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::deserialize_from_xml::DeserializeFromXml;
     use crate::common_alerting_protocol::polygon::Polygon;
     use quick_xml::Reader;
 

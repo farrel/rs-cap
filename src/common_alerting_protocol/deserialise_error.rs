@@ -1,5 +1,3 @@
-use quick_xml::Reader;
-
 #[derive(Debug)]
 pub enum DeserialiseError {
     QuickXMLError(::quick_xml::Error),
@@ -52,8 +50,4 @@ impl From<::std::num::ParseFloatError> for DeserialiseError {
     fn from(error: ::std::num::ParseFloatError) -> DeserialiseError {
         DeserialiseError::ParseFloatError(error)
     }
-}
-
-pub trait DeserializeFromXml {
-    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Box<Self>, DeserialiseError>;
 }
