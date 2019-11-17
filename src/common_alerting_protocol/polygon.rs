@@ -19,12 +19,12 @@ impl DeserializeFromXml for Polygon {
         let mut ns_buf = Vec::new();
 
         loop {
-            match reader.read_namespaced_event(&mut buf, &mut ns_buf) {
-                Ok((ref _ns, Event::Start(ref e))) => match str::from_utf8(e.name())? {
+            match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
+                (ref _ns, Event::Start(ref e)) => match str::from_utf8(e.name())? {
                     POLYGON_TAG => (),
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
                 },
-                Ok((ref _ns, Event::Text(ref e))) => {
+                (ref _ns, Event::Text(ref e)) => {
                     return Ok(Box::new(Polygon {
                         points: Point::parse_points_string(&e.unescape_and_decode(reader)?),
                     }));

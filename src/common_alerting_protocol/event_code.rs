@@ -25,15 +25,15 @@ impl DeserializeFromXml for EventCode {
         let mut ns_buf = Vec::new();
 
         loop {
-            match reader.read_namespaced_event(&mut buf, &mut ns_buf) {
-                Ok((ref _ns, Event::Start(ref e))) => match str::from_utf8(e.name())? {
+            match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
+                (ref _ns, Event::Start(ref e)) => match str::from_utf8(e.name())? {
                     EVENT_CODE_TAG | NAME_TAG | VALUE_TAG => (),
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
                 },
 
-                Ok((_ns, Event::Text(e))) => text.push_str(&e.unescape_and_decode(reader)?),
+                (_ns, Event::Text(e)) => text.push_str(&e.unescape_and_decode(reader)?),
 
-                Ok((_ns, Event::End(ref e))) => match str::from_utf8(e.name())? {
+                (ref _ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
                     NAME_TAG => {
                         name.push_str(&text);
                         text.clear()
