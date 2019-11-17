@@ -10,7 +10,7 @@ use crate::common_alerting_protocol::utilities::*;
 const POLYGON_TAG: &str = "polygon";
 
 pub struct Polygon {
-    points: Vec<Point>,
+    points: Vec<Box<Point>>,
 }
 
 impl DeserializeFromXml for Polygon {
@@ -26,7 +26,7 @@ impl DeserializeFromXml for Polygon {
                 },
                 (ref _ns, Event::Text(ref e)) => {
                     return Ok(Box::new(Polygon {
-                        points: Point::parse_points_string(&e.unescape_and_decode(reader)?),
+                        points: Point::parse_points_string(&e.unescape_and_decode(reader)?)?,
                     }));
                 }
                 _ => (),

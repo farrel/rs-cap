@@ -5,6 +5,7 @@ pub enum DeserialiseError {
     QuickXMLError(::quick_xml::Error),
     Utf8Error(::std::str::Utf8Error),
     ParseIntError(::std::num::ParseIntError),
+    ParseFloatError(::std::num::ParseFloatError),
     Error(String),
     TextNotFound(String),
     TagNotRecognised(String),
@@ -44,6 +45,12 @@ impl From<::std::str::Utf8Error> for DeserialiseError {
 impl From<::std::num::ParseIntError> for DeserialiseError {
     fn from(error: ::std::num::ParseIntError) -> DeserialiseError {
         DeserialiseError::ParseIntError(error)
+    }
+}
+
+impl From<::std::num::ParseFloatError> for DeserialiseError {
+    fn from(error: ::std::num::ParseFloatError) -> DeserialiseError {
+        DeserialiseError::ParseFloatError(error)
     }
 }
 
