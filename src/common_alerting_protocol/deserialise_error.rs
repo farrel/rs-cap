@@ -8,6 +8,7 @@ pub enum DeserialiseError {
     TextNotFound(String),
     TagNotRecognised(String),
     TagNotFound(String),
+    TagNotExpected(String),
 }
 
 impl DeserialiseError {
@@ -25,6 +26,10 @@ impl DeserialiseError {
 
     pub fn tag_not_found(tag_name: &str) -> Self {
         DeserialiseError::TagNotFound(format!("Tag not found: {}", tag_name))
+    }
+
+    pub fn tag_not_expected(tag_name: &str) -> Self {
+        DeserialiseError::TagNotExpected(format!("Tag not expected: {}", tag_name))
     }
 }
 

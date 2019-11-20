@@ -1,12 +1,172 @@
-use crate::common_alerting_protocol::circle::Circle;
-use crate::common_alerting_protocol::geocode::Geocode;
-use crate::common_alerting_protocol::polygon::Polygon;
+use std::str;
+
+use quick_xml::events::Event;
+use quick_xml::Reader;
+
+use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
+use crate::common_alerting_protocol::utilities::*;
+
+use crate::common_alerting_protocol::circle::{Circle, CIRCLE_TAG};
+use crate::common_alerting_protocol::geocode::{Geocode, GEOCODE_TAG};
+use crate::common_alerting_protocol::polygon::{Polygon, POLYGON_TAG};
 
 pub struct Area {
     area_desc: String,
-    altitude:  f64,
-    ceiling:   f64,
-    circles:   Vec<Circle>,
-    geocodes:  Vec<Geocode>,
-    polygons:  Vec<Polygon>
+    altitude: Option<f64>,
+    ceiling: Option<f64>,
+    circles: Vec<Circle>,
+    geocodes: Vec<Geocode>,
+    polygons: Vec<Polygon>,
+}
+
+pub const AREA_TAG: &str = "area";
+
+const AREA_DESC_TAG: &str = "areaDesc";
+const ALTITUDE_TAG: &str = "altitude";
+const CEILING_TAG: &str = "ceiling";
+
+fn read_area_desc(reader: &mut Reader<&[u8]>) -> Result<String, DeserialiseError> {
+    let mut buf = Vec::new();
+    let mut ns_buf = Vec::new();
+    let mut area_desc = String::new();
+
+    loop {
+        match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
+            (_ns, Event::Start(ref e)) => return Err(DeserialiseError::tag_not_expected(str::from_utf8(e.name())?)),
+            (_ns, Event::Text(e)) => area_desc.push_str(&e.unescape_and_decode(reader)?),
+            (_ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
+                AREA_DESC_TAG => return Ok(area_desc),
+                unknown_tag => return Err(DeserialiseError::tag_not_expected(unknown_tag)),
+            },
+            _ => (),
+        }
+    }
+}
+
+fn read_altitude(reader: &mut Reader<&[u8]>) -> Result<Option<f64>, DeserialiseError> {
+    let mut buf = Vec::new();
+    let mut ns_buf = Vec::new();
+    let mut altitude_string = String::new();
+
+    loop {
+        match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
+            (_ns, Event::Start(ref e)) => return Err(DeserialiseError::tag_not_expected(str::from_utf8(e.name())?)),
+            (_ns, Event::Text(e)) => altitude_string.push_str(&e.unescape_and_decode(reader)?),
+            (_ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
+                ALTITUDE_TAG => return Ok(Some(altitude_string.parse::<f64>()?)),
+                unknown_tag => return Err(DeserialiseError::tag_not_expected(unknown_tag)),
+            },
+            _ => (),
+        }
+    }
+}
+
+fn read_ceiling(reader: &mut Reader<&[u8]>) -> Result<Option<f64>, DeserialiseError> {
+    let mut buf = Vec::new();
+    let mut ns_buf = Vec::new();
+    let mut ceiling_string = String::new();
+
+    loop {
+        match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
+            (_ns, Event::Start(ref e)) => return Err(DeserialiseError::tag_not_expected(str::from_utf8(e.name())?)),
+            (_ns, Event::Text(e)) => ceiling_string.push_str(&e.unescape_and_decode(reader)?),
+            (_ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
+                CEILING_TAG => return Ok(Some(ceiling_string.parse::<f64>()?)),
+                unknown_tag => return Err(DeserialiseError::tag_not_expected(unknown_tag)),
+            },
+            _ => (),
+        }
+    }
+}
+
+impl Area {
+    pub fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Area, DeserialiseError> {
+        let mut buf = Vec::new();
+        let mut ns_buf = Vec::new();
+
+        let mut area = Area {
+            area_desc: String::new(),
+            altitude: None,
+            ceiling: None,
+            circles: Vec::new(),
+            polygons: Vec::new(),
+            geocodes: Vec::new(),
+        };
+
+        loop {
+            match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
+                (_ns, Event::Start(ref e)) => match str::from_utf8(e.name())? {
+                    AREA_TAG => (),
+                    AREA_DESC_TAG => area.area_desc.push_str(&read_area_desc(reader)?),
+                    POLYGON_TAG => area.polygons.push(Polygon::deserialize_from_xml(reader)?),
+                    GEOCODE_TAG => area.geocodes.push(Geocode::deserialize_from_xml(reader)?),
+                    ALTITUDE_TAG => area.altitude = read_altitude(reader)?,
+                    CEILING_TAG => area.ceiling = read_ceiling(reader)?,
+                    unknown_tag => return Err(DeserialiseError::tag_not_expected(unknown_tag)),
+                },
+                (_ns, Event::Text(e)) => (),
+                (_ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
+                    AREA_TAG => return Ok(area),
+                    AREA_DESC_TAG | POLYGON_TAG | GEOCODE_TAG | CIRCLE_TAG => (),
+                    unknown_tag => return Err(DeserialiseError::tag_not_expected(unknown_tag)),
+                },
+                _ => (),
+            }
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::common_alerting_protocol::area::Area;
+    use quick_xml::Reader;
+
+    const AREA_XML: &str = "<area>
+      <areaDesc>City of Thunder Bay</areaDesc>
+      <altitude>100</altitude>
+      <ceiling>200</ceiling>
+      <polygon>
+        48.5448,-89.0388 48.5001,-89.0231 48.4482,-89.0071 48.3079,-89.1102
+        48.3096,-89.1933 48.3065,-89.2028 48.3101,-89.2143 48.3119,-89.271
+        48.334,-89.3597 48.3528,-89.3957 48.3838,-89.4298 48.4198,-89.4449
+        48.484,-89.432 48.519,-89.4061 48.551,-89.3458 48.59,-89.1847
+        48.5859,-89.1228 48.568,-89.0639 48.5448,-89.0388
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>048100</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558003</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558004</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558011</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558028</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3558090</value>
+      </geocode>
+    </area>";
+
+    #[test]
+    fn deserialize_from_xml() {
+        let reader = &mut Reader::from_str(AREA_XML);
+        let area = Area::deserialize_from_xml(reader).unwrap();
+
+        assert_eq!("City of Thunder Bay", area.area_desc);
+        assert_eq!(1, area.polygons.len());
+        assert_eq!(6, area.geocodes.len());
+        assert_eq!(Some(100.0), area.altitude);
+        assert_eq!(Some(200.0), area.ceiling);
+    }
 }

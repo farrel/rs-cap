@@ -7,14 +7,14 @@ use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::point::Point;
 use crate::common_alerting_protocol::utilities::*;
 
-const POLYGON_TAG: &str = "polygon";
+pub const POLYGON_TAG: &str = "polygon";
 
 pub struct Polygon {
     points: Vec<Point>,
 }
 
 impl Polygon {
-    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Polygon, DeserialiseError> {
+    pub fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Polygon, DeserialiseError> {
         let mut buf = Vec::new();
         let mut ns_buf = Vec::new();
 

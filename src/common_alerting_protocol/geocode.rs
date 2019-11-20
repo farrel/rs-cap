@@ -8,7 +8,7 @@ use crate::common_alerting_protocol::utilities::*;
 
 const NAME_TAG: &str = "valueName";
 const VALUE_TAG: &str = "value";
-const GEOCODE_TAG: &str = "geocode";
+pub const GEOCODE_TAG: &str = "geocode";
 
 pub struct Geocode {
     name: String,
@@ -16,7 +16,7 @@ pub struct Geocode {
 }
 
 impl Geocode {
-    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Geocode, DeserialiseError> {
+    pub fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Geocode, DeserialiseError> {
         let mut text = String::new();
         let mut name = String::new();
         let mut value = String::new();
@@ -33,7 +33,7 @@ impl Geocode {
 
                 (_ns, Event::Text(e)) => text.push_str(&e.unescape_and_decode(reader)?),
 
-                (_ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
+                (ref _ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
                     NAME_TAG => {
                         name.push_str(&text);
                         text.clear()
