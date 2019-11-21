@@ -20,64 +20,9 @@ pub struct Area {
 }
 
 pub const AREA_TAG: &str = "area";
-
 const AREA_DESC_TAG: &str = "areaDesc";
 const ALTITUDE_TAG: &str = "altitude";
 const CEILING_TAG: &str = "ceiling";
-
-fn read_area_desc(reader: &mut Reader<&[u8]>) -> Result<String, DeserialiseError> {
-    let mut buf = Vec::new();
-    let mut ns_buf = Vec::new();
-    let mut area_desc = String::new();
-
-    loop {
-        match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
-            (_ns, Event::Start(ref e)) => return Err(DeserialiseError::tag_not_expected(str::from_utf8(e.name())?)),
-            (_ns, Event::Text(e)) => area_desc.push_str(&e.unescape_and_decode(reader)?),
-            (_ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
-                AREA_DESC_TAG => return Ok(area_desc),
-                unknown_tag => return Err(DeserialiseError::tag_not_expected(unknown_tag)),
-            },
-            _ => (),
-        }
-    }
-}
-
-fn read_altitude(reader: &mut Reader<&[u8]>) -> Result<Option<f64>, DeserialiseError> {
-    let mut buf = Vec::new();
-    let mut ns_buf = Vec::new();
-    let mut altitude_string = String::new();
-
-    loop {
-        match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
-            (_ns, Event::Start(ref e)) => return Err(DeserialiseError::tag_not_expected(str::from_utf8(e.name())?)),
-            (_ns, Event::Text(e)) => altitude_string.push_str(&e.unescape_and_decode(reader)?),
-            (_ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
-                ALTITUDE_TAG => return Ok(Some(altitude_string.parse::<f64>()?)),
-                unknown_tag => return Err(DeserialiseError::tag_not_expected(unknown_tag)),
-            },
-            _ => (),
-        }
-    }
-}
-
-fn read_ceiling(reader: &mut Reader<&[u8]>) -> Result<Option<f64>, DeserialiseError> {
-    let mut buf = Vec::new();
-    let mut ns_buf = Vec::new();
-    let mut ceiling_string = String::new();
-
-    loop {
-        match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
-            (_ns, Event::Start(ref e)) => return Err(DeserialiseError::tag_not_expected(str::from_utf8(e.name())?)),
-            (_ns, Event::Text(e)) => ceiling_string.push_str(&e.unescape_and_decode(reader)?),
-            (_ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
-                CEILING_TAG => return Ok(Some(ceiling_string.parse::<f64>()?)),
-                unknown_tag => return Err(DeserialiseError::tag_not_expected(unknown_tag)),
-            },
-            _ => (),
-        }
-    }
-}
 
 impl Area {
     pub fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Area, DeserialiseError> {
@@ -97,11 +42,11 @@ impl Area {
             match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
                 (_ns, Event::Start(ref e)) => match str::from_utf8(e.name())? {
                     AREA_TAG => (),
-                    AREA_DESC_TAG => area.area_desc.push_str(&read_area_desc(reader)?),
+                    AREA_DESC_TAG => area.area_desc.push_str(&parse_string(reader, AREA_DESC_TAG)?),
                     POLYGON_TAG => area.polygons.push(Polygon::deserialize_from_xml(reader)?),
                     GEOCODE_TAG => area.geocodes.push(Geocode::deserialize_from_xml(reader)?),
-                    ALTITUDE_TAG => area.altitude = read_altitude(reader)?,
-                    CEILING_TAG => area.ceiling = read_ceiling(reader)?,
+                    ALTITUDE_TAG => area.altitude = parse_f64(reader, CEILING_TAG)?,
+                    CEILING_TAG => area.ceiling = parse_f64(reader, CEILING_TAG)?,
                     unknown_tag => return Err(DeserialiseError::tag_not_expected(unknown_tag)),
                 },
                 (_ns, Event::Text(e)) => (),

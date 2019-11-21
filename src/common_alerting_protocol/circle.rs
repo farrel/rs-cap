@@ -14,14 +14,14 @@ pub struct Circle {
     radius: f64,
 }
 
-pub fn split_circle_string(circle_string: &str) -> Result<(&str, &str, &str), DeserialiseError> {
+pub fn split_circle_string(circle_string: &str) -> Result<(f64, f64, f64), DeserialiseError> {
     let mut point_and_radius = circle_string.split(' ');
 
     if let (Some(point_string), Some(radius)) = (point_and_radius.next(), point_and_radius.next()) {
         let mut coords = point_string.split(',');
 
         if let (Some(latitude), Some(longitude)) = (coords.next(), coords.next()) {
-            Ok((latitude, longitude, radius))
+            Ok((latitude.parse::<f64>()?, longitude.parse::<f64>()?, radius.parse::<f64>()?))
         } else {
             Err(DeserialiseError::error(&format!("Could not parse {}", point_string)))
         }
@@ -35,9 +35,11 @@ impl Circle {
         let mut buf = Vec::new();
         let mut ns_buf = Vec::new();
 
-        let mut latitude_string = String::new();
-        let mut longitude_string = String::new();
-        let mut radius_string = String::new();
+        let mut circle = Circle {
+            latitude: 0.0,
+            longitude: 0.0,
+            radius: 0.0,
+        };
 
         loop {
             match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
@@ -46,21 +48,14 @@ impl Circle {
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
                 },
                 (_ns, Event::Text(e)) => {
-                    let circle_string = &e.unescape_and_decode(reader)?;
-                    let (latitude, longitude, radius) = split_circle_string(circle_string)?;
-                    latitude_string.push_str(latitude);
-                    longitude_string.push_str(longitude);
-                    radius_string.push_str(radius);
+                    let (latitude, longitude, radius) = split_circle_string(&e.unescape_and_decode(reader)?)?;
+                    circle.latitude = latitude;
+                    circle.longitude = longitude;
+                    circle.radius = radius;
                 }
 
                 (_ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
-                    CIRCLE_TAG => {
-                        return Ok(Circle {
-                            latitude: latitude_string.parse::<f64>()?,
-                            longitude: longitude_string.parse::<f64>()?,
-                            radius: radius_string.parse::<f64>()?,
-                        })
-                    }
+                    CIRCLE_TAG => return Ok(circle),
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
                 },
                 _ => (),

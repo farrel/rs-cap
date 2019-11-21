@@ -17,32 +17,25 @@ pub struct Geocode {
 
 impl Geocode {
     pub fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Geocode, DeserialiseError> {
-        let mut text = String::new();
-        let mut name = String::new();
-        let mut value = String::new();
-
         let mut buf = Vec::new();
         let mut ns_buf = Vec::new();
+
+        let mut geocode = Geocode {
+            name: String::new(),
+            value: String::new(),
+        };
 
         loop {
             match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
                 (ref _ns, Event::Start(ref e)) => match str::from_utf8(e.name())? {
-                    GEOCODE_TAG | NAME_TAG | VALUE_TAG => (),
+                    GEOCODE_TAG => (),
+                    NAME_TAG => geocode.name.push_str(&parse_string(reader, NAME_TAG)?),
+                    VALUE_TAG => geocode.value.push_str(&parse_string(reader, VALUE_TAG)?),
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
                 },
 
-                (_ns, Event::Text(e)) => text.push_str(&e.unescape_and_decode(reader)?),
-
                 (ref _ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
-                    NAME_TAG => {
-                        name.push_str(&text);
-                        text.clear()
-                    }
-                    VALUE_TAG => {
-                        value.push_str(&text);
-                        text.clear()
-                    }
-                    GEOCODE_TAG => return Ok(Geocode { name: name, value: value }),
+                    GEOCODE_TAG => return Ok(geocode),
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
                 },
                 _ => (),
