@@ -39,3 +39,21 @@ pub fn parse_f64(reader: &mut Reader<&[u8]>, tag: &str) -> Result<Option<f64>, D
         }
     }
 }
+
+pub fn parse_u64(reader: &mut Reader<&[u8]>, tag: &str) -> Result<Option<u64>, DeserialiseError> {
+    let mut buf = Vec::new();
+    let mut ns_buf = Vec::new();
+    let mut u64_string = String::new();
+
+    loop {
+        match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
+            (_ns, Event::Start(ref e)) => return Err(DeserialiseError::tag_not_expected(str::from_utf8(e.name())?)),
+            (_ns, Event::Text(e)) => u64_string.push_str(&e.unescape_and_decode(reader)?),
+            (_ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
+                tag => return Ok(Some(u64_string.parse::<u64>()?)),
+                unknown_tag => return Err(DeserialiseError::tag_not_expected(unknown_tag)),
+            },
+            _ => (),
+        }
+    }
+}

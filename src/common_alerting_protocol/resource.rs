@@ -16,70 +16,42 @@ const DIGEST_TAG: &str = "digest";
 
 pub struct Resource {
     resource_desc: String,
-    mime_type: String,
-    size: u64,
-    uri: String,
-    deref_uri: String,
-    digest: String,
+    mime_type: Option<String>,
+    size: Option<u64>,
+    uri: Option<String>,
+    deref_uri: Option<String>,
+    digest: Option<String>,
 }
 
 impl Resource {
     fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Resource, DeserialiseError> {
-        let mut text = String::new();
-        let mut resource_desc = String::new();
-        let mut mime_type = String::new();
-        let mut size: u64 = 0;
-        let mut uri = String::new();
-        let mut deref_uri = String::new();
-        let mut digest = String::new();
-
         let mut buf = Vec::new();
         let mut ns_buf = Vec::new();
+
+        let mut resource = Resource {
+            resource_desc: String::new(),
+            mime_type: None,
+            size: None,
+            uri: None,
+            deref_uri: None,
+            digest: None,
+        };
 
         loop {
             match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
                 (ref _ns, Event::Start(ref e)) => match str::from_utf8(e.name())? {
-                    RESOURCE_TAG | RESOURCE_DESC_TAG | MIME_TYPE_TAG | SIZE_TAG | URI_TAG | DEREF_URI_TAG | DIGEST_TAG => (),
+                    RESOURCE_TAG => (),
+                    RESOURCE_DESC_TAG => resource.resource_desc = parse_string(reader, RESOURCE_DESC_TAG)?,
+                    MIME_TYPE_TAG => resource.mime_type = Some(parse_string(reader, MIME_TYPE_TAG)?),
+                    SIZE_TAG => resource.size = parse_u64(reader, SIZE_TAG)?,
+                    URI_TAG => resource.uri = Some(parse_string(reader, URI_TAG)?),
+                    DEREF_URI_TAG => resource.deref_uri = Some(parse_string(reader, DEREF_URI_TAG)?),
+                    DIGEST_TAG => resource.digest = Some(parse_string(reader, DIGEST_TAG)?),
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
                 },
 
-                (_ns, Event::Text(e)) => text.push_str(&e.unescape_and_decode(reader)?),
-
                 (ref _ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
-                    RESOURCE_TAG => {
-                        return Ok(Resource {
-                            resource_desc: resource_desc,
-                            mime_type: mime_type,
-                            size: size,
-                            uri: uri,
-                            deref_uri: deref_uri,
-                            digest: digest,
-                        })
-                    }
-                    RESOURCE_DESC_TAG => {
-                        resource_desc.push_str(&text);
-                        text.clear()
-                    }
-                    MIME_TYPE_TAG => {
-                        mime_type.push_str(&text);
-                        text.clear()
-                    }
-                    SIZE_TAG => {
-                        size = text.parse::<u64>()?;
-                        text.clear()
-                    }
-                    URI_TAG => {
-                        uri.push_str(&text);
-                        text.clear()
-                    }
-                    DEREF_URI_TAG => {
-                        deref_uri.push_str(&text);
-                        text.clear()
-                    }
-                    DIGEST_TAG => {
-                        digest.push_str(&text);
-                        text.clear()
-                    }
+                    RESOURCE_TAG => return Ok(resource),
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
                 },
                 _ => (),
@@ -106,7 +78,7 @@ mod tests {
 
         let resource = Resource::deserialize_from_xml(reader).unwrap();
         assert_eq!("map", resource.resource_desc);
-        assert_eq!("text/html", resource.mime_type);
-        assert_eq!("http://www.rfs.nsw.gov.au/dsp_content.cfm?CAT_ID=683", resource.uri);
+        assert_eq!("text/html", resource.mime_type.unwrap());
+        assert_eq!("http://www.rfs.nsw.gov.au/dsp_content.cfm?CAT_ID=683", resource.uri.unwrap());
     }
 }
