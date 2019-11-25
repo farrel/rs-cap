@@ -47,6 +47,7 @@ impl Area {
                     GEOCODE_TAG => area.geocodes.push(Geocode::deserialize_from_xml(reader)?),
                     ALTITUDE_TAG => area.altitude = parse_f64(reader, CEILING_TAG)?,
                     CEILING_TAG => area.ceiling = parse_f64(reader, CEILING_TAG)?,
+                    CIRCLE_TAG => area.circles.push(Circle::deserialize_from_xml(reader)?),
                     unknown_tag => return Err(DeserialiseError::tag_not_expected(unknown_tag)),
                 },
                 (_ns, Event::Text(e)) => (),

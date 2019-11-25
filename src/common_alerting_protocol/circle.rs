@@ -1,10 +1,8 @@
-use std::str;
-
-use quick_xml::events::Event;
-use quick_xml::Reader;
-
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
+use quick_xml::events::Event;
+use quick_xml::Reader;
+use std::str;
 
 pub const CIRCLE_TAG: &str = "circle";
 

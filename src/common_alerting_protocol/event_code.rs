@@ -1,10 +1,8 @@
-use std::str;
-
-use quick_xml::events::Event;
-use quick_xml::Reader;
-
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
+use quick_xml::events::Event;
+use quick_xml::Reader;
+use std::str;
 
 const NAME_TAG: &str = "valueName";
 const VALUE_TAG: &str = "value";
@@ -16,7 +14,7 @@ pub struct EventCode {
 }
 
 impl EventCode {
-    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<EventCode, DeserialiseError> {
+    pub fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<EventCode, DeserialiseError> {
         let mut buf = Vec::new();
         let mut ns_buf = Vec::new();
 

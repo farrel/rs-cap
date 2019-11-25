@@ -33,7 +33,6 @@ impl Geocode {
                     VALUE_TAG => geocode.value.push_str(&parse_string(reader, VALUE_TAG)?),
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
                 },
-
                 (ref _ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
                     GEOCODE_TAG => return Ok(geocode),
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
@@ -59,7 +58,6 @@ mod tests {
         let reader = &mut Reader::from_str(xml);
         reader.trim_text(true);
         let geocode = Geocode::deserialize_from_xml(reader).unwrap();
-
         assert_eq!("Name", geocode.name);
         assert_eq!("Value", geocode.value);
     }

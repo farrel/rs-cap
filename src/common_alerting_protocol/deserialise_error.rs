@@ -1,4 +1,17 @@
 #[derive(Debug)]
+pub struct ParseEnumError {
+    enum_string: String,
+}
+
+impl ParseEnumError {
+    pub fn enum_not_found(enum_string: &str) -> ParseEnumError {
+        ParseEnumError {
+            enum_string: String::from(enum_string),
+        }
+    }
+}
+
+#[derive(Debug)]
 pub enum DeserialiseError {
     QuickXMLError(::quick_xml::Error),
     Utf8Error(::std::str::Utf8Error),
@@ -9,6 +22,7 @@ pub enum DeserialiseError {
     TagNotRecognised(String),
     TagNotFound(String),
     TagNotExpected(String),
+    ParseEnumError(ParseEnumError),
 }
 
 impl DeserialiseError {
@@ -16,8 +30,8 @@ impl DeserialiseError {
         DeserialiseError::Error(format!("{}", error_message))
     }
 
-    pub fn text_not_found() -> Self {
-        DeserialiseError::TextNotFound(format!("Text not found"))
+    pub fn text_not_found(error_message: &str) -> Self {
+        DeserialiseError::TextNotFound(format!("Text not found: {}", error_message))
     }
 
     pub fn tag_not_recognised(tag_name: &str) -> Self {
@@ -30,6 +44,10 @@ impl DeserialiseError {
 
     pub fn tag_not_expected(tag_name: &str) -> Self {
         DeserialiseError::TagNotExpected(format!("Tag not expected: {}", tag_name))
+    }
+
+    pub fn enum_not_found(expected_enum: &str) -> Self {
+        DeserialiseError::ParseEnumError(ParseEnumError::enum_not_found(expected_enum))
     }
 }
 
@@ -54,5 +72,10 @@ impl From<::std::num::ParseIntError> for DeserialiseError {
 impl From<::std::num::ParseFloatError> for DeserialiseError {
     fn from(error: ::std::num::ParseFloatError) -> DeserialiseError {
         DeserialiseError::ParseFloatError(error)
+    }
+}
+impl From<ParseEnumError> for DeserialiseError {
+    fn from(error: ParseEnumError) -> DeserialiseError {
+        DeserialiseError::ParseEnumError(error)
     }
 }

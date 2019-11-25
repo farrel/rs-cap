@@ -1,14 +1,12 @@
-use std::str;
-
-use quick_xml::events::Event;
-use quick_xml::Reader;
-
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
+use quick_xml::events::Event;
+use quick_xml::Reader;
+use std::str;
 
 const NAME_TAG: &str = "valueName";
 const VALUE_TAG: &str = "value";
-const PARAMETER_TAG: &str = "parameter";
+pub const PARAMETER_TAG: &str = "parameter";
 
 pub struct Parameter {
     name: String,
@@ -16,7 +14,7 @@ pub struct Parameter {
 }
 
 impl Parameter {
-    fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Parameter, DeserialiseError> {
+    pub fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Parameter, DeserialiseError> {
         let mut buf = Vec::new();
         let mut ns_buf = Vec::new();
 
