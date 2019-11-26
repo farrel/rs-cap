@@ -4,6 +4,7 @@ use crate::common_alerting_protocol::event_code::EventCode;
 use crate::common_alerting_protocol::parameter::{Parameter, PARAMETER_TAG};
 use crate::common_alerting_protocol::utilities::*;
 use chrono::prelude::*;
+use chrono::DateTime;
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use std::str;
@@ -167,26 +168,26 @@ impl FromStr for ResponseType {
 pub const DEFAULT_LANGUAGE: &str = "en-US";
 
 pub struct Info {
-    event: Option<String>,
-    urgency: Option<Urgency>,
-    severity: Option<Severity>,
-    certainty: Option<Certainty>,
-    language: Option<String>,
-    audience: Option<String>,
-    effective: Option<DateTime<Utc>>,
-    onset: Option<DateTime<Utc>>,
-    expires: Option<DateTime<Utc>>,
-    sender_name: Option<String>,
-    headline: Option<String>,
-    description: Option<String>,
-    instruction: Option<String>,
-    web: Option<String>,
-    contact: Option<String>,
     areas: Vec<Area>,
-    event_codes: Vec<EventCode>,
-    parameters: Vec<Parameter>,
+    audience: Option<String>,
     categories: Vec<Category>,
+    certainty: Option<Certainty>,
+    contact: Option<String>,
+    description: Option<String>,
+    effective: Option<DateTime<FixedOffset>>,
+    event_codes: Vec<EventCode>,
+    event: Option<String>,
+    expires: Option<DateTime<FixedOffset>>,
+    headline: Option<String>,
+    instruction: Option<String>,
+    language: Option<String>,
+    onset: Option<DateTime<FixedOffset>>,
+    parameters: Vec<Parameter>,
     response_types: Vec<ResponseType>,
+    sender_name: Option<String>,
+    severity: Option<Severity>,
+    urgency: Option<Urgency>,
+    web: Option<String>,
 }
 
 impl Info {
@@ -195,52 +196,54 @@ impl Info {
         let mut ns_buf = Vec::new();
 
         let mut info = Info {
-            event: None,
-            urgency: None,
-            severity: None,
-            certainty: None,
-            language: None,
-            audience: None,
-            effective: None,
-            onset: None,
-            expires: None,
-            sender_name: None,
-            headline: None,
-            description: None,
-            instruction: None,
-            web: None,
-            contact: None,
             areas: Vec::new(),
-            event_codes: Vec::new(),
-            parameters: Vec::new(),
+            audience: None,
             categories: Vec::new(),
+            certainty: None,
+            contact: None,
+            description: None,
+            effective: None,
+            event_codes: Vec::new(),
+            event: None,
+            expires: None,
+            headline: None,
+            instruction: None,
+            language: None,
+            onset: None,
+            parameters: Vec::new(),
             response_types: Vec::new(),
+            sender_name: None,
+            severity: None,
+            urgency: None,
+            web: None,
         };
 
         loop {
             match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
                 (ref _ns, Event::Start(ref e)) => match str::from_utf8(e.name())? {
                     INFO_TAG => (),
+
                     AREA_TAG => info.areas.push(Area::deserialize_from_xml(reader)?),
                     AUDIENCE_TAG => info.audience = Some(parse_string(reader, AUDIENCE_TAG)?),
                     CATEGORY_TAG => info.categories.push(parse_string(reader, CATEGORY_TAG)?.parse::<Category>()?),
                     CERTAINTY_TAG => info.certainty = Some(parse_string(reader, CERTAINTY_TAG)?.parse::<Certainty>()?),
                     CONTACT_TAG => info.contact = Some(parse_string(reader, CONTACT_TAG)?),
                     DESCRIPTION_TAG => info.description = Some(parse_string(reader, DESCRIPTION_TAG)?),
-                    EFFECTIVE_TAG => (),
+                    EFFECTIVE_TAG => info.effective = Some(parse_datetime(reader, EFFECTIVE_TAG)?),
                     EVENT_CODE_TAG => info.event_codes.push(EventCode::deserialize_from_xml(reader)?),
                     EVENT_TAG => info.event = Some(String::from(&parse_string(reader, EVENT_TAG)?)),
-                    EXPIRES_TAG => (),
+                    EXPIRES_TAG => info.effective = Some(parse_datetime(reader, EXPIRES_TAG)?),
                     HEADLINE_TAG => info.headline = Some(parse_string(reader, HEADLINE_TAG)?),
                     INSTRUCTION_TAG => info.instruction = Some(parse_string(reader, INSTRUCTION_TAG)?),
                     LANGUAGE_TAG => info.language = Some(parse_string(reader, LANGUAGE_TAG)?),
-                    ONSET_TAG => (),
+                    ONSET_TAG => info.effective = Some(parse_datetime(reader, ONSET_TAG)?),
                     PARAMETER_TAG => info.parameters.push(Parameter::deserialize_from_xml(reader)?),
                     RESPONSE_TYPE_TAG => info.response_types.push(parse_string(reader, RESPONSE_TYPE_TAG)?.parse::<ResponseType>()?),
                     SENDER_NAME_TAG => info.sender_name = Some(parse_string(reader, SENDER_NAME_TAG)?),
                     SEVERITY_TAG => info.severity = Some(parse_string(reader, SEVERITY_TAG)?.parse::<Severity>()?),
                     URGENCY_TAG => info.urgency = Some(parse_string(reader, URGENCY_TAG)?.parse::<Urgency>()?),
                     WEB_TAG => info.web = Some(parse_string(reader, WEB_TAG)?),
+
                     unknown_tag => return Err(DeserialiseError::tag_not_expected(unknown_tag)),
                 },
                 (ref _ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
@@ -255,7 +258,6 @@ impl Info {
 
 #[cfg(test)]
 mod tests {
-
     use crate::common_alerting_protocol::info::Info;
     use quick_xml::Reader;
 
@@ -302,5 +304,51 @@ mod tests {
         let info = Info::deserialize_from_xml(reader).unwrap();
 
         assert_eq!("Earthquake", info.event.unwrap());
+        assert_eq!("EQ 3.4 Imperial County CA", info.headline.unwrap());
+
+        assert_eq!(5, info.parameters.len());
+        assert_eq!(1, info.areas.len());
+    }
+
+    #[test]
+    fn test_parse_xml_2() {
+        let xml = r#"<info>
+    <category>Met</category>   
+    <event>SEVERE THUNDERSTORM</event>
+    <responseType>Shelter</responseType> 
+    <urgency>Immediate</urgency>   
+    <severity>Severe</severity>   
+    <certainty>Observed</certainty>
+    <eventCode>
+      <valueName>SAME</valueName>
+      <value>SVR</value>
+    </eventCode>
+    <expires>2003-06-17T16:00:00-07:00</expires>  
+    <senderName>NATIONAL WEATHER SERVICE SACRAMENTO CA</senderName>
+    <headline>SEVERE THUNDERSTORM WARNING</headline>
+    <description> AT 254 PM PDT...NATIONAL WEATHER SERVICE DOPPLER RADAR INDICATED A SEVERE THUNDERSTORM OVER SOUTH CENTRAL ALPINE COUNTY...OR ABOUT 18 MILES SOUTHEAST OF KIRKWOOD...MOVING SOUTHWEST AT 5 MPH. HAIL...INTENSE RAIN AND STRONG DAMAGING WINDS ARE LIKELY WITH THIS STORM.</description>
+    <instruction>TAKE COVER IN A SUBSTANTIAL SHELTER UNTIL THE STORM PASSES.</instruction>
+    <contact>BARUFFALDI/JUSKIE</contact>
+    <area>       
+      <areaDesc>EXTREME NORTH CENTRAL TUOLUMNE COUNTY IN CALIFORNIA, EXTREME NORTHEASTERN CALAVERAS COUNTY IN CALIFORNIA, SOUTHWESTERN ALPINE COUNTY IN CALIFORNIA</areaDesc>
+      <polygon>38.47,-120.14 38.34,-119.95 38.52,-119.74 38.62,-119.89 38.47,-120.14</polygon>
+      <geocode>
+        <valueName>SAME</valueName>
+        <value>006109</value>
+      </geocode>
+      <geocode>
+        <valueName>SAME</valueName>
+        <value>006009</value>
+      </geocode>
+      <geocode>
+        <valueName>SAME</valueName>
+        <value>006003</value>
+      </geocode>
+    </area>
+  </info>"#;
+
+        let reader = &mut Reader::from_str(xml);
+        reader.trim_text(true);
+        let info = Info::deserialize_from_xml(reader).unwrap();
     }
 }
