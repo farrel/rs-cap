@@ -1,5 +1,5 @@
-<?xml version='1.0'?>
-<alert xmlns='urn:oasis:names:tc:emergency:cap:1.2'>
+<?xml version="1.0"?>
+<alert xmlns="urn:oasis:names:tc:emergency:cap:1.2">
   <identifier>urn:oid:2.49.0.1.124.1576205950.2019</identifier>
   <sender>cap-pac@canada.ca</sender>
   <sent>2019-10-20T19:56:43-00:00</sent>
@@ -417,4 +417,3 @@
     </area>
   </info>
 </alert>
-

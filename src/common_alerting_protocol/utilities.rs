@@ -6,7 +6,7 @@ use quick_xml::Reader;
 use std::str;
 use std::str::FromStr;
 
-pub fn parse_string(reader: &mut Reader<&[u8]>, tag: &str) -> Result<String, DeserialiseError> {
+pub fn parse_string(reader: &mut Reader<&[u8]>, tag: &[u8]) -> Result<String, DeserialiseError> {
     let mut buf = Vec::new();
     let mut ns_buf = Vec::new();
     let mut string = String::new();
@@ -14,7 +14,7 @@ pub fn parse_string(reader: &mut Reader<&[u8]>, tag: &str) -> Result<String, Des
     loop {
         match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
             (_ns, Event::Start(ref e)) => return Err(DeserialiseError::tag_not_expected(str::from_utf8(e.name())?)),
-            (_ns, Event::Text(e)) => string.push_str(&e.unescape_and_decode(reader)?),
+            (None, Event::Text(e)) => string.push_str(&e.unescape_and_decode(&reader)?),
             (_ns, Event::End(ref e)) => match str::from_utf8(e.name())? {
                 tag => return Ok(string),
                 unknown_tag => return Err(DeserialiseError::tag_not_expected(unknown_tag)),
@@ -24,7 +24,7 @@ pub fn parse_string(reader: &mut Reader<&[u8]>, tag: &str) -> Result<String, Des
     }
 }
 
-pub fn parse_f64(reader: &mut Reader<&[u8]>, tag: &str) -> Result<Option<f64>, DeserialiseError> {
+pub fn parse_f64(reader: &mut Reader<&[u8]>, tag: &[u8]) -> Result<Option<f64>, DeserialiseError> {
     let mut buf = Vec::new();
     let mut ns_buf = Vec::new();
     let mut f64_string = String::new();
@@ -42,7 +42,7 @@ pub fn parse_f64(reader: &mut Reader<&[u8]>, tag: &str) -> Result<Option<f64>, D
     }
 }
 
-pub fn parse_u64(reader: &mut Reader<&[u8]>, tag: &str) -> Result<Option<u64>, DeserialiseError> {
+pub fn parse_u64(reader: &mut Reader<&[u8]>, tag: &[u8]) -> Result<Option<u64>, DeserialiseError> {
     let mut buf = Vec::new();
     let mut ns_buf = Vec::new();
     let mut u64_string = String::new();
@@ -60,7 +60,7 @@ pub fn parse_u64(reader: &mut Reader<&[u8]>, tag: &str) -> Result<Option<u64>, D
     }
 }
 
-pub fn parse_datetime(reader: &mut Reader<&[u8]>, tag: &str) -> Result<DateTime<FixedOffset>, DeserialiseError> {
+pub fn parse_datetime(reader: &mut Reader<&[u8]>, tag: &[u8]) -> Result<DateTime<FixedOffset>, DeserialiseError> {
     let mut buf = Vec::new();
     let mut ns_buf = Vec::new();
     let mut date_string = String::new();

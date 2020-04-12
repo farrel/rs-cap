@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<alert xmlns="urn:oasis:names:tc:emergency:cap:1.2">
+  <identifier>1576912563439</identifier>
+  <sender>http://www.airnow.gov</sender>
+  <sent>2019-12-20T11:16:03-07:00</sent>
+  <status>Actual</status>
+  <msgType>Alert</msgType>
+  <scope>Public</scope>
+  <code>IPAWSv1.0</code>
+  <info>
+    <language>en-US</language>
+    <category>Met</category>
+    <event>
+      Particle Pollution (2.5 microns) is forecast to reach 105 AQI - Unhealthy
+      for Sensitive Groups on Fri 12/20/2019. Particle Pollution (2.5 microns)
+      is forecast to reach 115 AQI - Unhealthy for Sensitive Groups on Sat
+      12/21/2019. A(n) Air Quality Alert has been called for Fri 12/20/2019.
+      A(n) Air Quality Alert has been called for Sat 12/21/2019.
+    </event>
+    <responseType>Monitor</responseType>
+    <urgency>Future</urgency>
+    <severity>Moderate</severity>
+    <certainty>Likely</certainty>
+    <eventCode>
+      <valueName>SAME</valueName>
+      <value>WXR</value>
+    </eventCode>
+    <effective>2019-12-20T00:00:00-07:00</effective>
+    <expires>2019-12-21T00:00:00-07:00</expires>
+    <senderName>AIRNow Program, US Environmental Protection Agency</senderName>
+    <headline>Air Quality Alert for Franklin County</headline>
+    <description>
+      Particle Pollution (2.5 microns) is forecast to reach 105 AQI - Unhealthy
+      for Sensitive Groups on Fri 12/20/2019. Particle Pollution (2.5 microns)
+      is forecast to reach 115 AQI - Unhealthy for Sensitive Groups on Sat
+      12/21/2019. A(n) Air Quality Alert has been called for Fri 12/20/2019.
+      A(n) Air Quality Alert has been called for Sat 12/21/2019.
+    </description>
+    <instruction>
+      Active children and adults, and people with lung disease, such as asthma,
+      should reduce prolonged or heavy exertion outdoors
+    </instruction>
+    <web>
+      http://feeds.enviroflash.info/cap/630.xml?id=89219EBE-F9F9-6673-51A3703142F72244
+    </web>
+    <contact>Idaho Department of Environmental Quality</contact>
+    <parameter>
+      <valueName>Date</valueName>
+      <value>Fri 12/20/2019</value>
+    </parameter>
+    <parameter>
+      <valueName>PM2.5</valueName>
+      <value>105</value>
+    </parameter>
+    <parameter>
+      <valueName>Date</valueName>
+      <value>Sat 12/21/2019</value>
+    </parameter>
+    <parameter>
+      <valueName>PM2.5</valueName>
+      <value>115</value>
+    </parameter>
+    <area>
+      <areaDesc>Franklin County, ID</areaDesc>
+      <circle>42.0133,-111.8092 1.0</circle>
+    </area>
+  </info>
+</alert>
+
