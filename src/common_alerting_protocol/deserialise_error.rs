@@ -23,6 +23,7 @@ pub enum DeserialiseError {
     TagNotFound(String),
     TagNotExpected(String),
     ParseEnumError(ParseEnumError),
+    UnknownEvent(String),
 }
 
 impl DeserialiseError {
@@ -48,6 +49,10 @@ impl DeserialiseError {
 
     pub fn enum_not_found(expected_enum: &str) -> Self {
         DeserialiseError::ParseEnumError(ParseEnumError::enum_not_found(expected_enum))
+    }
+
+    pub fn unknown_event(event: ::quick_xml::events::Event) -> Self {
+        DeserialiseError::UnknownEvent(format!("{:?}", event))
     }
 }
 

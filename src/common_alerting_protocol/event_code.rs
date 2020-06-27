@@ -54,7 +54,7 @@ impl EventCode {
                     }
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(str::from_utf8(unknown_tag)?)),
                 },
-                Ok((Some(ref ns), Event::End(ref e))) => match e.local_name() {
+                Ok((Some(ref namespace), Event::End(ref e))) => match e.local_name() {
                     EVENT_CODE_TAG => return Ok(event_code),
                     NAME_TAG | VALUE_TAG => (),
                     unknown_tag => return Err(DeserialiseError::tag_not_recognised(str::from_utf8(unknown_tag)?)),
@@ -62,7 +62,7 @@ impl EventCode {
                 Ok((Some(ref namespace), ref event)) => {
                     println!("EVENT: {:?} NS: {:?}", event, str::from_utf8(namespace).unwrap());
                 }
-                Ok((None, event)) => {}
+                Ok((None, event)) => return Err(DeserialiseError::unknown_event(event)),
                 Err(e) => return Err(DeserialiseError::from(e)),
             }
         }
