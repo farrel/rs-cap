@@ -8,37 +8,63 @@ const NAME_TAG: &[u8] = b"valueName";
 const VALUE_TAG: &[u8] = b"value";
 const EVENT_CODE_TAG: &[u8] = b"eventCode";
 
+static EVENT_CODE: &str = "eventCode";
+
 pub struct EventCode {
     name: String,
     value: String,
 }
 
-impl EventCode {
-    pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>) -> Result<EventCode, DeserialiseError> {
-        let mut buf = Vec::new();
-        let mut ns_buf = Vec::new();
+//fn get_name(reader: &mut Reader<&[u8]>, namespace: &[u8]) -> Result<String, DeserialiseError> {
+//    println!("GET NAME");
+//    let name = parse_string(reader)?;
+//    parse_end_tag(reader, NAME_TAG, namespace)?;
+//    return Ok(name);
+//}
+//
+//fn get_value(reader: &mut Reader<&[u8]>, namespace: &[u8]) -> Result<String, DeserialiseError> {
+//    println!("GET VALUE");
+//    let value = parse_string(reader)?;
+//    parse_end_tag(reader, VALUE_TAG, namespace)?;
+//    return Ok(value);
+//}
 
+impl EventCode {
+    pub fn deserialize_from_xml(
+        namespace: &[u8],
+        reader: &mut Reader<&[u8]>,
+        buf: &mut std::vec::Vec<u8>,
+        ns_buf: &mut std::vec::Vec<u8>,
+    ) -> Result<EventCode, DeserialiseError> {
         let mut event_code = EventCode {
             name: String::new(),
             value: String::new(),
         };
 
         loop {
-            match reader.read_namespaced_event(&mut buf, &mut ns_buf)? {
-                (ref ns, Event::Start(ref e)) => match (*ns, e.local_name()) {
-                    (Some(namespace), EVENT_CODE_TAG) => (),
-                    (Some(namespace), NAME_TAG) => event_code.name.push_str(&parse_string(reader, NAME_TAG)?),
-                    (Some(namespace), VALUE_TAG) => event_code.value.push_str(&parse_string(reader, VALUE_TAG)?),
-                    (_, unknown_tag) => return Err(DeserialiseError::tag_not_recognised(str::from_utf8(unknown_tag)?)),
-                },
-                (ref ns, Event::End(ref e)) => match (*ns, e.local_name()) {
-                    (Some(namespace), EVENT_CODE_TAG) => return Ok(event_code),
-                    (_, unknown_tag) => return Err(DeserialiseError::tag_not_recognised(str::from_utf8(unknown_tag)?)),
-                },
-                (_, Event::Eof) => panic!("NO"),
-                _ => (),
-            }
             buf.clear();
+            match reader.read_namespaced_event(buf, ns_buf) {
+                Ok((_, Event::Eof)) => return Err(DeserialiseError::error("Unexpected EOF")),
+                Ok((Some(ref namespace), Event::Start(ref e))) => match e.local_name() {
+                    NAME_TAG => {
+                        event_code.name = reader.read_text(NAME_TAG, &mut Vec::new())?;
+                    }
+                    VALUE_TAG => {
+                        event_code.value = reader.read_text(VALUE_TAG, &mut Vec::new())?;
+                    }
+                    unknown_tag => return Err(DeserialiseError::tag_not_recognised(str::from_utf8(unknown_tag)?)),
+                },
+                Ok((Some(ref ns), Event::End(ref e))) => match e.local_name() {
+                    EVENT_CODE_TAG => return Ok(event_code),
+                    NAME_TAG | VALUE_TAG => (),
+                    unknown_tag => return Err(DeserialiseError::tag_not_recognised(str::from_utf8(unknown_tag)?)),
+                },
+                Ok((Some(ref namespace), ref event)) => {
+                    println!("EVENT: {:?} NS: {:?}", event, str::from_utf8(namespace).unwrap());
+                }
+                Ok((None, event)) => {}
+                Err(e) => return Err(DeserialiseError::from(e)),
+            }
         }
     }
 }
@@ -47,58 +73,22 @@ impl EventCode {
 mod tests {
     use crate::common_alerting_protocol::alert::{VERSION_1_0, VERSION_1_1, VERSION_1_2};
     use crate::common_alerting_protocol::event_code::EventCode;
+    use quick_xml::events::Event;
     use quick_xml::Reader;
+    use std::str;
 
     #[test]
     fn test_deserialize_from_xml() {
-        let xml = r#"<eventCode xmlns="urn:oasis:names:tc:emergency:cap:1.2">
-                        <valueName>Name</valueName>
-                        <value>Value</value>
-                    </eventCode>"#;
+        let xml = r#"<eventCode xmlns="urn:oasis:names:tc:emergency:cap:1.2"><valueName>Name</valueName><value>Value</value></eventCode>"#;
 
+        let mut buf = Vec::new();
+        let mut ns_buf = Vec::new();
         let reader = &mut Reader::from_str(xml);
         reader.trim_text(true);
-        let event_code = EventCode::deserialize_from_xml(VERSION_1_2, reader).unwrap();
+        reader.read_namespaced_event(&mut buf, &mut ns_buf);
+        let event_code = EventCode::deserialize_from_xml(VERSION_1_2, reader, &mut buf, &mut ns_buf).unwrap();
 
         assert_eq!("Name", event_code.name);
         assert_eq!("Value", event_code.value);
-    }
-
-    #[test]
-    fn test_from_docs() {
-        use quick_xml::events::Event;
-        use quick_xml::Reader;
-        use std::str::from_utf8;
-
-        let xml = r#"<x:tag1 xmlns:x="www.xxxx" xmlns:y="www.yyyy" att1 = "test">
-                <y:tag2><!--Test comment-->Test</y:tag2>
-                <y:tag2>Test 2</y:tag2>
-            </x:tag1>"#;
-        let mut reader = Reader::from_str(xml);
-        reader.trim_text(true);
-        let mut count = 0;
-        let mut buf = Vec::new();
-        let mut ns_buf = Vec::new();
-        let mut txt = Vec::new();
-        loop {
-            match reader.read_namespaced_event(&mut buf, &mut ns_buf) {
-                Ok((ref ns, Event::Start(ref e))) => {
-                    count += 1;
-                    match (*ns, e.local_name()) {
-                        (Some(b"www.xxxx"), b"tag1") => (),
-                        (Some(b"www.yyyy"), b"tag2") => (),
-                        (ns, n) => panic!("Namespace and local name mismatch"),
-                    }
-                    println!("Resolved namespace: {:?}", ns.and_then(|ns| from_utf8(ns).ok()));
-                }
-                Ok((_, Event::Text(e))) => txt.push(e.unescape_and_decode(&reader).expect("Error!")),
-                Err(e) => panic!("Error at position {}: {:?}", reader.buffer_position(), e),
-                Ok((_, Event::Eof)) => break,
-                _ => (),
-            }
-            buf.clear();
-        }
-        println!("Found {} start events", count);
-        println!("Text events: {:?}", txt);
     }
 }
