@@ -36,7 +36,7 @@ impl DeserialiseError {
     }
 
     pub fn tag_not_recognised(tag_name: &str) -> Self {
-        DeserialiseError::TagNotRecognised(format!("Tag no recognised: {}", tag_name))
+        DeserialiseError::TagNotRecognised(format!("Tag not recognised: {}", tag_name))
     }
 
     pub fn tag_not_found(tag_name: &str) -> Self {
