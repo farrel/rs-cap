@@ -5,7 +5,7 @@ use std::str;
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
 
-const GEOCODE_TAG: &[u8] = b"geocode";
+pub const GEOCODE_TAG: &[u8] = b"geocode";
 
 pub struct Geocode {
     name: String,

@@ -4,7 +4,7 @@ use quick_xml::events::Event;
 use quick_xml::Reader;
 use std::str;
 
-pub const CIRCLE_TAG: &str = "circle";
+pub const CIRCLE_TAG: &[u8] = b"circle";
 
 pub struct Circle {
     latitude: f64,

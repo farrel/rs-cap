@@ -7,10 +7,10 @@ use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::point::Point;
 use crate::common_alerting_protocol::utilities::*;
 
-pub const POLYGON_TAG: &str = "polygon";
+pub const POLYGON_TAG: &[u8] = b"polygon";
 
 pub struct Polygon {
-    points: Vec<Point>,
+    pub points: Vec<Point>,
 }
 
 impl Polygon {
