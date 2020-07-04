@@ -17,6 +17,7 @@ pub struct Area {
 }
 
 pub const AREA_TAG: &[u8] = b"area";
+
 const AREA_DESC_TAG: &[u8] = b"areaDesc";
 const ALTITUDE_TAG: &[u8] = b"altitude";
 const CEILING_TAG: &[u8] = b"ceiling";

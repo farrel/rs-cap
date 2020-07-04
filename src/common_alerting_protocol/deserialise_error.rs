@@ -17,6 +17,7 @@ pub enum DeserialiseError {
     Utf8Error(::std::str::Utf8Error),
     ParseIntError(::std::num::ParseIntError),
     ParseFloatError(::std::num::ParseFloatError),
+    ParseDatError(chrono::ParseError),
     Error(String),
     TextNotFound(String),
     TagNotRecognised(String),
@@ -82,5 +83,11 @@ impl From<::std::num::ParseFloatError> for DeserialiseError {
 impl From<ParseEnumError> for DeserialiseError {
     fn from(error: ParseEnumError) -> DeserialiseError {
         DeserialiseError::ParseEnumError(error)
+    }
+}
+
+impl From<chrono::ParseError> for DeserialiseError {
+    fn from(error: chrono::ParseError) -> DeserialiseError {
+        DeserialiseError::ParseDatError(error)
     }
 }
