@@ -236,7 +236,6 @@ impl Info {
                     EFFECTIVE_TAG => info.effective = Some(DateTime::parse_from_rfc3339(&reader.read_text(EFFECTIVE_TAG, vec)?)?),
                     EVENT_CODE_TAG => info.event_codes.push(EventCode::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
                     EVENT_TAG => info.event = Some(reader.read_text(EVENT_TAG, vec)?),
-
                     EXPIRES_TAG => info.effective = Some(DateTime::parse_from_rfc3339(&reader.read_text(EXPIRES_TAG, vec)?)?),
                     HEADLINE_TAG => info.headline = Some(reader.read_text(HEADLINE_TAG, vec)?),
                     INSTRUCTION_TAG => info.instruction = Some(reader.read_text(INSTRUCTION_TAG, vec)?),

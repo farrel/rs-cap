@@ -24,6 +24,7 @@ pub enum DeserialiseError {
     TagNotFound(String),
     TagNotExpected(String),
     ParseEnumError(ParseEnumError),
+    EofReached,
     UnknownEvent(String),
 }
 
