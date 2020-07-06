@@ -22,11 +22,15 @@ pub const VERSION_1_2: &[u8] = b"urn:oasis:names:tc:emergency:cap:1.2";
 const ALERT_TAG: &[u8] = b"alert";
 const IDENTIFIER_TAG: &[u8] = b"identifier";
 const SENDER_TAG: &[u8] = b"sender";
+const SENT_TAG: &[u8] = b"sent";
 const STATUS_TAG: &[u8] = b"status";
 const MSG_TYPE_TAG: &[u8] = b"msgType";
 const SOURCE_TAG: &[u8] = b"source";
 const SCOPE_TAG: &[u8] = b"scope";
 const CODE_TAG: &[u8] = b"code";
+const NOTE_TAG: &[u8] = b"note";
+const REFERENCES_TAG: &[u8] = b"references";
+const RESTRICTION_TAG: &[u8] = b"restriction";
 
 #[derive(PartialEq, fmt::Debug)]
 pub enum Status {
@@ -100,13 +104,13 @@ pub struct Alert {
     pub version: Option<Version>,
     pub identifier: Option<String>,
     pub sender: Option<String>,
-    pub sent: Option<DateTime<Utc>>,
+    pub sent: Option<DateTime<FixedOffset>>,
     pub status: Option<Status>,
     pub msg_type: Option<MsgType>,
     pub scope: Option<Scope>,
     pub source: Option<String>,
     pub restriction: Option<String>,
-    pub notes: Option<String>,
+    pub note: Option<String>,
     pub addresses: Vec<String>,
     pub codes: Vec<String>,
     pub references: Vec<String>,
@@ -131,7 +135,7 @@ impl Alert {
             scope: None,
             source: None,
             restriction: None,
-            notes: None,
+            note: None,
             addresses: Vec::new(),
             codes: Vec::new(),
             references: Vec::new(),
@@ -139,19 +143,23 @@ impl Alert {
             infos: Vec::new(),
         };
 
-        let mut vec = Vec::new();
+        let mut vec = &mut Vec::new();
 
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
                 (Some(ns), Event::Start(ref e)) if ns == namespace => match e.local_name() {
                     ALERT_TAG => (),
-                    IDENTIFIER_TAG => alert.identifier = Some(reader.read_text(IDENTIFIER_TAG, &mut vec)?),
-                    SENDER_TAG => alert.sender = Some(reader.read_text(SENDER_TAG, &mut vec)?),
-                    STATUS_TAG => alert.status = Some(reader.read_text(STATUS_TAG, &mut vec)?.parse::<Status>()?),
-                    MSG_TYPE_TAG => alert.msg_type = Some(reader.read_text(MSG_TYPE_TAG, &mut vec)?.parse::<MsgType>()?),
-                    SOURCE_TAG => alert.source = Some(reader.read_text(SOURCE_TAG, &mut vec)?),
-                    SCOPE_TAG => alert.scope = Some(reader.read_text(SCOPE_TAG, &mut vec)?.parse::<Scope>()?),
-                    CODE_TAG => alert.codes.push(reader.read_text(CODE_TAG, &mut vec)?),
+                    IDENTIFIER_TAG => alert.identifier = Some(reader.read_text(IDENTIFIER_TAG, vec)?),
+                    SENDER_TAG => alert.sender = Some(reader.read_text(SENDER_TAG, vec)?),
+                    STATUS_TAG => alert.status = Some(reader.read_text(STATUS_TAG, vec)?.parse::<Status>()?),
+                    SENT_TAG => alert.sent = Some(DateTime::parse_from_rfc3339(&reader.read_text(SENT_TAG, vec)?)?),
+                    MSG_TYPE_TAG => alert.msg_type = Some(reader.read_text(MSG_TYPE_TAG, vec)?.parse::<MsgType>()?),
+                    SOURCE_TAG => alert.source = Some(reader.read_text(SOURCE_TAG, vec)?),
+                    SCOPE_TAG => alert.scope = Some(reader.read_text(SCOPE_TAG, vec)?.parse::<Scope>()?),
+                    CODE_TAG => alert.codes.push(reader.read_text(CODE_TAG, vec)?),
+                    NOTE_TAG => alert.note = Some(reader.read_text(NOTE_TAG, vec)?),
+                    REFERENCES_TAG => alert.references.push(reader.read_text(REFERENCES_TAG, vec)?),
+                    RESTRICTION_TAG => alert.restriction = Some(reader.read_text(RESTRICTION_TAG, vec)?),
 
                     INFO_TAG => alert.infos.push(Info::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
                     _ => (),
@@ -161,6 +169,7 @@ impl Alert {
                     ALERT_TAG => return Ok(alert),
                     _unknown_tag => (),
                 },
+
                 (_ns, Event::Eof) => return Err(DeserialiseError::EofReached),
                 _ => (),
             }
