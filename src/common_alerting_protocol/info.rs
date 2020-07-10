@@ -143,13 +143,15 @@ impl FromStr for Certainty {
 }
 
 enum ResponseType {
-    Shelter,
+    AllClear,
+    Assess,
+    Avoid,
     Evacuate,
-    Prepare,
     Execute,
     Monitor,
-    Assess,
     None,
+    Prepare,
+    Shelter,
 }
 
 impl FromStr for ResponseType {
@@ -157,13 +159,15 @@ impl FromStr for ResponseType {
 
     fn from_str(enum_string: &str) -> Result<ResponseType, ParseEnumError> {
         match enum_string {
-            "Shelter" => Ok(ResponseType::Shelter),
+            "AllClear" => Ok(ResponseType::AllClear),
+            "Assess" => Ok(ResponseType::Assess),
+            "Avoid" => Ok(ResponseType::Avoid),
             "Evacuate" => Ok(ResponseType::Evacuate),
-            "Prepare" => Ok(ResponseType::Prepare),
             "Execute" => Ok(ResponseType::Execute),
             "Monitor" => Ok(ResponseType::Monitor),
-            "Assess" => Ok(ResponseType::Assess),
             "None" => Ok(ResponseType::None),
+            "Prepare" => Ok(ResponseType::Prepare),
+            "Shelter" => Ok(ResponseType::Shelter),
             _ => Err(ParseEnumError::enum_not_found(enum_string)),
         }
     }

@@ -1,0 +1,65 @@
+<?xml version='1.0'?>
+<alert xmlns='urn:oasis:names:tc:emergency:cap:1.2'>
+  <identifier>1594385161458</identifier>
+  <sender>http://www.airnow.gov</sender>
+  <sent>2020-07-10T05:46:01-08:00</sent>
+  <status>Actual</status>
+  <msgType>Alert</msgType>
+  <scope>Public</scope>
+  <code>IPAWSv1.0</code>
+  <info>
+    <language>en-US</language>
+    <category>Met</category>
+    <event>
+      Ozone is forecast to reach 105 AQI - Unhealthy for Sensitive Groups on Fri
+      07/10/2020. Ozone is forecast to reach 105 AQI - Unhealthy for Sensitive
+      Groups on Sat 07/11/2020.
+    </event>
+    <responseType>Monitor</responseType>
+    <urgency>Future</urgency>
+    <severity>Moderate</severity>
+    <certainty>Likely</certainty>
+    <eventCode>
+      <valueName>SAME</valueName>
+      <value>WXR</value>
+    </eventCode>
+    <effective>2020-07-10T00:00:00-08:00</effective>
+    <expires>2020-07-11T00:00:00-08:00</expires>
+    <senderName>AIRNow Program, US Environmental Protection Agency</senderName>
+    <headline>Air Quality Alert for Auburn</headline>
+    <description>
+      Ozone is forecast to reach 105 AQI - Unhealthy for Sensitive Groups on Fri
+      07/10/2020. Ozone is forecast to reach 105 AQI - Unhealthy for Sensitive
+      Groups on Sat 07/11/2020.
+    </description>
+    <instruction>
+      Active children and adults, and people with lung disease, such as asthma,
+      should reduce prolonged or heavy exertion outdoors
+    </instruction>
+    <web>
+      http://feeds.enviroflash.info/cap/178.xml?id=3794B01A-A547-3A66-36AC9122CA2DDA30
+    </web>
+    <contact>Sacramento Metro. AQMD</contact>
+    <parameter>
+      <valueName>Date</valueName>
+      <value>Fri 07/10/2020</value>
+    </parameter>
+    <parameter>
+      <valueName>OZONE</valueName>
+      <value>105</value>
+    </parameter>
+    <parameter>
+      <valueName>Date</valueName>
+      <value>Sat 07/11/2020</value>
+    </parameter>
+    <parameter>
+      <valueName>OZONE</valueName>
+      <value>105</value>
+    </parameter>
+    <area>
+      <areaDesc>Auburn, CA</areaDesc>
+      <circle>38.8963,-121.0784 1.0</circle>
+    </area>
+  </info>
+</alert>
+

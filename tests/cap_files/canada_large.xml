@@ -1,0 +1,1570 @@
+
+
+
+<?xml version='1.0'?>
+<alert xmlns='urn:oasis:names:tc:emergency:cap:1.2'>
+  <identifier>urn:oid:2.49.0.1.124.1411998356.2020</identifier>
+  <sender>cap-pac@canada.ca</sender>
+  <sent>2020-07-10T08:55:56-00:00</sent>
+  <status>Actual</status>
+  <msgType>Update</msgType>
+  <source>Env. Can. - Can. Met. Ctr. – Montréal</source>
+  <scope>Public</scope>
+  <code>profile:CAP-CP:0.4</code>
+  <code>layer:SOREM:1.0</code>
+  <code>layer:EC-MSC-SMC:1.0</code>
+  <code>layer:WPAM:1.0</code>
+  <code>layer:EC-MSC-SMC:1.1</code>
+  <code>layer:SOREM:2.0</code>
+  <note>
+    Service Notice – January 2020: The Environment and Climate Change Canada
+    (ECCC) CAP Service will continue to undergo changes throughout the 2020
+    calendar year. For example, the suite of alerts covered in the ECCC CAP
+    Service will expand to include Tsunami Alerts sometime in the spring of
+    2020. Other changes, including new parameters, will also be announced. For
+    more information on these changes you are invited to subscribe to the
+    following mailing list: http://lists.cmc.ec.gc.ca/mailman/listinfo/dd_info |
+    Notification de service - janvier 2020: Le service du PAC d’Environnement et
+    Changement climatique Canada (ECCC) va continuer à subir des changements
+    tout au long de l’année 2020. Par exemple, la suite d’alertes couverte par
+    le service du PAC d’ECCC va s’étendre afin d’inclure les alertes de tsunami
+    au printemps 2020. D’autres changements, incluant de nouveaux paramètres,
+    seront également annoncés. Pour plus d’informations sur ces changements,
+    vous êtes invités à vous inscrire à la liste de diffusion suivante:
+    http://lists.cmc.ec.gc.ca/mailman/listinfo/dd_info
+  </note>
+  <references>
+    cap-pac@canada.ca,urn:oid:2.49.0.1.124.2009066053.2020,2020-06-30T15:14:57-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.4006483626.2020,2020-06-30T15:15:57-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2373212916.2020,2020-06-30T19:42:35-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.0773762145.2020,2020-06-30T19:43:35-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.4288748824.2020,2020-07-01T05:09:59-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1017836195.2020,2020-07-01T05:10:59-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1572507888.2020,2020-07-01T09:25:59-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.4134637278.2020,2020-07-01T09:26:59-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3868874313.2020,2020-07-01T09:58:56-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2542005692.2020,2020-07-01T10:00:12-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1524246509.2020,2020-07-01T10:01:20-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3787562909.2020,2020-07-01T10:02:20-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3796587799.2020,2020-07-01T15:23:09-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3049231174.2020,2020-07-01T15:24:09-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1248279159.2020,2020-07-01T19:53:14-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.4167805367.2020,2020-07-01T19:54:14-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3320291160.2020,2020-07-02T09:15:32-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.4037013938.2020,2020-07-02T09:16:32-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2044103463.2020,2020-07-02T13:23:20-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1600288437.2020,2020-07-02T13:24:20-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.0603443087.2020,2020-07-02T19:41:53-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3907396102.2020,2020-07-02T19:42:53-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.0758406707.2020,2020-07-03T03:31:19-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2075698761.2020,2020-07-03T03:32:19-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2933475306.2020,2020-07-03T14:43:03-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3443234257.2020,2020-07-03T14:44:03-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.0539632544.2020,2020-07-03T19:58:26-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1295399758.2020,2020-07-03T19:59:26-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3887160981.2020,2020-07-04T01:17:00-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2459462789.2020,2020-07-04T01:18:00-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3348230020.2020,2020-07-04T01:17:28-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2157808108.2020,2020-07-04T01:18:28-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2254042671.2020,2020-07-04T09:15:53-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.0469132373.2020,2020-07-04T09:17:40-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3334338695.2020,2020-07-04T09:18:40-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.0926344516.2020,2020-07-04T14:54:38-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.0316955377.2020,2020-07-04T14:55:38-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2575865427.2020,2020-07-04T19:45:29-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2656984782.2020,2020-07-04T19:46:29-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3470623007.2020,2020-07-05T09:11:30-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2139527480.2020,2020-07-05T09:12:30-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1835188938.2020,2020-07-05T16:56:37-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.0915777083.2020,2020-07-05T16:57:37-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.0612893716.2020,2020-07-05T21:17:19-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2744635414.2020,2020-07-05T21:18:19-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.0374117918.2020,2020-07-06T09:17:50-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.4232958510.2020,2020-07-06T09:18:50-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3710902389.2020,2020-07-06T15:53:58-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3573448181.2020,2020-07-06T15:54:58-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2318162849.2020,2020-07-06T19:50:04-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1772204205.2020,2020-07-06T19:51:04-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3281320629.2020,2020-07-07T01:41:19-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2267337278.2020,2020-07-07T01:42:19-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.0643785124.2020,2020-07-07T09:08:51-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3521004239.2020,2020-07-07T09:09:51-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.0661084950.2020,2020-07-07T15:45:35-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1623183187.2020,2020-07-07T15:46:35-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1332758552.2020,2020-07-07T21:08:17-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3635266429.2020,2020-07-07T21:09:17-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2102006853.2020,2020-07-08T01:55:26-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2955357027.2020,2020-07-08T01:56:26-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.0812639011.2020,2020-07-08T08:43:55-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1818294711.2020,2020-07-08T08:44:55-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3936346867.2020,2020-07-08T16:33:57-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1643263481.2020,2020-07-08T16:34:57-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3286520551.2020,2020-07-08T20:18:51-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3706404463.2020,2020-07-08T20:19:51-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.0449865050.2020,2020-07-09T02:30:51-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1954907502.2020,2020-07-09T02:31:51-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1490514605.2020,2020-07-09T08:41:56-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1907723230.2020,2020-07-09T08:42:56-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.4248536414.2020,2020-07-09T15:04:31-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3640566656.2020,2020-07-09T15:05:31-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3062701239.2020,2020-07-09T19:47:28-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.2610604246.2020,2020-07-09T19:48:28-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.3089703958.2020,2020-07-10T02:28:57-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1097345892.2020,2020-07-10T02:29:57-00:00 cap-pac@canada.ca,urn:oid:2.49.0.1.124.1773529414.2020,2020-07-10T08:54:56-00:00
+  </references>
+  <info>
+    <language>en-CA</language>
+    <category>Met</category>
+    <category>Health</category>
+    <event>heat</event>
+    <responseType>Monitor</responseType>
+    <urgency>Future</urgency>
+    <severity>Moderate</severity>
+    <certainty>Likely</certainty>
+    <audience>general public</audience>
+    <eventCode>
+      <valueName>profile:CAP-CP:Event:0.4</valueName>
+      <value>temperature</value>
+    </eventCode>
+    <effective>2020-07-10T08:54:56-00:00</effective>
+    <expires>2020-07-11T00:54:56-00:00</expires>
+    <senderName>Environment Canada</senderName>
+    <headline>heat warning in effect</headline>
+    <description>
+      Heat event continues today. Daytime high temperatures in the upper
+      twenties to low thirties will accompany humidex values in the mid to upper
+      thirties today. Overnight low temperatures in the upper teens to near 20
+      degrees Celsius are expected tonight. The heat event will come to an end
+      as cooler temperatures arrive by Saturday. Please refer to your public
+      forecast for further details on expected temperatures. Hot and humid air
+      can also bring deteriorating air quality and can result in the Air Quality
+      Health Index approaching the high risk category. ### The risks are greater
+      for young children, pregnant women, older adults, people with chronic
+      illnesses and people working or exercising outdoors. Heat warnings are
+      issued when very high temperature or humidity conditions are expected to
+      pose an elevated risk of heat illnesses, such as heat stroke or heat
+      exhaustion. Please continue to monitor alerts and forecasts issued by
+      Environment Canada. To report severe weather, send an email to
+      ONstorm@canada.ca or tweet reports using #ONStorm.
+    </description>
+    <instruction>
+      Check on older family, friends and neighbours. Make sure they are cool and
+      drinking water Never leave people or pets inside a parked vehicle. Watch
+      for the symptoms of heat illness: dizziness/fainting; nausea/vomiting;
+      rapid breathing and heartbeat; extreme thirst; decreased urination with
+      unusually dark urine.
+    </instruction>
+    <web>http://weather.gc.ca/warnings/index_e.html?prov=non</web>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Type</valueName>
+      <value>warning</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Broadcast_Intrusive</valueName>
+      <value>no</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:SOREM:1.0:Broadcast_Immediately</valueName>
+      <value>No</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Parent_URI</valueName>
+      <value>
+        msc/alert/environment/hazard/alert-3.0-ascii/consolidated-xml-2.0/20200710085456499/WW_12_72_CWTO/EHW/1514574781332150216202006300503_WW_12_72_CWTO/actual/en_proper_complete_u-fr_proper_complete_c/NinJo
+      </value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:CAP_count</valueName>
+      <value>A:3446 M:19661 C:34482</value>
+    </parameter>
+    <parameter>
+      <valueName>profile:CAP-CP:0.4:MinorChange</valueName>
+      <value>text</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Location_Status</valueName>
+      <value>active</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Name</valueName>
+      <value>heat warning</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Coverage</valueName>
+      <value>Northern Ontario</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Designation_Code</valueName>
+      <value>WW_12_72_CWTO</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:SOREM:2.0:WirelessImmediate</valueName>
+      <value>No</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Alert_Location_Status</valueName>
+      <value>active</value>
+    </parameter>
+    <area>
+      <areaDesc>Greater Sudbury and vicinity</areaDesc>
+      <polygon>
+        46.2785,-80.4935 46.2675,-80.6965 46.106,-80.6965 46.0992,-80.9338
+        46.1701,-80.9338 46.1701,-81.4263 46.2733,-81.4263 46.2733,-82.0579
+        46.6086,-82.0579 46.6086,-81.939 46.9696,-81.939 46.97,-81.0754
+        46.9683,-80.8125 46.8912,-80.8125 46.8912,-80.566 46.7261,-80.566
+        46.7151,-80.3679 46.6307,-80.3679 46.6307,-80.276 46.2601,-80.276
+        46.2785,-80.4935
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049100</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552004</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552013</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552023</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552026</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552028</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552031</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552051</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552093</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3553</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Fraserdale - Pledger Lake</areaDesc>
+      <polygon>
+        51.3876,-83.8976 51.4751,-83.7667 51.498,-83.6224 51.624,-83.3889
+        51.817,-83.221 51.9629,-82.9587 51.9291,-82.9115 51.3124,-82.1596
+        50.7218,-81.4395 49.5091,-81.4419 49.9497,-84.0149 49.9497,-84.021
+        51.1582,-84.05 51.3077,-84.1527 51.3876,-83.8976
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049410</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556092</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Kapuskasing - Hearst - Smooth Rock Falls</areaDesc>
+      <polygon>
+        49.1616,-82.6268 49.1609,-84.0021 49.9497,-84.021 49.9497,-84.0149
+        49.5091,-81.4419 49.1637,-81.4426 49.1616,-82.6268
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049420</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3557095</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556048</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556052</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556056</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556066</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556070</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556073</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556076</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556077</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556092</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Little Abitibi - Kesagami Lake</areaDesc>
+      <polygon>
+        50.7218,-81.4395 50.7219,-79.5166 50.5155,-79.5167 49.2829,-79.5172
+        49.1428,-79.5172 49.5091,-81.4419 50.7218,-81.4395
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049510</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556092</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Timmins - Cochrane - Iroquois Falls</areaDesc>
+      <polygon>
+        48.6069,-79.5174 48.5243,-79.5062 48.4498,-79.5174 48.3417,-79.5072
+        48.2511,-79.5175 48.2526,-81.0729 48.2543,-82.6293 49.1616,-82.6268
+        49.1637,-81.4426 49.5091,-81.4419 49.1428,-79.5172 48.9319,-79.5076
+        48.6069,-79.5174
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049520</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554068</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554091</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556014</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556027</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556031</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556033</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556042</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556052</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556091</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556092</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556098</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556100</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556102</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Gogama - Foleyet</areaDesc>
+      <polygon>
+        47.581,-81.0762 46.97,-81.0754 46.9696,-81.939 46.9695,-82.6356
+        47.221,-82.631 48.2543,-82.6293 48.2526,-81.0729 47.581,-81.0762
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049620</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552052</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552093</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554094</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Kirkland Lake - Englehart</areaDesc>
+      <polygon>
+        47.581,-81.0762 48.2526,-81.0729 48.2511,-79.5175 47.833,-79.5176
+        47.6938,-79.5064 47.5701,-79.5175 47.5715,-79.6092 47.581,-81.0762
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049710</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554014</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554020</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554021</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554024</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554026</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554029</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554032</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554034</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554036</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554038</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554042</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554044</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554049</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554052</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554054</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554056</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554057</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554058</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554062</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554066</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554068</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554091</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554094</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Temiskaming Shores - Temagami</areaDesc>
+      <polygon>
+        47.5701,-79.5175 47.5988,-79.4946 47.5697,-79.4188 47.5214,-79.432
+        47.4815,-79.4988 47.341,-79.4216 47.302,-79.4135 47.2434,-79.3589
+        47.1056,-79.3868 47.0127,-79.2923 46.952,-79.275 46.8737,-79.1873
+        46.8582,-79.141 46.7207,-79.0624 46.7145,-79.1058 46.7147,-79.1099
+        46.7145,-79.5386 46.7151,-80.3679 46.7261,-80.566 46.8912,-80.566
+        46.8912,-80.8125 46.9683,-80.8125 46.97,-81.0754 47.581,-81.0762
+        47.5715,-79.6092 47.5701,-79.5175
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049720</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548069</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548072</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548094</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552093</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554001</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554006</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554008</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554014</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554020</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554021</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554094</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>West Nipissing - French River</areaDesc>
+      <polygon>
+        46.2785,-80.4935 46.2601,-80.276 46.6307,-80.276 46.6307,-80.3679
+        46.7151,-80.3679 46.7145,-79.5386 46.554,-79.5386 46.3273,-79.5554
+        46.1138,-79.5388 45.9261,-79.5385 45.9047,-79.6173 45.901,-79.7785
+        45.8856,-80.5706 46.0178,-80.5701 46.106,-80.6965 46.2675,-80.6965
+        46.2785,-80.4935
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049810</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548055</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548073</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548094</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552001</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552004</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3549071</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3549076</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3549077</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3549096</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>North Bay - Powassan - Mattawa</areaDesc>
+      <polygon>
+        46.7145,-79.1058 46.7207,-79.0624 46.6951,-79.0486 46.6586,-78.984
+        46.5625,-78.953 46.4674,-78.8477 46.403,-78.7063 46.3783,-78.6857
+        46.344,-78.6878 46.3403,-78.5836 46.3158,-78.4765 46.3144,-78.3748
+        46.2912,-78.3344 46.2631,-78.3382 46.2607,-78.3417 46.2468,-78.3597
+        46.1756,-78.6213 45.9989,-79.2711 45.9261,-79.5385 46.1138,-79.5388
+        46.3273,-79.5554 46.554,-79.5386 46.7145,-79.5386 46.7147,-79.1099
+        46.7145,-79.1058
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049820</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548013</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548019</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548021</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548022</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548027</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548031</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548034</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548044</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548091</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548094</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3549060</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3549066</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3549071</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Espanola - Killarney</areaDesc>
+      <polygon>
+        45.8581,-81.6008 45.9078,-81.6625 45.8959,-81.8967 45.9727,-81.8832
+        45.9888,-81.9598 45.9754,-82.0969 46.0965,-82.0476 46.2733,-82.0579
+        46.2733,-81.4263 46.1701,-81.4263 46.1701,-80.9338 46.0992,-80.9338
+        46.106,-80.6965 46.0178,-80.5701 45.8856,-80.5706 45.8899,-80.7251
+        45.8894,-80.7432 45.8248,-80.8486 45.849,-81.3805 45.8581,-81.6008
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049920</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552023</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552026</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552093</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3551017</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3551036</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3551040</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3551091</value>
+      </geocode>
+    </area>
+  </info>
+  <info>
+    <language>fr-CA</language>
+    <category>Met</category>
+    <category>Health</category>
+    <event>chaleur</event>
+    <responseType>Monitor</responseType>
+    <urgency>Future</urgency>
+    <severity>Moderate</severity>
+    <certainty>Likely</certainty>
+    <audience>grand public</audience>
+    <eventCode>
+      <valueName>profile:CAP-CP:Event:0.4</valueName>
+      <value>temperature</value>
+    </eventCode>
+    <effective>2020-07-10T08:54:56-00:00</effective>
+    <expires>2020-07-11T00:54:56-00:00</expires>
+    <senderName>Environnement Canada</senderName>
+    <headline>avertissement de chaleur en vigeur</headline>
+    <description>
+      L&apos;épisode de chaleur continue aujourd&apos;hui. On prévoit des
+      températures maximales diurnes entre 27 et 33 degrés Celsius et un indice
+      humidex de 34 à 39 aujourd&apos;hui. On prévoit des températures minimales
+      nocturnes de 17 à 19 degrés Celsius à près de 20 degrés Celsius ce soir et
+      cette nuit. L&apos;épisode de chaleur cessera lorsque du temps plus frais
+      arrivera d&apos;ici samedi. Veuillez consulter vos prévisions publiques
+      pour en savoir plus sur les températures prévues. L&apos;air très chaud et
+      humide peut aussi occasionner une détérioration de la qualité de
+      l&apos;air et faire en sorte que la cote air santé approche de la
+      catégorie de risque élevé. ### Les risques sont plus grands pour les
+      jeunes enfants, les femmes enceintes, les personnes âgées, les personnes
+      souffrant de maladies chroniques et celles qui travaillent ou font de
+      l’exercice à l’extérieur. Un avertissement de chaleur est émis lorsque des
+      conditions très chaudes ou humides devraient présenter un risque élevé de
+      malaises liés à la chaleur, comme les coups de chaleur et
+      l&apos;épuisement dû à la chaleur. Veuillez continuer à surveiller les
+      alertes et les prévisions émises par Environnement Canada. Pour signaler
+      du temps violent, envoyez un courriel à meteoON@canada.ca ou publiez un
+      gazouillis en utilisant le mot-clic #ONMeteo.
+    </description>
+    <instruction>
+      Vérifiez l’état des personnes âgées de votre famille, vos amis et voisins.
+      Assurez-vous qu’ils sont au frais et boivent de l’eau. Ne laissez jamais
+      des personnes ou des animaux dans un véhicule stationné. Surveillez les
+      symptômes des maladies causées par la chaleur :
+      étourdissements/évanouissements; nausées/vomissements; respiration et
+      pouls rapides; soif extrême; diminution de la miction et urine
+      anormalement foncée.
+    </instruction>
+    <web>http://meteo.gc.ca/warnings/index_f.html?prov=non</web>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Type</valueName>
+      <value>warning</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Broadcast_Intrusive</valueName>
+      <value>no</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:SOREM:1.0:Broadcast_Immediately</valueName>
+      <value>No</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Parent_URI</valueName>
+      <value>
+        msc/alert/environment/hazard/alert-3.0-ascii/consolidated-xml-2.0/20200710085456499/WW_12_72_CWTO/EHW/1514574781332150216202006300503_WW_12_72_CWTO/actual/en_proper_complete_u-fr_proper_complete_c/NinJo
+      </value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:CAP_count</valueName>
+      <value>A:3446 M:19661 C:34482</value>
+    </parameter>
+    <parameter>
+      <valueName>profile:CAP-CP:0.4:MinorChange</valueName>
+      <value>text</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Location_Status</valueName>
+      <value>active</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Name</valueName>
+      <value>avertissement de chaleur</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Coverage</valueName>
+      <value>nord de l&apos;Ontario</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Designation_Code</valueName>
+      <value>WW_12_72_CWTO</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:SOREM:2.0:WirelessImmediate</valueName>
+      <value>No</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Alert_Location_Status</valueName>
+      <value>active</value>
+    </parameter>
+    <area>
+      <areaDesc>Grand Sudbury et les environs</areaDesc>
+      <polygon>
+        46.2785,-80.4935 46.2675,-80.6965 46.106,-80.6965 46.0992,-80.9338
+        46.1701,-80.9338 46.1701,-81.4263 46.2733,-81.4263 46.2733,-82.0579
+        46.6086,-82.0579 46.6086,-81.939 46.9696,-81.939 46.97,-81.0754
+        46.9683,-80.8125 46.8912,-80.8125 46.8912,-80.566 46.7261,-80.566
+        46.7151,-80.3679 46.6307,-80.3679 46.6307,-80.276 46.2601,-80.276
+        46.2785,-80.4935
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049100</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552004</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552013</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552023</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552026</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552028</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552031</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552051</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552093</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3553</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Fraserdale - lac Pledger</areaDesc>
+      <polygon>
+        51.3876,-83.8976 51.4751,-83.7667 51.498,-83.6224 51.624,-83.3889
+        51.817,-83.221 51.9629,-82.9587 51.9291,-82.9115 51.3124,-82.1596
+        50.7218,-81.4395 49.5091,-81.4419 49.9497,-84.0149 49.9497,-84.021
+        51.1582,-84.05 51.3077,-84.1527 51.3876,-83.8976
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049410</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556092</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Kapuskasing - Hearst - Smooth Rock Falls</areaDesc>
+      <polygon>
+        49.1616,-82.6268 49.1609,-84.0021 49.9497,-84.021 49.9497,-84.0149
+        49.5091,-81.4419 49.1637,-81.4426 49.1616,-82.6268
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049420</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3557095</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556048</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556052</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556056</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556066</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556070</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556073</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556076</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556077</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556092</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Little Abitibi - lac Kesagami</areaDesc>
+      <polygon>
+        50.7218,-81.4395 50.7219,-79.5166 50.5155,-79.5167 49.2829,-79.5172
+        49.1428,-79.5172 49.5091,-81.4419 50.7218,-81.4395
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049510</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556092</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Timmins - Cochrane - Iroquois Falls</areaDesc>
+      <polygon>
+        48.6069,-79.5174 48.5243,-79.5062 48.4498,-79.5174 48.3417,-79.5072
+        48.2511,-79.5175 48.2526,-81.0729 48.2543,-82.6293 49.1616,-82.6268
+        49.1637,-81.4426 49.5091,-81.4419 49.1428,-79.5172 48.9319,-79.5076
+        48.6069,-79.5174
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049520</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554068</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554091</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556014</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556027</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556031</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556033</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556042</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556052</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556091</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556092</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556098</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556100</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3556102</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Gogama - Foleyet</areaDesc>
+      <polygon>
+        47.581,-81.0762 46.97,-81.0754 46.9696,-81.939 46.9695,-82.6356
+        47.221,-82.631 48.2543,-82.6293 48.2526,-81.0729 47.581,-81.0762
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049620</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552052</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552093</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554094</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Kirkland Lake - Englehart</areaDesc>
+      <polygon>
+        47.581,-81.0762 48.2526,-81.0729 48.2511,-79.5175 47.833,-79.5176
+        47.6938,-79.5064 47.5701,-79.5175 47.5715,-79.6092 47.581,-81.0762
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049710</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554014</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554020</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554021</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554024</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554026</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554029</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554032</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554034</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554036</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554038</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554042</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554044</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554049</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554052</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554054</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554056</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554057</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554058</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554062</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554066</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554068</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554091</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554094</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Temiskaming Shores - Temagami</areaDesc>
+      <polygon>
+        47.5701,-79.5175 47.5988,-79.4946 47.5697,-79.4188 47.5214,-79.432
+        47.4815,-79.4988 47.341,-79.4216 47.302,-79.4135 47.2434,-79.3589
+        47.1056,-79.3868 47.0127,-79.2923 46.952,-79.275 46.8737,-79.1873
+        46.8582,-79.141 46.7207,-79.0624 46.7145,-79.1058 46.7147,-79.1099
+        46.7145,-79.5386 46.7151,-80.3679 46.7261,-80.566 46.8912,-80.566
+        46.8912,-80.8125 46.9683,-80.8125 46.97,-81.0754 47.581,-81.0762
+        47.5715,-79.6092 47.5701,-79.5175
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049720</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548069</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548072</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548094</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552093</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554001</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554006</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554008</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554014</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554020</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554021</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3554094</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Nipissing Ouest - French River</areaDesc>
+      <polygon>
+        46.2785,-80.4935 46.2601,-80.276 46.6307,-80.276 46.6307,-80.3679
+        46.7151,-80.3679 46.7145,-79.5386 46.554,-79.5386 46.3273,-79.5554
+        46.1138,-79.5388 45.9261,-79.5385 45.9047,-79.6173 45.901,-79.7785
+        45.8856,-80.5706 46.0178,-80.5701 46.106,-80.6965 46.2675,-80.6965
+        46.2785,-80.4935
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049810</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548055</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548073</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548094</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552001</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552004</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3549071</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3549076</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3549077</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3549096</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>North Bay - Powassan - Mattawa</areaDesc>
+      <polygon>
+        46.7145,-79.1058 46.7207,-79.0624 46.6951,-79.0486 46.6586,-78.984
+        46.5625,-78.953 46.4674,-78.8477 46.403,-78.7063 46.3783,-78.6857
+        46.344,-78.6878 46.3403,-78.5836 46.3158,-78.4765 46.3144,-78.3748
+        46.2912,-78.3344 46.2631,-78.3382 46.2607,-78.3417 46.2468,-78.3597
+        46.1756,-78.6213 45.9989,-79.2711 45.9261,-79.5385 46.1138,-79.5388
+        46.3273,-79.5554 46.554,-79.5386 46.7145,-79.5386 46.7147,-79.1099
+        46.7145,-79.1058
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049820</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548013</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548019</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548021</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548022</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548027</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548031</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548034</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548044</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548091</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3548094</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3549060</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3549066</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3549071</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Espanola - Killarney</areaDesc>
+      <polygon>
+        45.8581,-81.6008 45.9078,-81.6625 45.8959,-81.8967 45.9727,-81.8832
+        45.9888,-81.9598 45.9754,-82.0969 46.0965,-82.0476 46.2733,-82.0579
+        46.2733,-81.4263 46.1701,-81.4263 46.1701,-80.9338 46.0992,-80.9338
+        46.106,-80.6965 46.0178,-80.5701 45.8856,-80.5706 45.8899,-80.7251
+        45.8894,-80.7432 45.8248,-80.8486 45.849,-81.3805 45.8581,-81.6008
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049920</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552023</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552026</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552093</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3551017</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3551036</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3551040</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3551091</value>
+      </geocode>
+    </area>
+  </info>
+  <info>
+    <language>en-CA</language>
+    <category>Met</category>
+    <category>Health</category>
+    <event>heat</event>
+    <responseType>AllClear</responseType>
+    <urgency>Past</urgency>
+    <severity>Minor</severity>
+    <certainty>Observed</certainty>
+    <audience>general public</audience>
+    <eventCode>
+      <valueName>profile:CAP-CP:Event:0.4</valueName>
+      <value>temperature</value>
+    </eventCode>
+    <effective>2020-07-10T08:54:56-00:00</effective>
+    <expires>2020-07-10T09:54:56-00:00</expires>
+    <senderName>Environment Canada</senderName>
+    <headline>heat warning ended</headline>
+    <description>###</description>
+    <web>http://weather.gc.ca/warnings/index_e.html?prov=non</web>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Type</valueName>
+      <value>warning</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Broadcast_Intrusive</valueName>
+      <value>no</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:SOREM:1.0:Broadcast_Immediately</valueName>
+      <value>No</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Parent_URI</valueName>
+      <value>
+        msc/alert/environment/hazard/alert-3.0-ascii/consolidated-xml-2.0/20200710085456499/WW_12_72_CWTO/EHW/1514574781332150216202006300503_WW_12_72_CWTO/actual/en_proper_complete_u-fr_proper_complete_c/NinJo
+      </value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:CAP_count</valueName>
+      <value>A:3446 M:19661 C:34482</value>
+    </parameter>
+    <parameter>
+      <valueName>profile:CAP-CP:0.4:MinorChange</valueName>
+      <value>none</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Location_Status</valueName>
+      <value>ended</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Name</valueName>
+      <value>heat warning</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Coverage</valueName>
+      <value>Northern Ontario</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Designation_Code</valueName>
+      <value>WW_12_72_CWTO</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:SOREM:2.0:WirelessImmediate</valueName>
+      <value>No</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Alert_Location_Status</valueName>
+      <value>ended</value>
+    </parameter>
+    <area>
+      <areaDesc>Elliot Lake - Ranger Lake</areaDesc>
+      <polygon>
+        46.9695,-82.6356 46.9696,-81.939 46.6086,-81.939 46.6086,-82.0579
+        46.2733,-82.0579 46.2733,-82.82 46.4826,-83.8414 46.781,-83.9907
+        47.2211,-83.9911 47.221,-82.631 46.9695,-82.6356
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049200</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3557038</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3557041</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3557074</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Chapleau - Missinaibi Lake</areaDesc>
+      <polygon>
+        47.2211,-83.9911 47.2516,-83.9912 48.1107,-83.9939 48.5499,-84.002
+        48.5501,-84.002 48.5526,-84.0021 49.1609,-84.0021 49.1616,-82.6268
+        48.2543,-82.6293 47.221,-82.631 47.2211,-83.9911
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049610</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552053</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552054</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552058</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552092</value>
+      </geocode>
+    </area>
+  </info>
+  <info>
+    <language>fr-CA</language>
+    <category>Met</category>
+    <category>Health</category>
+    <event>chaleur</event>
+    <responseType>AllClear</responseType>
+    <urgency>Past</urgency>
+    <severity>Minor</severity>
+    <certainty>Observed</certainty>
+    <audience>grand public</audience>
+    <eventCode>
+      <valueName>profile:CAP-CP:Event:0.4</valueName>
+      <value>temperature</value>
+    </eventCode>
+    <effective>2020-07-10T08:54:56-00:00</effective>
+    <expires>2020-07-10T09:54:56-00:00</expires>
+    <senderName>Environnement Canada</senderName>
+    <headline>avertissement de chaleur annulé</headline>
+    <description>###</description>
+    <web>http://meteo.gc.ca/warnings/index_f.html?prov=non</web>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Type</valueName>
+      <value>warning</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Broadcast_Intrusive</valueName>
+      <value>no</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:SOREM:1.0:Broadcast_Immediately</valueName>
+      <value>No</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Parent_URI</valueName>
+      <value>
+        msc/alert/environment/hazard/alert-3.0-ascii/consolidated-xml-2.0/20200710085456499/WW_12_72_CWTO/EHW/1514574781332150216202006300503_WW_12_72_CWTO/actual/en_proper_complete_u-fr_proper_complete_c/NinJo
+      </value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:CAP_count</valueName>
+      <value>A:3446 M:19661 C:34482</value>
+    </parameter>
+    <parameter>
+      <valueName>profile:CAP-CP:0.4:MinorChange</valueName>
+      <value>none</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Location_Status</valueName>
+      <value>ended</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Name</valueName>
+      <value>avertissement de chaleur</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.0:Alert_Coverage</valueName>
+      <value>nord de l&apos;Ontario</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Designation_Code</valueName>
+      <value>WW_12_72_CWTO</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:SOREM:2.0:WirelessImmediate</valueName>
+      <value>No</value>
+    </parameter>
+    <parameter>
+      <valueName>layer:EC-MSC-SMC:1.1:Alert_Location_Status</valueName>
+      <value>ended</value>
+    </parameter>
+    <area>
+      <areaDesc>Elliot Lake - Ranger Lake</areaDesc>
+      <polygon>
+        46.9695,-82.6356 46.9696,-81.939 46.6086,-81.939 46.6086,-82.0579
+        46.2733,-82.0579 46.2733,-82.82 46.4826,-83.8414 46.781,-83.9907
+        47.2211,-83.9911 47.221,-82.631 46.9695,-82.6356
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049200</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3557038</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3557041</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3557074</value>
+      </geocode>
+    </area>
+    <area>
+      <areaDesc>Chapleau - lac Missinaibi</areaDesc>
+      <polygon>
+        47.2211,-83.9911 47.2516,-83.9912 48.1107,-83.9939 48.5499,-84.002
+        48.5501,-84.002 48.5526,-84.0021 49.1609,-84.0021 49.1616,-82.6268
+        48.2543,-82.6293 47.221,-82.631 47.2211,-83.9911
+      </polygon>
+      <geocode>
+        <valueName>layer:EC-MSC-SMC:1.0:CLC</valueName>
+        <value>049610</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552053</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552054</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552058</value>
+      </geocode>
+      <geocode>
+        <valueName>profile:CAP-CP:Location:0.3</valueName>
+        <value>3552092</value>
+      </geocode>
+    </area>
+  </info>
+</alert>
+
