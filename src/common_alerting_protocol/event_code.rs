@@ -40,7 +40,7 @@ mod tests {
         let reader = &mut Reader::from_str(xml);
         reader.trim_text(true);
         reader.read_namespaced_event(&mut buf, &mut ns_buf);
-        let event_code = EventCode::deserialize_from_xml(VERSION_1_2, reader, &mut buf, &mut ns_buf).unwrap();
+        let event_code = EventCode::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
 
         assert_eq!("Name", event_code.name);
         assert_eq!("Value", event_code.value);
@@ -55,7 +55,7 @@ mod tests {
         let reader = &mut Reader::from_str(xml);
         reader.trim_text(true);
         reader.read_namespaced_event(&mut buf, &mut ns_buf);
-        match EventCode::deserialize_from_xml(VERSION_1_2, reader, &mut buf, &mut ns_buf) {
+        match EventCode::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf) {
             Ok(event_code) => panic!("Should not return Ok"),
             Err(error) => (),
         }

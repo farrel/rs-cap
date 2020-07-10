@@ -26,6 +26,7 @@ pub enum DeserialiseError {
     ParseEnumError(ParseEnumError),
     EofReached,
     UnknownEvent(String),
+    NameSpaceNotFound,
 }
 
 impl DeserialiseError {

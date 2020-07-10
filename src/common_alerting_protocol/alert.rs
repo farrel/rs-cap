@@ -8,19 +8,13 @@ use std::fmt;
 use std::str;
 use std::str::FromStr;
 
-#[derive(Debug)]
-pub enum Version {
-    V1_0,
-    V1_1,
-    V1_2,
-}
-
-pub const VERSION_1_0: &[u8] = b"urn:oasis:names:tc:emergency:cap:1.0";
-pub const VERSION_1_1: &[u8] = b"urn:oasis:names:tc:emergency:cap:1.1";
-pub const VERSION_1_2: &[u8] = b"urn:oasis:names:tc:emergency:cap:1.2";
+pub const VERSION_1_0: &str = "urn:oasis:names:tc:emergency:cap:1.0";
+pub const VERSION_1_1: &str = "urn:oasis:names:tc:emergency:cap:1.1";
+pub const VERSION_1_2: &str = "urn:oasis:names:tc:emergency:cap:1.2";
 
 const ALERT_TAG: &[u8] = b"alert";
 const IDENTIFIER_TAG: &[u8] = b"identifier";
+const INCIDENTS_TAG: &[u8] = b"incidents";
 const SENDER_TAG: &[u8] = b"sender";
 const SENT_TAG: &[u8] = b"sent";
 const STATUS_TAG: &[u8] = b"status";
@@ -31,6 +25,13 @@ const CODE_TAG: &[u8] = b"code";
 const NOTE_TAG: &[u8] = b"note";
 const REFERENCES_TAG: &[u8] = b"references";
 const RESTRICTION_TAG: &[u8] = b"restriction";
+
+#[derive(Debug)]
+pub enum Version {
+    V1_0,
+    V1_1,
+    V1_2,
+}
 
 #[derive(PartialEq, fmt::Debug)]
 pub enum Status {
@@ -114,7 +115,7 @@ pub struct Alert {
     pub addresses: Vec<String>,
     pub codes: Vec<String>,
     pub references: Vec<String>,
-    pub incidents: Vec<String>,
+    pub incidents: Option<String>,
     pub infos: Vec<Info>,
 }
 
@@ -139,40 +140,54 @@ impl Alert {
             addresses: Vec::new(),
             codes: Vec::new(),
             references: Vec::new(),
-            incidents: Vec::new(),
+            incidents: None,
             infos: Vec::new(),
         };
 
-        let mut vec = &mut Vec::new();
-
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
-                (Some(ns), Event::Start(ref e)) if ns == namespace => match e.local_name() {
+                (Some(ns), Event::Start(e)) if ns == namespace => match e.local_name() {
                     ALERT_TAG => (),
-                    IDENTIFIER_TAG => alert.identifier = Some(reader.read_text(IDENTIFIER_TAG, vec)?),
-                    SENDER_TAG => alert.sender = Some(reader.read_text(SENDER_TAG, vec)?),
-                    STATUS_TAG => alert.status = Some(reader.read_text(STATUS_TAG, vec)?.parse::<Status>()?),
-                    SENT_TAG => alert.sent = Some(DateTime::parse_from_rfc3339(&reader.read_text(SENT_TAG, vec)?)?),
-                    MSG_TYPE_TAG => alert.msg_type = Some(reader.read_text(MSG_TYPE_TAG, vec)?.parse::<MsgType>()?),
-                    SOURCE_TAG => alert.source = Some(reader.read_text(SOURCE_TAG, vec)?),
-                    SCOPE_TAG => alert.scope = Some(reader.read_text(SCOPE_TAG, vec)?.parse::<Scope>()?),
-                    CODE_TAG => alert.codes.push(reader.read_text(CODE_TAG, vec)?),
-                    NOTE_TAG => alert.note = Some(reader.read_text(NOTE_TAG, vec)?),
-                    REFERENCES_TAG => alert.references.push(reader.read_text(REFERENCES_TAG, vec)?),
-                    RESTRICTION_TAG => alert.restriction = Some(reader.read_text(RESTRICTION_TAG, vec)?),
+                    IDENTIFIER_TAG => alert.identifier = Some(read_string(namespace, reader, buf, ns_buf, IDENTIFIER_TAG)?),
+                    INCIDENTS_TAG => alert.incidents = Some(read_string(namespace, reader, buf, ns_buf, INCIDENTS_TAG)?),
+                    SENDER_TAG => alert.sender = Some(read_string(namespace, reader, buf, ns_buf, SENDER_TAG)?),
+                    SENT_TAG => alert.sent = Some(DateTime::parse_from_rfc3339(&read_string(namespace, reader, buf, ns_buf, SENT_TAG)?)?),
+                    STATUS_TAG => alert.status = Some(read_string(namespace, reader, buf, ns_buf, STATUS_TAG)?.parse::<Status>()?),
+                    MSG_TYPE_TAG => alert.msg_type = Some(read_string(namespace, reader, buf, ns_buf, MSG_TYPE_TAG)?.parse::<MsgType>()?),
+                    SOURCE_TAG => alert.source = Some(read_string(namespace, reader, buf, ns_buf, SOURCE_TAG)?),
+                    SCOPE_TAG => alert.scope = Some(read_string(namespace, reader, buf, ns_buf, SCOPE_TAG)?.parse::<Scope>()?),
+                    CODE_TAG => alert.codes.push(read_string(namespace, reader, buf, ns_buf, CODE_TAG)?),
+                    NOTE_TAG => alert.note = Some(read_string(namespace, reader, buf, ns_buf, NOTE_TAG)?),
+                    REFERENCES_TAG => alert.references.push(read_string(namespace, reader, buf, ns_buf, REFERENCES_TAG)?),
+                    RESTRICTION_TAG => alert.restriction = Some(read_string(namespace, reader, buf, ns_buf, RESTRICTION_TAG)?),
 
                     INFO_TAG => alert.infos.push(Info::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
-                    _ => (),
+                    unknown_tag => return Err(DeserialiseError::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
 
                 (Some(ns), Event::End(ref e)) if ns == namespace => match e.local_name() {
                     ALERT_TAG => return Ok(alert),
-                    _unknown_tag => (),
+                    unknown_tag => return Err(DeserialiseError::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
 
-                (_ns, Event::Eof) => return Err(DeserialiseError::EofReached),
+                (_ns, Event::Eof) => {
+                    return Err(DeserialiseError::EofReached);
+                }
                 _ => (),
             }
         }
+    }
+}
+
+pub fn parse(xml_string: &str) -> Result<Alert, DeserialiseError> {
+    let buf = &mut Vec::new();
+    let ns_buf = &mut Vec::new();
+    let reader = &mut Reader::from_str(xml_string);
+    reader.trim_text(true);
+
+    if let Some(namespace) = look_for_cap_namespace(xml_string) {
+        Ok(Alert::deserialize_from_xml(namespace.as_bytes(), reader, buf, ns_buf)?)
+    } else {
+        Err(DeserialiseError::NameSpaceNotFound)
     }
 }

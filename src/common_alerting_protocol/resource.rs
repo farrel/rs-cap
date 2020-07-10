@@ -6,13 +6,13 @@ use quick_xml::Reader;
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
 
-const RESOURCE_TAG: &str = "resource";
-const RESOURCE_DESC_TAG: &str = "resourceDesc";
-const MIME_TYPE_TAG: &str = "mimeType";
-const SIZE_TAG: &str = "size";
-const URI_TAG: &str = "uri";
-const DEREF_URI_TAG: &str = "derefUri";
-const DIGEST_TAG: &str = "digest";
+const RESOURCE_TAG: &[u8] = b"resource";
+const RESOURCE_DESC_TAG: &[u8] = b"resourceDesc";
+const MIME_TYPE_TAG: &[u8] = b"mimeType";
+const SIZE_TAG: &[u8] = b"size";
+const URI_TAG: &[u8] = b"uri";
+const DEREF_URI_TAG: &[u8] = b"derefUri";
+const DIGEST_TAG: &[u8] = b"digest";
 
 pub struct Resource {
     resource_desc: String,
@@ -24,7 +24,7 @@ pub struct Resource {
 }
 
 impl Resource {
-    fn deserialize_from_xml(
+    pub fn deserialize_from_xml(
         namespace: &[u8],
         reader: &mut Reader<&[u8]>,
         buf: &mut std::vec::Vec<u8>,
@@ -39,23 +39,21 @@ impl Resource {
             digest: None,
         };
 
-        let vec = &mut Vec::new();
-
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
-                (Some(ns), Event::Start(ref e)) if ns == namespace => match str::from_utf8(e.name())? {
-                    RESOURCE_DESC_TAG => resource.resource_desc = reader.read_text(RESOURCE_DESC_TAG, vec)?,
-                    MIME_TYPE_TAG => resource.mime_type = Some(reader.read_text(MIME_TYPE_TAG, vec)?),
-                    SIZE_TAG => resource.size = Some(reader.read_text(SIZE_TAG, vec)?.parse::<u64>()?),
-                    URI_TAG => resource.uri = Some(reader.read_text(URI_TAG, vec)?),
-                    DEREF_URI_TAG => resource.deref_uri = Some(reader.read_text(DEREF_URI_TAG, vec)?),
-                    DIGEST_TAG => resource.digest = Some(reader.read_text(DIGEST_TAG, vec)?),
-                    unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
+                (Some(ns), Event::Start(ref e)) if ns == namespace => match e.local_name() {
+                    RESOURCE_DESC_TAG => resource.resource_desc = read_string(namespace, reader, buf, ns_buf, RESOURCE_DESC_TAG)?,
+                    MIME_TYPE_TAG => resource.mime_type = Some(read_string(namespace, reader, buf, ns_buf, MIME_TYPE_TAG)?),
+                    SIZE_TAG => resource.size = Some(read_string(namespace, reader, buf, ns_buf, SIZE_TAG)?.parse::<u64>()?),
+                    URI_TAG => resource.uri = Some(read_string(namespace, reader, buf, ns_buf, URI_TAG)?),
+                    DEREF_URI_TAG => resource.deref_uri = Some(read_string(namespace, reader, buf, ns_buf, DEREF_URI_TAG)?),
+                    DIGEST_TAG => resource.digest = Some(read_string(namespace, reader, buf, ns_buf, DIGEST_TAG)?),
+                    unknown_tag => return Err(DeserialiseError::tag_not_recognised(&str::from_utf8(unknown_tag)?)),
                 },
 
-                (Some(ns), Event::End(ref e)) if ns == namespace => match str::from_utf8(e.name())? {
+                (Some(ns), Event::End(ref e)) if ns == namespace => match e.local_name() {
                     RESOURCE_TAG => return Ok(resource),
-                    unknown_tag => return Err(DeserialiseError::tag_not_recognised(unknown_tag)),
+                    unknown_tag => return Err(DeserialiseError::tag_not_recognised(&str::from_utf8(unknown_tag)?)),
                 },
                 (_ns, event) => return Err(DeserialiseError::unknown_event(event)),
             }
@@ -84,7 +82,7 @@ mod tests {
         reader.trim_text(true);
         reader.read_namespaced_event(&mut buf, &mut ns_buf);
 
-        let resource = Resource::deserialize_from_xml(VERSION_1_2, reader, &mut buf, &mut ns_buf).unwrap();
+        let resource = Resource::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
         assert_eq!("map", resource.resource_desc);
         assert_eq!(100, resource.size.unwrap());
         assert_eq!("text/html", resource.mime_type.unwrap());

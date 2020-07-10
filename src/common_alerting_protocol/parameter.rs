@@ -43,7 +43,7 @@ mod tests {
         reader.trim_text(true);
         reader.read_namespaced_event(&mut buf, &mut ns_buf);
 
-        let parameter = Parameter::deserialize_from_xml(VERSION_1_2, reader, &mut buf, &mut ns_buf).unwrap();
+        let parameter = Parameter::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
 
         assert_eq!("Name", parameter.name);
         assert_eq!("Value", parameter.value);

@@ -37,22 +37,21 @@ impl Area {
             polygons: Vec::new(),
             geocodes: Vec::new(),
         };
-        let mut vec = Vec::new();
 
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
                 (Some(ns), Event::Start(ref e)) if ns == namespace => match e.local_name() {
-                    AREA_DESC_TAG => area.area_desc.push_str(reader.read_text(AREA_DESC_TAG, &mut vec)?.as_str()),
+                    AREA_DESC_TAG => area.area_desc.push_str(read_string(namespace, reader, buf, ns_buf, AREA_DESC_TAG)?.as_str()),
                     POLYGON_TAG => area.polygons.push(Polygon::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
                     GEOCODE_TAG => area.geocodes.push(Geocode::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
-                    ALTITUDE_TAG => area.altitude = Some(reader.read_text(ALTITUDE_TAG, &mut vec)?.parse::<f64>()?),
-                    CEILING_TAG => area.ceiling = Some(reader.read_text(CEILING_TAG, &mut vec)?.parse::<f64>()?),
-                    CIRCLE_TAG => area.circles.push(Circle::deserialize_from_xml(reader)?),
-                    _ => (),
+                    ALTITUDE_TAG => area.altitude = Some(read_string(namespace, reader, buf, ns_buf, ALTITUDE_TAG)?.parse::<f64>()?),
+                    CEILING_TAG => area.ceiling = Some(read_string(namespace, reader, buf, ns_buf, CEILING_TAG)?.parse::<f64>()?),
+                    CIRCLE_TAG => area.circles.push(Circle::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
+                    unknown_tag => return Err(DeserialiseError::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
-                (Some(ns), Event::End(ref e)) => match e.local_name() {
-                    AREA_TAG if ns == namespace => return Ok(area),
-                    _ => (),
+                (Some(ns), Event::End(ref e)) if ns == namespace => match e.local_name() {
+                    AREA_TAG => return Ok(area),
+                    unknown_tag => return Err(DeserialiseError::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
                 _ => (),
             }
@@ -112,7 +111,7 @@ mod tests {
         reader.trim_text(true);
         reader.read_namespaced_event(&mut buf, &mut ns_buf);
 
-        let area = Area::deserialize_from_xml(VERSION_1_2, reader, &mut buf, &mut ns_buf).unwrap();
+        let area = Area::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
 
         assert_eq!("City of Thunder Bay", area.area_desc);
         assert_eq!(1, area.polygons.len());

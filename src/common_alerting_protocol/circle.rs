@@ -29,8 +29,13 @@ pub fn split_circle_string(circle_string: &str) -> Result<(f64, f64, f64), Deser
 }
 
 impl Circle {
-    pub fn deserialize_from_xml(reader: &mut Reader<&[u8]>) -> Result<Circle, DeserialiseError> {
-        let (latitude, longitude, radius) = split_circle_string(reader.read_text(CIRCLE_TAG, &mut Vec::new())?.as_str())?;
+    pub fn deserialize_from_xml(
+        namespace: &[u8],
+        reader: &mut Reader<&[u8]>,
+        buf: &mut std::vec::Vec<u8>,
+        ns_buf: &mut std::vec::Vec<u8>,
+    ) -> Result<Circle, DeserialiseError> {
+        let (latitude, longitude, radius) = split_circle_string(read_string(namespace, reader, buf, ns_buf, CIRCLE_TAG)?.as_str())?;
 
         return Ok(Circle {
             latitude: latitude,
@@ -42,19 +47,20 @@ impl Circle {
 
 #[cfg(test)]
 mod tests {
+    use crate::common_alerting_protocol::alert::{VERSION_1_0, VERSION_1_1, VERSION_1_2};
     use crate::common_alerting_protocol::circle::Circle;
     use quick_xml::Reader;
 
     #[test]
     fn deserialize_from_xml() {
         let xml = r#"<circle xmlns="urn:oasis:names:tc:emergency:cap:1.2">80,20.7 10.5</circle>"#;
-        let mut buf = Vec::new();
-        let mut ns_buf = Vec::new();
+        let buf = &mut Vec::new();
+        let ns_buf = &mut Vec::new();
         let reader = &mut Reader::from_str(xml);
         reader.trim_text(true);
-        reader.read_namespaced_event(&mut buf, &mut ns_buf).unwrap();
+        reader.read_namespaced_event(buf, ns_buf).unwrap();
 
-        let circle = Circle::deserialize_from_xml(reader).unwrap();
+        let circle = Circle::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, buf, ns_buf).unwrap();
 
         assert_eq!(80.0, circle.latitude);
         assert_eq!(20.7, circle.longitude);

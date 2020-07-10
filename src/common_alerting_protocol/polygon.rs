@@ -47,7 +47,7 @@ mod tests {
         reader.trim_text(true);
         reader.read_namespaced_event(&mut buf, &mut ns_buf);
 
-        let mut polygon = Polygon::deserialize_from_xml(VERSION_1_2, reader, &mut buf, &mut ns_buf).unwrap();
+        let mut polygon = Polygon::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
         assert_eq!(19, polygon.points.len());
         let point = polygon.points.pop().unwrap();
         assert_eq!(48.5448, point.latitude);

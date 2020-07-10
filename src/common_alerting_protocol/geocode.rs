@@ -43,7 +43,7 @@ mod tests {
         let reader = &mut Reader::from_str(xml);
         reader.trim_text(true);
         reader.read_namespaced_event(&mut buf, &mut ns_buf);
-        let geocode = Geocode::deserialize_from_xml(VERSION_1_2, reader, &mut buf, &mut ns_buf).unwrap();
+        let geocode = Geocode::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
         assert_eq!("Name", geocode.name);
         assert_eq!("Value", geocode.value);
     }
