@@ -1,6 +1,3 @@
-
-
-
 <?xml version='1.0'?>
 <alert xmlns='urn:oasis:names:tc:emergency:cap:1.2'>
   <identifier>urn:oid:2.49.0.1.124.1411998356.2020</identifier>

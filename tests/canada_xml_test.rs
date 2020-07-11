@@ -20,7 +20,7 @@ fn deserialise_xml_file() {
     assert_eq!(6, alert.codes.len());
     assert!(alert.note.is_some());
     assert!(alert.sent.is_some());
-    assert_eq!(1, alert.references.len());
+    assert_eq!(3, alert.references.len());
     assert_eq!(2, alert.infos.len());
     assert!(alert.restriction.is_none());
 }

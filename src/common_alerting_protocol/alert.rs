@@ -148,20 +148,24 @@ impl Alert {
             match reader.read_namespaced_event(buf, ns_buf)? {
                 (Some(ns), Event::Start(e)) if ns == namespace => match e.local_name() {
                     ALERT_TAG => (),
+
+                    CODE_TAG => alert.codes.push(read_string(namespace, reader, buf, ns_buf, CODE_TAG)?),
                     IDENTIFIER_TAG => alert.identifier = Some(read_string(namespace, reader, buf, ns_buf, IDENTIFIER_TAG)?),
                     INCIDENTS_TAG => alert.incidents = Some(read_string(namespace, reader, buf, ns_buf, INCIDENTS_TAG)?),
+                    MSG_TYPE_TAG => alert.msg_type = Some(read_string(namespace, reader, buf, ns_buf, MSG_TYPE_TAG)?.parse::<MsgType>()?),
+                    NOTE_TAG => alert.note = Some(read_string(namespace, reader, buf, ns_buf, NOTE_TAG)?),
+                    REFERENCES_TAG => split_string(&read_string(namespace, reader, buf, ns_buf, REFERENCES_TAG)?)?
+                        .into_iter()
+                        .for_each(|reference| alert.references.push(reference.to_string())),
+                    RESTRICTION_TAG => alert.restriction = Some(read_string(namespace, reader, buf, ns_buf, RESTRICTION_TAG)?),
+                    SCOPE_TAG => alert.scope = Some(read_string(namespace, reader, buf, ns_buf, SCOPE_TAG)?.parse::<Scope>()?),
                     SENDER_TAG => alert.sender = Some(read_string(namespace, reader, buf, ns_buf, SENDER_TAG)?),
                     SENT_TAG => alert.sent = Some(DateTime::parse_from_rfc3339(&read_string(namespace, reader, buf, ns_buf, SENT_TAG)?)?),
-                    STATUS_TAG => alert.status = Some(read_string(namespace, reader, buf, ns_buf, STATUS_TAG)?.parse::<Status>()?),
-                    MSG_TYPE_TAG => alert.msg_type = Some(read_string(namespace, reader, buf, ns_buf, MSG_TYPE_TAG)?.parse::<MsgType>()?),
                     SOURCE_TAG => alert.source = Some(read_string(namespace, reader, buf, ns_buf, SOURCE_TAG)?),
-                    SCOPE_TAG => alert.scope = Some(read_string(namespace, reader, buf, ns_buf, SCOPE_TAG)?.parse::<Scope>()?),
-                    CODE_TAG => alert.codes.push(read_string(namespace, reader, buf, ns_buf, CODE_TAG)?),
-                    NOTE_TAG => alert.note = Some(read_string(namespace, reader, buf, ns_buf, NOTE_TAG)?),
-                    REFERENCES_TAG => alert.references.push(read_string(namespace, reader, buf, ns_buf, REFERENCES_TAG)?),
-                    RESTRICTION_TAG => alert.restriction = Some(read_string(namespace, reader, buf, ns_buf, RESTRICTION_TAG)?),
+                    STATUS_TAG => alert.status = Some(read_string(namespace, reader, buf, ns_buf, STATUS_TAG)?.parse::<Status>()?),
 
                     INFO_TAG => alert.infos.push(Info::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
+
                     unknown_tag => return Err(DeserialiseError::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
 

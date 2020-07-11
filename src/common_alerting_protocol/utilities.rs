@@ -76,3 +76,7 @@ pub fn read_string(
         }
     }
 }
+
+pub fn split_string(string: &str) -> Result<Vec<&str>, DeserialiseError> {
+    return Ok(string.split(' ').collect());
+}
