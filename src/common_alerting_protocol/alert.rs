@@ -1,5 +1,5 @@
 use crate::common_alerting_protocol::deserialise_error::{DeserialiseError, ParseEnumError};
-use crate::common_alerting_protocol::info::{Info, INFO_TAG};
+use crate::common_alerting_protocol::info::{Certainty, Info, INFO_TAG};
 use crate::common_alerting_protocol::utilities::*;
 use chrono::prelude::*;
 use quick_xml::events::Event;
@@ -120,13 +120,8 @@ pub struct Alert {
 }
 
 impl Alert {
-    pub fn deserialize_from_xml(
-        namespace: &[u8],
-        reader: &mut Reader<&[u8]>,
-        buf: &mut std::vec::Vec<u8>,
-        ns_buf: &mut std::vec::Vec<u8>,
-    ) -> Result<Alert, DeserialiseError> {
-        let mut alert = Alert {
+    pub fn initialise() -> Alert {
+        return Alert {
             version: None,
             identifier: None,
             sender: None,
@@ -143,6 +138,14 @@ impl Alert {
             incidents: None,
             infos: Vec::new(),
         };
+    }
+    pub fn deserialize_from_xml(
+        namespace: &[u8],
+        reader: &mut Reader<&[u8]>,
+        buf: &mut std::vec::Vec<u8>,
+        ns_buf: &mut std::vec::Vec<u8>,
+    ) -> Result<Alert, DeserialiseError> {
+        let mut alert = Alert::initialise();
 
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
@@ -181,6 +184,19 @@ impl Alert {
             }
         }
     }
+
+    pub fn add_info<F>(&mut self, mut block: F) -> &Info
+    where
+        F: Fn(&mut Info),
+    {
+        let mut info = Info::initialise();
+
+        block(&mut info);
+
+        self.infos.push(info);
+
+        return self.infos.last().unwrap();
+    }
 }
 
 pub fn parse(xml_string: &str) -> Result<Alert, DeserialiseError> {
@@ -194,4 +210,17 @@ pub fn parse(xml_string: &str) -> Result<Alert, DeserialiseError> {
     } else {
         Err(DeserialiseError::NameSpaceNotFound)
     }
+}
+
+#[test]
+fn test_add_info() {
+    let mut alert = Alert::initialise();
+
+    let info = alert.add_info(|info| {
+        info.audience = Some(String::from("Test"));
+        info.certainty = Some(Certainty::Observed);
+    });
+
+    assert_eq!(Some(String::from("Test")), info.audience);
+    assert_eq!(Some(Certainty::Observed), info.certainty);
 }

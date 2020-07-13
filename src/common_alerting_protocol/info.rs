@@ -117,7 +117,8 @@ impl FromStr for Severity {
     }
 }
 
-enum Certainty {
+#[derive(PartialEq, Debug)]
+pub enum Certainty {
     Observed,
     VeryLikely,
     Likely,
@@ -177,9 +178,9 @@ pub const DEFAULT_LANGUAGE: &str = "en-US";
 
 pub struct Info {
     areas: Vec<Area>,
-    audience: Option<String>,
+    pub audience: Option<String>,
     categories: Vec<Category>,
-    certainty: Option<Certainty>,
+    pub certainty: Option<Certainty>,
     contact: Option<String>,
     description: Option<String>,
     effective: Option<DateTime<FixedOffset>>,
@@ -200,13 +201,8 @@ pub struct Info {
 }
 
 impl Info {
-    pub fn deserialize_from_xml(
-        namespace: &[u8],
-        reader: &mut Reader<&[u8]>,
-        buf: &mut std::vec::Vec<u8>,
-        ns_buf: &mut std::vec::Vec<u8>,
-    ) -> Result<Info, DeserialiseError> {
-        let mut info = Info {
+    pub fn initialise() -> Info {
+        return (Info {
             areas: Vec::new(),
             audience: None,
             categories: Vec::new(),
@@ -228,7 +224,16 @@ impl Info {
             severity: None,
             urgency: None,
             web: None,
-        };
+        });
+    }
+
+    pub fn deserialize_from_xml(
+        namespace: &[u8],
+        reader: &mut Reader<&[u8]>,
+        buf: &mut std::vec::Vec<u8>,
+        ns_buf: &mut std::vec::Vec<u8>,
+    ) -> Result<Info, DeserialiseError> {
+        let mut info = Info::initialise();
 
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
