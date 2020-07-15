@@ -1,6 +1,6 @@
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
-use quick_xml::events::Event;
+
 use quick_xml::Reader;
 use std::str;
 
@@ -27,7 +27,7 @@ impl EventCode {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::{VERSION_1_0, VERSION_1_1, VERSION_1_2};
+    use crate::common_alerting_protocol::alert::{VERSION_1_2};
     use crate::common_alerting_protocol::event_code::EventCode;
     use quick_xml::Reader;
 
@@ -56,8 +56,8 @@ mod tests {
         reader.trim_text(true);
         reader.read_namespaced_event(&mut buf, &mut ns_buf);
         match EventCode::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf) {
-            Ok(event_code) => panic!("Should not return Ok"),
-            Err(error) => (),
+            Ok(_event_code) => panic!("Should not return Ok"),
+            Err(_error) => (),
         }
     }
 }

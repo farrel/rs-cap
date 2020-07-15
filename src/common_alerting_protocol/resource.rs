@@ -63,7 +63,7 @@ impl Resource {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::{VERSION_1_0, VERSION_1_1, VERSION_1_2};
+    use crate::common_alerting_protocol::alert::{VERSION_1_2};
     use crate::common_alerting_protocol::resource::Resource;
     use quick_xml::Reader;
 

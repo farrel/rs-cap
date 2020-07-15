@@ -61,7 +61,7 @@ impl Area {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::{VERSION_1_0, VERSION_1_1, VERSION_1_2};
+    use crate::common_alerting_protocol::alert::{VERSION_1_2};
     use crate::common_alerting_protocol::area::Area;
     use quick_xml::Reader;
 
@@ -104,7 +104,7 @@ mod tests {
       </geocode>
     </area>"#;
 
-        let reader = &mut Reader::from_str(xml);
+        let _reader = &mut Reader::from_str(xml);
         let mut buf = Vec::new();
         let mut ns_buf = Vec::new();
         let reader = &mut Reader::from_str(xml);

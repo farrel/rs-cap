@@ -1,6 +1,6 @@
-use quick_xml::events::Event;
+
 use quick_xml::Reader;
-use std::str;
+
 
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
@@ -27,7 +27,7 @@ impl Geocode {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::{VERSION_1_0, VERSION_1_1, VERSION_1_2};
+    use crate::common_alerting_protocol::alert::{VERSION_1_2};
     use crate::common_alerting_protocol::geocode::Geocode;
     use quick_xml::Reader;
 

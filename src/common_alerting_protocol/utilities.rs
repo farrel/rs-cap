@@ -1,11 +1,11 @@
 use crate::common_alerting_protocol::alert::{VERSION_1_0, VERSION_1_1, VERSION_1_2};
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
-use chrono::prelude::*;
-use chrono::DateTime;
+
+
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use std::str;
-use std::str::FromStr;
+
 
 const NAME_TAG: &[u8] = b"valueName";
 const VALUE_TAG: &[u8] = b"value";
@@ -53,7 +53,7 @@ pub fn parse_name_value_pair(
                     return Err(DeserialiseError::tag_not_expected(str::from_utf8(e.local_name())?));
                 }
             }
-            (Some(namespace), event) => (),
+            (Some(_namespace), _event) => (),
             (None, event) => return Err(DeserialiseError::unknown_event(event)),
         }
     }

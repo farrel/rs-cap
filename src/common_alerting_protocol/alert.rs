@@ -185,7 +185,7 @@ impl Alert {
         }
     }
 
-    pub fn add_info<F>(&mut self, mut block: F) -> &Info
+    pub fn add_info<F>(&mut self, block: F) -> &Info
     where
         F: Fn(&mut Info),
     {

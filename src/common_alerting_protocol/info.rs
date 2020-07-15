@@ -1,4 +1,4 @@
-use crate::common_alerting_protocol::alert::{VERSION_1_0, VERSION_1_1, VERSION_1_2};
+
 use crate::common_alerting_protocol::area::{Area, AREA_TAG};
 use crate::common_alerting_protocol::deserialise_error::{DeserialiseError, ParseEnumError};
 use crate::common_alerting_protocol::event_code::EventCode;
@@ -202,7 +202,7 @@ pub struct Info {
 
 impl Info {
     pub fn initialise() -> Info {
-        return (Info {
+        return Info {
             areas: Vec::new(),
             audience: None,
             categories: Vec::new(),
@@ -224,7 +224,7 @@ impl Info {
             severity: None,
             urgency: None,
             web: None,
-        });
+        };
     }
 
     pub fn deserialize_from_xml(
@@ -276,7 +276,7 @@ impl Info {
                     unknown_tag => return Err(DeserialiseError::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
 
-                (_ns, unknown_event) => (),
+                (_ns, _unknown_event) => (),
             }
         }
     }
@@ -284,10 +284,10 @@ impl Info {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::{VERSION_1_0, VERSION_1_1, VERSION_1_2};
+    use crate::common_alerting_protocol::alert::{VERSION_1_2};
     use crate::common_alerting_protocol::info::Info;
     use quick_xml::Reader;
-    use std::str;
+    
     use std::str::FromStr;
 
     #[test]
@@ -384,6 +384,6 @@ mod tests {
         let reader = &mut Reader::from_str(xml);
         reader.trim_text(true);
         reader.read_namespaced_event(&mut buf, &mut ns_buf);
-        let info = Info::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
+        let _info = Info::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
     }
 }
