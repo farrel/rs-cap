@@ -8,11 +8,15 @@ const EVENT_CODE_TAG: &[u8] = b"eventCode";
 static EVENT_CODE: &str = "eventCode";
 
 pub struct EventCode {
-    name: String,
-    value: String,
+    name: Option<String>,
+    value: Option<String>,
 }
 
 impl EventCode {
+    pub fn initialise() -> EventCode {
+        EventCode { name: None, value: None }
+    }
+
     pub fn deserialize_from_xml(
         namespace: &[u8],
         reader: &mut Reader<&[u8]>,
@@ -21,13 +25,16 @@ impl EventCode {
     ) -> Result<EventCode, DeserialiseError> {
         let (name, value) = parse_name_value_pair(reader, namespace, EVENT_CODE_TAG, buf, ns_buf)?;
 
-        return Ok(EventCode { name: name, value: value });
+        return Ok(EventCode {
+            name: Some(name),
+            value: Some(value),
+        });
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::{VERSION_1_2};
+    use crate::common_alerting_protocol::alert::VERSION_1_2;
     use crate::common_alerting_protocol::event_code::EventCode;
     use quick_xml::Reader;
 
@@ -42,8 +49,8 @@ mod tests {
         reader.read_namespaced_event(&mut buf, &mut ns_buf);
         let event_code = EventCode::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
 
-        assert_eq!("Name", event_code.name);
-        assert_eq!("Value", event_code.value);
+        assert_eq!(Some(String::from("Name")), event_code.name);
+        assert_eq!(Some(String::from("Value")), event_code.value);
     }
 
     #[test]

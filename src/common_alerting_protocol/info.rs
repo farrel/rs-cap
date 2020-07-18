@@ -1,4 +1,3 @@
-
 use crate::common_alerting_protocol::area::{Area, AREA_TAG};
 use crate::common_alerting_protocol::deserialise_error::{DeserialiseError, ParseEnumError};
 use crate::common_alerting_protocol::event_code::EventCode;
@@ -280,14 +279,24 @@ impl Info {
             }
         }
     }
+
+    pub fn add_event_code<F>(&mut self, block: F) -> &EventCode
+    where
+        F: Fn(&mut EventCode),
+    {
+        let mut event_code = EventCode::initialise();
+        block(&mut event_code);
+        self.event_codes.push(event_code);
+        return self.event_codes.last().unwrap();
+    }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::{VERSION_1_2};
+    use crate::common_alerting_protocol::alert::VERSION_1_2;
     use crate::common_alerting_protocol::info::Info;
     use quick_xml::Reader;
-    
+
     use std::str::FromStr;
 
     #[test]

@@ -1,5 +1,5 @@
 use crate::common_alerting_protocol::deserialise_error::{DeserialiseError, ParseEnumError};
-use crate::common_alerting_protocol::info::{Certainty, Info, INFO_TAG};
+use crate::common_alerting_protocol::info::{Info, INFO_TAG};
 use crate::common_alerting_protocol::utilities::*;
 use chrono::prelude::*;
 use quick_xml::events::Event;
@@ -190,11 +190,8 @@ impl Alert {
         F: Fn(&mut Info),
     {
         let mut info = Info::initialise();
-
         block(&mut info);
-
         self.infos.push(info);
-
         return self.infos.last().unwrap();
     }
 }
@@ -210,17 +207,4 @@ pub fn parse(xml_string: &str) -> Result<Alert, DeserialiseError> {
     } else {
         Err(DeserialiseError::NameSpaceNotFound)
     }
-}
-
-#[test]
-fn test_add_info() {
-    let mut alert = Alert::initialise();
-
-    let info = alert.add_info(|info| {
-        info.audience = Some(String::from("Test"));
-        info.certainty = Some(Certainty::Observed);
-    });
-
-    assert_eq!(Some(String::from("Test")), info.audience);
-    assert_eq!(Some(Certainty::Observed), info.certainty);
 }

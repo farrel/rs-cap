@@ -7,9 +7,9 @@ use std::str;
 pub const CIRCLE_TAG: &[u8] = b"circle";
 
 pub struct Circle {
-    latitude: f64,
-    longitude: f64,
-    radius: f64,
+    latitude: Option<f64>,
+    longitude: Option<f64>,
+    radius: Option<f64>,
 }
 
 pub fn split_circle_string(circle_string: &str) -> Result<(f64, f64, f64), DeserialiseError> {
@@ -38,16 +38,16 @@ impl Circle {
         let (latitude, longitude, radius) = split_circle_string(read_string(namespace, reader, buf, ns_buf, CIRCLE_TAG)?.as_str())?;
 
         return Ok(Circle {
-            latitude: latitude,
-            longitude: longitude,
-            radius: radius,
+            latitude: Some(latitude),
+            longitude: Some(longitude),
+            radius: Some(radius),
         });
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::{VERSION_1_2};
+    use crate::common_alerting_protocol::alert::VERSION_1_2;
     use crate::common_alerting_protocol::circle::Circle;
     use quick_xml::Reader;
 
@@ -62,8 +62,8 @@ mod tests {
 
         let circle = Circle::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, buf, ns_buf).unwrap();
 
-        assert_eq!(80.0, circle.latitude);
-        assert_eq!(20.7, circle.longitude);
-        assert_eq!(10.5, circle.radius);
+        assert_eq!(Some(80.0), circle.latitude);
+        assert_eq!(Some(20.7), circle.longitude);
+        assert_eq!(Some(10.5), circle.radius);
     }
 }
