@@ -3,12 +3,11 @@ use crate::common_alerting_protocol::utilities::*;
 
 use quick_xml::Reader;
 
-
 pub const PARAMETER_TAG: &[u8] = b"parameter";
 
 pub struct Parameter {
-    name: String,
-    value: String,
+    name: Option<String>,
+    value: Option<String>,
 }
 
 impl Parameter {
@@ -20,13 +19,16 @@ impl Parameter {
     ) -> Result<Parameter, DeserialiseError> {
         let (name, value) = parse_name_value_pair(reader, namespace, PARAMETER_TAG, buf, ns_buf)?;
 
-        return Ok(Parameter { name: name, value: value });
+        return Ok(Parameter {
+            name: Some(name),
+            value: Some(value),
+        });
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::{VERSION_1_2};
+    use crate::common_alerting_protocol::alert::VERSION_1_2;
     use crate::common_alerting_protocol::parameter::Parameter;
     use quick_xml::Reader;
 
@@ -45,7 +47,7 @@ mod tests {
 
         let parameter = Parameter::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
 
-        assert_eq!("Name", parameter.name);
-        assert_eq!("Value", parameter.value);
+        assert_eq!("Name", parameter.name.unwrap());
+        assert_eq!("Value", parameter.value.unwrap());
     }
 }

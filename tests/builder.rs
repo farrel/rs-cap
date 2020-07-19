@@ -1,5 +1,5 @@
 use rs_cap::common_alerting_protocol::alert::*;
-use rs_cap::common_alerting_protocol::info::{Certainty, Info};
+
 
 #[test]
 fn test_builder() {

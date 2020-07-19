@@ -1,6 +1,4 @@
-
 use quick_xml::Reader;
-
 
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
@@ -8,8 +6,8 @@ use crate::common_alerting_protocol::utilities::*;
 pub const GEOCODE_TAG: &[u8] = b"geocode";
 
 pub struct Geocode {
-    name: String,
-    value: String,
+    name: Option<String>,
+    value: Option<String>,
 }
 
 impl Geocode {
@@ -21,13 +19,16 @@ impl Geocode {
     ) -> Result<Geocode, DeserialiseError> {
         let (name, value) = parse_name_value_pair(reader, namespace, GEOCODE_TAG, buf, ns_buf)?;
 
-        return Ok(Geocode { name: name, value: value });
+        return Ok(Geocode {
+            name: Some(name),
+            value: Some(value),
+        });
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::{VERSION_1_2};
+    use crate::common_alerting_protocol::alert::VERSION_1_2;
     use crate::common_alerting_protocol::geocode::Geocode;
     use quick_xml::Reader;
 
@@ -44,7 +45,7 @@ mod tests {
         reader.trim_text(true);
         reader.read_namespaced_event(&mut buf, &mut ns_buf);
         let geocode = Geocode::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
-        assert_eq!("Name", geocode.name);
-        assert_eq!("Value", geocode.value);
+        assert_eq!("Name", geocode.name.unwrap());
+        assert_eq!("Value", geocode.value.unwrap());
     }
 }

@@ -15,7 +15,7 @@ const DEREF_URI_TAG: &[u8] = b"derefUri";
 const DIGEST_TAG: &[u8] = b"digest";
 
 pub struct Resource {
-    resource_desc: String,
+    resource_desc: Option<String>,
     mime_type: Option<String>,
     size: Option<u64>,
     uri: Option<String>,
@@ -31,7 +31,7 @@ impl Resource {
         ns_buf: &mut std::vec::Vec<u8>,
     ) -> Result<Resource, DeserialiseError> {
         let mut resource = Resource {
-            resource_desc: String::new(),
+            resource_desc: None,
             mime_type: None,
             size: None,
             uri: None,
@@ -42,7 +42,7 @@ impl Resource {
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
                 (Some(ns), Event::Start(ref e)) if ns == namespace => match e.local_name() {
-                    RESOURCE_DESC_TAG => resource.resource_desc = read_string(namespace, reader, buf, ns_buf, RESOURCE_DESC_TAG)?,
+                    RESOURCE_DESC_TAG => resource.resource_desc = Some(read_string(namespace, reader, buf, ns_buf, RESOURCE_DESC_TAG)?),
                     MIME_TYPE_TAG => resource.mime_type = Some(read_string(namespace, reader, buf, ns_buf, MIME_TYPE_TAG)?),
                     SIZE_TAG => resource.size = Some(read_string(namespace, reader, buf, ns_buf, SIZE_TAG)?.parse::<u64>()?),
                     URI_TAG => resource.uri = Some(read_string(namespace, reader, buf, ns_buf, URI_TAG)?),
@@ -63,7 +63,7 @@ impl Resource {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::{VERSION_1_2};
+    use crate::common_alerting_protocol::alert::VERSION_1_2;
     use crate::common_alerting_protocol::resource::Resource;
     use quick_xml::Reader;
 
@@ -83,7 +83,7 @@ mod tests {
         reader.read_namespaced_event(&mut buf, &mut ns_buf);
 
         let resource = Resource::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
-        assert_eq!("map", resource.resource_desc);
+        assert_eq!("map", resource.resource_desc.unwrap());
         assert_eq!(100, resource.size.unwrap());
         assert_eq!("text/html", resource.mime_type.unwrap());
         assert_eq!("http://www.rfs.nsw.gov.au/dsp_content.cfm?CAT_ID=683", resource.uri.unwrap());

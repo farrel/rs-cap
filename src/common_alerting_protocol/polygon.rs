@@ -1,11 +1,7 @@
-
-
-
 use quick_xml::Reader;
 
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::point::Point;
-
 
 pub const POLYGON_TAG: &[u8] = b"polygon";
 
@@ -28,7 +24,7 @@ impl Polygon {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::{VERSION_1_2};
+    use crate::common_alerting_protocol::alert::VERSION_1_2;
     use crate::common_alerting_protocol::polygon::Polygon;
     use quick_xml::Reader;
 
@@ -50,7 +46,7 @@ mod tests {
         let mut polygon = Polygon::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
         assert_eq!(19, polygon.points.len());
         let point = polygon.points.pop().unwrap();
-        assert_eq!(48.5448, point.latitude);
-        assert_eq!(-89.0388, point.longitude);
+        assert_eq!(48.5448, point.latitude.unwrap());
+        assert_eq!(-89.0388, point.longitude.unwrap());
     }
 }

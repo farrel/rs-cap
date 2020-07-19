@@ -10,5 +10,3 @@ pub mod point;
 pub mod polygon;
 pub mod resource;
 pub mod utilities;
-
-mod common_alerting_protocol {}

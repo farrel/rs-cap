@@ -8,8 +8,8 @@ const MIN_LATITUDE: f64 = -90.0;
 
 #[derive(Debug)]
 pub struct Point {
-    pub latitude: f64,
-    pub longitude: f64,
+    pub latitude: Option<f64>,
+    pub longitude: Option<f64>,
 }
 
 impl Point {
@@ -18,8 +18,8 @@ impl Point {
 
         if let (Some(latitude), Some(longitude)) = (coords.next(), coords.next()) {
             Ok(Point {
-                latitude: latitude.parse::<f64>()?,
-                longitude: longitude.parse::<f64>()?,
+                latitude: Some(latitude.parse::<f64>()?),
+                longitude: Some(longitude.parse::<f64>()?),
             })
         } else {
             Err(DeserialiseError::error(&format!("Error parsing point string: {}", point_string)))
@@ -48,15 +48,15 @@ mod tests {
         assert_eq!(2, points.len());
 
         if let Some(point) = points.pop() {
-            assert_eq!(48.0, point.latitude);
-            assert_eq!(-89.0, point.longitude);
+            assert_eq!(48.0, point.latitude.unwrap());
+            assert_eq!(-89.0, point.longitude.unwrap());
         } else {
             panic!("No points parsed");
         }
 
         if let Some(point) = points.pop() {
-            assert_eq!(48.0, point.latitude);
-            assert_eq!(-89.0, point.longitude);
+            assert_eq!(48.0, point.latitude.unwrap());
+            assert_eq!(-89.0, point.longitude.unwrap());
         } else {
             panic!("No points parsed");
         }

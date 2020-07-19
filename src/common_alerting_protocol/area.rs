@@ -61,7 +61,7 @@ impl Area {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::{VERSION_1_2};
+    use crate::common_alerting_protocol::alert::VERSION_1_2;
     use crate::common_alerting_protocol::area::Area;
     use quick_xml::Reader;
 
@@ -116,8 +116,8 @@ mod tests {
         assert_eq!("City of Thunder Bay", area.area_desc);
         assert_eq!(1, area.polygons.len());
         let point = &area.polygons[0].points[0];
-        assert_eq!(48.5448, point.latitude);
-        assert_eq!(-89.0388, point.longitude);
+        assert_eq!(48.5448, point.latitude.unwrap());
+        assert_eq!(-89.0388, point.longitude.unwrap());
         assert_eq!(6, area.geocodes.len());
         assert_eq!(Some(100.0), area.altitude);
         assert_eq!(Some(200.0), area.ceiling);
