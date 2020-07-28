@@ -33,7 +33,7 @@ const SEVERITY_TAG: &[u8] = b"severity";
 const URGENCY_TAG: &[u8] = b"urgency";
 const WEB_TAG: &[u8] = b"web";
 
-enum Category {
+pub enum Category {
     Geological,
     Meteorological,
     Safety,
@@ -178,19 +178,19 @@ pub const DEFAULT_LANGUAGE: &str = "en-US";
 pub struct Info {
     areas: Vec<Area>,
     pub audience: Option<String>,
-    categories: Vec<Category>,
+    pub categories: Vec<Category>,
     pub certainty: Option<Certainty>,
     contact: Option<String>,
     description: Option<String>,
     effective: Option<DateTime<FixedOffset>>,
-    event_codes: Vec<EventCode>,
+    pub event_codes: Vec<EventCode>,
     event: Option<String>,
     expires: Option<DateTime<FixedOffset>>,
     headline: Option<String>,
     instruction: Option<String>,
     language: Option<String>,
     onset: Option<DateTime<FixedOffset>>,
-    parameters: Vec<Parameter>,
+    pub parameters: Vec<Parameter>,
     resources: Vec<Resource>,
     response_types: Vec<ResponseType>,
     sender_name: Option<String>,
@@ -280,14 +280,22 @@ impl Info {
         }
     }
 
-    pub fn add_event_code<F>(&mut self, block: F) -> &EventCode
+    pub fn add_event_code<F>(&mut self, block: F) -> ()
     where
         F: Fn(&mut EventCode),
     {
         let mut event_code = EventCode::initialise();
         block(&mut event_code);
         self.event_codes.push(event_code);
-        return self.event_codes.last().unwrap();
+    }
+
+    pub fn add_parameter<F>(&mut self, block: F) -> ()
+    where
+        F: Fn(&mut Parameter),
+    {
+        let mut parameter = Parameter::initialise();
+        block(&mut parameter);
+        self.parameters.push(parameter);
     }
 }
 

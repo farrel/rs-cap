@@ -6,11 +6,15 @@ use quick_xml::Reader;
 pub const PARAMETER_TAG: &[u8] = b"parameter";
 
 pub struct Parameter {
-    name: Option<String>,
-    value: Option<String>,
+    pub name: Option<String>,
+    pub value: Option<String>,
 }
 
 impl Parameter {
+    pub fn initialise() -> Parameter {
+        Parameter { name: None, value: None }
+    }
+
     pub fn deserialize_from_xml(
         namespace: &[u8],
         reader: &mut Reader<&[u8]>,

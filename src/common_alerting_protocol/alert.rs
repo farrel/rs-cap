@@ -7,6 +7,7 @@ use quick_xml::Reader;
 use std::fmt;
 use std::str;
 use std::str::FromStr;
+use uuid::Uuid;
 
 pub const VERSION_1_0: &str = "urn:oasis:names:tc:emergency:cap:1.0";
 pub const VERSION_1_1: &str = "urn:oasis:names:tc:emergency:cap:1.1";
@@ -123,7 +124,7 @@ impl Alert {
     pub fn initialise() -> Alert {
         return Alert {
             version: None,
-            identifier: None,
+            identifier: Some(Uuid::new_v4().to_hyphenated().to_string()),
             sender: None,
             sent: None,
             status: None,
@@ -139,6 +140,7 @@ impl Alert {
             infos: Vec::new(),
         };
     }
+
     pub fn deserialize_from_xml(
         namespace: &[u8],
         reader: &mut Reader<&[u8]>,
@@ -185,14 +187,13 @@ impl Alert {
         }
     }
 
-    pub fn add_info<F>(&mut self, block: F) -> &Info
+    pub fn add_info<F>(&mut self, block: F) -> ()
     where
         F: Fn(&mut Info),
     {
         let mut info = Info::initialise();
         block(&mut info);
         self.infos.push(info);
-        return self.infos.last().unwrap();
     }
 }
 
@@ -206,5 +207,11 @@ pub fn parse(xml_string: &str) -> Result<Alert, DeserialiseError> {
         Ok(Alert::deserialize_from_xml(namespace.as_bytes(), reader, buf, ns_buf)?)
     } else {
         Err(DeserialiseError::NameSpaceNotFound)
+    }
+}
+
+impl fmt::Debug for Alert {
+    fn fmt(&self, _formatter: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
+        Ok(())
     }
 }

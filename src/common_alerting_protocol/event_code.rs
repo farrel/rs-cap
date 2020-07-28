@@ -8,8 +8,8 @@ const EVENT_CODE_TAG: &[u8] = b"eventCode";
 static EVENT_CODE: &str = "eventCode";
 
 pub struct EventCode {
-    name: Option<String>,
-    value: Option<String>,
+    pub name: Option<String>,
+    pub value: Option<String>,
 }
 
 impl EventCode {
