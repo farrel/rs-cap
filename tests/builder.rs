@@ -20,6 +20,11 @@ fn test_builder() {
         });
 
         info.categories.push(Category::Geological);
+
+        info.add_resource(|resource| {
+            resource.resource_desc = Some(String::from("resource_desc"));
+            resource.size = Some(256);
+        });
     });
 
     let info = alert.infos.last().unwrap();
@@ -27,4 +32,6 @@ fn test_builder() {
     assert_eq!(Some(rs_cap::common_alerting_protocol::info::Certainty::Observed), info.certainty);
     assert_eq!(1, info.event_codes.len());
     assert_eq!(1, info.parameters.len());
+    assert_eq!(1, info.categories.len());
+    assert_eq!(1, info.resources.len());
 }

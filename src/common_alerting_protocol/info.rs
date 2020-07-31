@@ -33,6 +33,7 @@ const SEVERITY_TAG: &[u8] = b"severity";
 const URGENCY_TAG: &[u8] = b"urgency";
 const WEB_TAG: &[u8] = b"web";
 
+#[derive(PartialEq, Debug)]
 pub enum Category {
     Geological,
     Meteorological,
@@ -70,7 +71,8 @@ impl FromStr for Category {
     }
 }
 
-enum Urgency {
+#[derive(PartialEq, Debug)]
+pub enum Urgency {
     Immediate,
     Expected,
     Future,
@@ -93,7 +95,8 @@ impl FromStr for Urgency {
     }
 }
 
-enum Severity {
+#[derive(PartialEq, Debug)]
+pub enum Severity {
     Extreme,
     Severe,
     Moderate,
@@ -142,7 +145,7 @@ impl FromStr for Certainty {
     }
 }
 
-enum ResponseType {
+pub enum ResponseType {
     AllClear,
     Assess,
     Avoid,
@@ -176,27 +179,27 @@ impl FromStr for ResponseType {
 pub const DEFAULT_LANGUAGE: &str = "en-US";
 
 pub struct Info {
-    areas: Vec<Area>,
+    pub areas: Vec<Area>,
     pub audience: Option<String>,
     pub categories: Vec<Category>,
     pub certainty: Option<Certainty>,
-    contact: Option<String>,
-    description: Option<String>,
-    effective: Option<DateTime<FixedOffset>>,
+    pub contact: Option<String>,
+    pub description: Option<String>,
+    pub effective: Option<DateTime<FixedOffset>>,
     pub event_codes: Vec<EventCode>,
-    event: Option<String>,
-    expires: Option<DateTime<FixedOffset>>,
-    headline: Option<String>,
-    instruction: Option<String>,
-    language: Option<String>,
-    onset: Option<DateTime<FixedOffset>>,
+    pub event: Option<String>,
+    pub expires: Option<DateTime<FixedOffset>>,
+    pub headline: Option<String>,
+    pub instruction: Option<String>,
+    pub language: Option<String>,
+    pub onset: Option<DateTime<FixedOffset>>,
     pub parameters: Vec<Parameter>,
-    resources: Vec<Resource>,
-    response_types: Vec<ResponseType>,
-    sender_name: Option<String>,
-    severity: Option<Severity>,
-    urgency: Option<Urgency>,
-    web: Option<String>,
+    pub resources: Vec<Resource>,
+    pub response_types: Vec<ResponseType>,
+    pub sender_name: Option<String>,
+    pub severity: Option<Severity>,
+    pub urgency: Option<Urgency>,
+    pub web: Option<String>,
 }
 
 impl Info {
@@ -280,7 +283,7 @@ impl Info {
         }
     }
 
-    pub fn add_event_code<F>(&mut self, block: F) -> ()
+    pub fn add_event_code<F>(&mut self, block: F)
     where
         F: Fn(&mut EventCode),
     {
@@ -289,13 +292,22 @@ impl Info {
         self.event_codes.push(event_code);
     }
 
-    pub fn add_parameter<F>(&mut self, block: F) -> ()
+    pub fn add_parameter<F>(&mut self, block: F)
     where
         F: Fn(&mut Parameter),
     {
         let mut parameter = Parameter::initialise();
         block(&mut parameter);
         self.parameters.push(parameter);
+    }
+
+    pub fn add_resource<F>(&mut self, block: F)
+    where
+        F: Fn(&mut Resource),
+    {
+        let mut resource = Resource::initialise();
+        block(&mut resource);
+        self.resources.push(resource);
     }
 }
 
@@ -401,6 +413,6 @@ mod tests {
         let reader = &mut Reader::from_str(xml);
         reader.trim_text(true);
         reader.read_namespaced_event(&mut buf, &mut ns_buf);
-        let _info = Info::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
+        Info::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
     }
 }

@@ -15,29 +15,32 @@ const DEREF_URI_TAG: &[u8] = b"derefUri";
 const DIGEST_TAG: &[u8] = b"digest";
 
 pub struct Resource {
-    resource_desc: Option<String>,
+    pub resource_desc: Option<String>,
     mime_type: Option<String>,
-    size: Option<u64>,
+    pub size: Option<u64>,
     uri: Option<String>,
     deref_uri: Option<String>,
     digest: Option<String>,
 }
 
 impl Resource {
-    pub fn deserialize_from_xml(
-        namespace: &[u8],
-        reader: &mut Reader<&[u8]>,
-        buf: &mut std::vec::Vec<u8>,
-        ns_buf: &mut std::vec::Vec<u8>,
-    ) -> Result<Resource, DeserialiseError> {
-        let mut resource = Resource {
+    pub fn initialise() -> Resource {
+        Resource {
             resource_desc: None,
             mime_type: None,
             size: None,
             uri: None,
             deref_uri: None,
             digest: None,
-        };
+        }
+    }
+    pub fn deserialize_from_xml(
+        namespace: &[u8],
+        reader: &mut Reader<&[u8]>,
+        buf: &mut std::vec::Vec<u8>,
+        ns_buf: &mut std::vec::Vec<u8>,
+    ) -> Result<Resource, DeserialiseError> {
+        let mut resource = Resource::initialise();
 
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
