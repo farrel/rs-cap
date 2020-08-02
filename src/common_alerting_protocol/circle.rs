@@ -12,7 +12,7 @@ pub struct Circle {
     radius: Option<f64>,
 }
 
-pub fn split_circle_string(circle_string: &str) -> Result<(f64, f64, f64), DeserialiseError> {
+pub fn split_circle_string(circle_string: &str) -> DeserialiseResult<(f64, f64, f64)> {
     let mut point_and_radius = circle_string.split(' ');
 
     if let (Some(point_string), Some(radius)) = (point_and_radius.next(), point_and_radius.next()) {
@@ -29,12 +29,20 @@ pub fn split_circle_string(circle_string: &str) -> Result<(f64, f64, f64), Deser
 }
 
 impl Circle {
+    pub fn initialise() -> Circle {
+        Circle {
+            latitude: None,
+            longitude: None,
+            radius: None,
+        }
+    }
+
     pub fn deserialize_from_xml(
         namespace: &[u8],
         reader: &mut Reader<&[u8]>,
         buf: &mut std::vec::Vec<u8>,
         ns_buf: &mut std::vec::Vec<u8>,
-    ) -> Result<Circle, DeserialiseError> {
+    ) -> DeserialiseResult<Circle> {
         let (latitude, longitude, radius) = split_circle_string(read_string(namespace, reader, buf, ns_buf, CIRCLE_TAG)?.as_str())?;
 
         return Ok(Circle {

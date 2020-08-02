@@ -146,7 +146,7 @@ impl Alert {
         reader: &mut Reader<&[u8]>,
         buf: &mut std::vec::Vec<u8>,
         ns_buf: &mut std::vec::Vec<u8>,
-    ) -> Result<Alert, DeserialiseError> {
+    ) -> DeserialiseResult<Alert> {
         let mut alert = Alert::initialise();
 
         loop {
@@ -197,7 +197,7 @@ impl Alert {
     }
 }
 
-pub fn parse(xml_string: &str) -> Result<Alert, DeserialiseError> {
+pub fn parse(xml_string: &str) -> DeserialiseResult<Alert> {
     let buf = &mut Vec::new();
     let ns_buf = &mut Vec::new();
     let reader = &mut Reader::from_str(xml_string);

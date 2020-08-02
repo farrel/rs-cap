@@ -1,4 +1,5 @@
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
+use crate::common_alerting_protocol::utilities::*;
 
 const MAX_LONGITUDE: f64 = 180.0;
 const MIN_LONGITUDE: f64 = -180.0;
@@ -13,7 +14,14 @@ pub struct Point {
 }
 
 impl Point {
-    pub fn parse_point_string(point_string: &str) -> Result<Point, DeserialiseError> {
+    pub fn initialise() -> Point {
+        Point {
+            latitude: None,
+            longitude: None,
+        }
+    }
+
+    pub fn parse_point_string(point_string: &str) -> DeserialiseResult<Point> {
         let mut coords = point_string.split(',');
 
         if let (Some(latitude), Some(longitude)) = (coords.next(), coords.next()) {

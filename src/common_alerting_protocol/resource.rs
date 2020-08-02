@@ -39,7 +39,7 @@ impl Resource {
         reader: &mut Reader<&[u8]>,
         buf: &mut std::vec::Vec<u8>,
         ns_buf: &mut std::vec::Vec<u8>,
-    ) -> Result<Resource, DeserialiseError> {
+    ) -> DeserialiseResult<Resource> {
         let mut resource = Resource::initialise();
 
         loop {

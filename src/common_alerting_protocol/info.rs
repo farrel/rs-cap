@@ -234,7 +234,7 @@ impl Info {
         reader: &mut Reader<&[u8]>,
         buf: &mut std::vec::Vec<u8>,
         ns_buf: &mut std::vec::Vec<u8>,
-    ) -> Result<Info, DeserialiseError> {
+    ) -> DeserialiseResult<Info> {
         let mut info = Info::initialise();
 
         loop {
@@ -281,6 +281,15 @@ impl Info {
                 (_ns, _unknown_event) => (),
             }
         }
+    }
+
+    pub fn add_area<F>(&mut self, block: F)
+    where
+        F: Fn(&mut Area),
+    {
+        let mut area = Area::initialise();
+        block(&mut area);
+        self.areas.push(area);
     }
 
     pub fn add_event_code<F>(&mut self, block: F)

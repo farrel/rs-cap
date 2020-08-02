@@ -20,7 +20,7 @@ impl Parameter {
         reader: &mut Reader<&[u8]>,
         buf: &mut std::vec::Vec<u8>,
         ns_buf: &mut std::vec::Vec<u8>,
-    ) -> Result<Parameter, DeserialiseError> {
+    ) -> DeserialiseResult<Parameter> {
         let (name, value) = parse_name_value_pair(reader, namespace, PARAMETER_TAG, buf, ns_buf)?;
 
         return Ok(Parameter {

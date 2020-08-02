@@ -22,7 +22,7 @@ impl EventCode {
         reader: &mut Reader<&[u8]>,
         buf: &mut std::vec::Vec<u8>,
         ns_buf: &mut std::vec::Vec<u8>,
-    ) -> Result<EventCode, DeserialiseError> {
+    ) -> DeserialiseResult<EventCode> {
         let (name, value) = parse_name_value_pair(reader, namespace, EVENT_CODE_TAG, buf, ns_buf)?;
 
         return Ok(EventCode {

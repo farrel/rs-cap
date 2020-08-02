@@ -8,12 +8,12 @@ use quick_xml::Reader;
 use std::str;
 
 pub struct Area {
-    area_desc: String,
-    altitude: Option<f64>,
-    ceiling: Option<f64>,
-    circles: Vec<Circle>,
-    geocodes: Vec<Geocode>,
-    polygons: Vec<Polygon>,
+    pub area_desc: Option<String>,
+    pub altitude: Option<f64>,
+    pub ceiling: Option<f64>,
+    pub circles: Vec<Circle>,
+    pub geocodes: Vec<Geocode>,
+    pub polygons: Vec<Polygon>,
 }
 
 pub const AREA_TAG: &[u8] = b"area";
@@ -23,25 +23,28 @@ const ALTITUDE_TAG: &[u8] = b"altitude";
 const CEILING_TAG: &[u8] = b"ceiling";
 
 impl Area {
+    pub fn initialise() -> Area {
+        Area {
+            area_desc: None,
+            altitude: None,
+            ceiling: None,
+            circles: Vec::new(),
+            geocodes: Vec::new(),
+            polygons: Vec::new(),
+        }
+    }
     pub fn deserialize_from_xml(
         namespace: &[u8],
         reader: &mut Reader<&[u8]>,
         buf: &mut std::vec::Vec<u8>,
         ns_buf: &mut std::vec::Vec<u8>,
-    ) -> Result<Area, DeserialiseError> {
-        let mut area = Area {
-            area_desc: String::new(),
-            altitude: None,
-            ceiling: None,
-            circles: Vec::new(),
-            polygons: Vec::new(),
-            geocodes: Vec::new(),
-        };
+    ) -> DeserialiseResult<Area> {
+        let mut area = Area::initialise();
 
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
                 (Some(ns), Event::Start(ref e)) if ns == namespace => match e.local_name() {
-                    AREA_DESC_TAG => area.area_desc.push_str(read_string(namespace, reader, buf, ns_buf, AREA_DESC_TAG)?.as_str()),
+                    AREA_DESC_TAG => area.area_desc = Some(read_string(namespace, reader, buf, ns_buf, AREA_DESC_TAG)?),
                     POLYGON_TAG => area.polygons.push(Polygon::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
                     GEOCODE_TAG => area.geocodes.push(Geocode::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
                     ALTITUDE_TAG => area.altitude = Some(read_string(namespace, reader, buf, ns_buf, ALTITUDE_TAG)?.parse::<f64>()?),
@@ -56,6 +59,33 @@ impl Area {
                 _ => (),
             }
         }
+    }
+
+    pub fn add_circle<F>(&mut self, block: F)
+    where
+        F: Fn(&mut Circle),
+    {
+        let mut circle = Circle::initialise();
+        block(&mut circle);
+        self.circles.push(circle);
+    }
+
+    pub fn add_geocode<F>(&mut self, block: F)
+    where
+        F: Fn(&mut Geocode),
+    {
+        let mut geocode = Geocode::initialise();
+        block(&mut geocode);
+        self.geocodes.push(geocode);
+    }
+
+    pub fn add_polygon<F>(&mut self, block: F)
+    where
+        F: Fn(&mut Polygon),
+    {
+        let mut polygon = Polygon::initialise();
+        block(&mut polygon);
+        self.polygons.push(polygon);
     }
 }
 
@@ -113,7 +143,7 @@ mod tests {
 
         let area = Area::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
 
-        assert_eq!("City of Thunder Bay", area.area_desc);
+        assert_eq!(Some(String::from("City of Thunder Bay")), area.area_desc);
         assert_eq!(1, area.polygons.len());
         let point = &area.polygons[0].points[0];
         assert_eq!(48.5448, point.latitude.unwrap());

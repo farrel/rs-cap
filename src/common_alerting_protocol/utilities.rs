@@ -5,6 +5,8 @@ use quick_xml::events::Event;
 use quick_xml::Reader;
 use std::str;
 
+pub type DeserialiseResult<T> = std::result::Result<T, DeserialiseError>;
+
 const NAME_TAG: &[u8] = b"valueName";
 const VALUE_TAG: &[u8] = b"value";
 
@@ -26,7 +28,7 @@ pub fn parse_name_value_pair(
     end_tag: &[u8],
     buf: &mut std::vec::Vec<u8>,
     ns_buf: &mut std::vec::Vec<u8>,
-) -> Result<(String, String), DeserialiseError> {
+) -> DeserialiseResult<(String, String)> {
     let mut name = String::new();
     let mut value = String::new();
 
@@ -63,7 +65,7 @@ pub fn read_string(
     buf: &mut std::vec::Vec<u8>,
     ns_buf: &mut std::vec::Vec<u8>,
     closing_tag: &[u8],
-) -> Result<String, DeserialiseError> {
+) -> DeserialiseResult<String> {
     let mut string = String::new();
 
     loop {
@@ -75,6 +77,6 @@ pub fn read_string(
     }
 }
 
-pub fn split_string(string: &str) -> Result<Vec<&str>, DeserialiseError> {
+pub fn split_string(string: &str) -> DeserialiseResult<Vec<&str>> {
     return Ok(string.split(' ').collect());
 }

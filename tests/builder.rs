@@ -25,6 +25,8 @@ fn test_builder() {
             resource.resource_desc = Some(String::from("resource_desc"));
             resource.size = Some(256);
         });
+
+        info.add_area(|area| {});
     });
 
     let info = alert.infos.last().unwrap();

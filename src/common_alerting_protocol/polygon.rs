@@ -2,6 +2,7 @@ use quick_xml::Reader;
 
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::point::Point;
+use crate::common_alerting_protocol::utilities::*;
 
 pub const POLYGON_TAG: &[u8] = b"polygon";
 
@@ -10,15 +11,28 @@ pub struct Polygon {
 }
 
 impl Polygon {
+    pub fn initialise() -> Polygon {
+        Polygon { points: Vec::new() }
+    }
+
     pub fn deserialize_from_xml(
         _namespace: &[u8],
         reader: &mut Reader<&[u8]>,
         _buf: &mut std::vec::Vec<u8>,
         _ns_buf: &mut std::vec::Vec<u8>,
-    ) -> Result<Polygon, DeserialiseError> {
+    ) -> DeserialiseResult<Polygon> {
         return Ok(Polygon {
             points: Point::parse_points_string(reader.read_text(POLYGON_TAG, &mut Vec::new())?.as_str())?,
         });
+    }
+
+    pub fn add_point<F>(&mut self, block: F)
+    where
+        F: Fn(&mut Point),
+    {
+        let mut point = Point::initialise();
+        block(&mut point);
+        self.points.push(point);
     }
 }
 
