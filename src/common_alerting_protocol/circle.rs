@@ -1,11 +1,12 @@
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
-
 use quick_xml::Reader;
+use serde::{Deserialize, Serialize};
 use std::str;
 
 pub const CIRCLE_TAG: &[u8] = b"circle";
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Circle {
     latitude: Option<f64>,
     longitude: Option<f64>,

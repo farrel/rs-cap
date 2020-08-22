@@ -1,6 +1,5 @@
 use crate::common_alerting_protocol::alert::{VERSION_1_0, VERSION_1_1, VERSION_1_2};
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
-
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use std::str;

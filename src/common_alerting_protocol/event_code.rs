@@ -1,12 +1,12 @@
-use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
-
 use quick_xml::Reader;
+use serde::{Deserialize, Serialize};
 use std::str;
 
 const EVENT_CODE_TAG: &[u8] = b"eventCode";
 static EVENT_CODE: &str = "eventCode";
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct EventCode {
     pub name: Option<String>,
     pub value: Option<String>,

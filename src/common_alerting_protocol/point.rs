@@ -1,5 +1,6 @@
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
+use serde::{Deserialize, Serialize};
 
 const MAX_LONGITUDE: f64 = 180.0;
 const MIN_LONGITUDE: f64 = -180.0;
@@ -7,7 +8,7 @@ const MIN_LONGITUDE: f64 = -180.0;
 const MAX_LATITUDE: f64 = 90.0;
 const MIN_LATITUDE: f64 = -90.0;
 
-#[derive(Debug)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Point {
     pub latitude: Option<f64>,
     pub longitude: Option<f64>,

@@ -4,7 +4,7 @@ use crate::common_alerting_protocol::utilities::*;
 use chrono::prelude::*;
 use quick_xml::events::Event;
 use quick_xml::Reader;
-use std::fmt;
+use serde::{Deserialize, Serialize};
 use std::str;
 use std::str::FromStr;
 use uuid::Uuid;
@@ -27,14 +27,14 @@ const NOTE_TAG: &[u8] = b"note";
 const REFERENCES_TAG: &[u8] = b"references";
 const RESTRICTION_TAG: &[u8] = b"restriction";
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum Version {
     V1_0,
     V1_1,
     V1_2,
 }
 
-#[derive(PartialEq, fmt::Debug)]
+#[derive(PartialEq, Debug, Serialize, Deserialize)]
 pub enum Status {
     Actual,
     Exercise,
@@ -58,7 +58,7 @@ impl FromStr for Status {
     }
 }
 
-#[derive(fmt::Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub enum MsgType {
     Alert,
     Update,
@@ -82,7 +82,7 @@ impl FromStr for MsgType {
     }
 }
 
-#[derive(fmt::Debug, PartialEq)]
+#[derive(Debug, PartialEq, Deserialize, Serialize)]
 pub enum Scope {
     Public,
     Restricted,
@@ -102,6 +102,7 @@ impl FromStr for Scope {
     }
 }
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Alert {
     pub version: Option<Version>,
     pub identifier: Option<String>,
@@ -207,11 +208,5 @@ pub fn parse(xml_string: &str) -> DeserialiseResult<Alert> {
         Ok(Alert::deserialize_from_xml(namespace.as_bytes(), reader, buf, ns_buf)?)
     } else {
         Err(DeserialiseError::NameSpaceNotFound)
-    }
-}
-
-impl fmt::Debug for Alert {
-    fn fmt(&self, _formatter: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
-        Ok(())
     }
 }

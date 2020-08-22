@@ -8,6 +8,7 @@ use chrono::prelude::*;
 use chrono::DateTime;
 use quick_xml::events::Event;
 use quick_xml::Reader;
+use serde::{Deserialize, Serialize};
 use std::str;
 use std::str::FromStr;
 
@@ -33,7 +34,7 @@ const SEVERITY_TAG: &[u8] = b"severity";
 const URGENCY_TAG: &[u8] = b"urgency";
 const WEB_TAG: &[u8] = b"web";
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Serialize, Deserialize)]
 pub enum Category {
     Geological,
     Meteorological,
@@ -71,7 +72,7 @@ impl FromStr for Category {
     }
 }
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Serialize, Deserialize)]
 pub enum Urgency {
     Immediate,
     Expected,
@@ -95,7 +96,7 @@ impl FromStr for Urgency {
     }
 }
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Serialize, Deserialize)]
 pub enum Severity {
     Extreme,
     Severe,
@@ -119,7 +120,7 @@ impl FromStr for Severity {
     }
 }
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Serialize, Deserialize)]
 pub enum Certainty {
     Observed,
     VeryLikely,
@@ -145,6 +146,7 @@ impl FromStr for Certainty {
     }
 }
 
+#[derive(PartialEq, Debug, Serialize, Deserialize)]
 pub enum ResponseType {
     AllClear,
     Assess,
@@ -178,6 +180,7 @@ impl FromStr for ResponseType {
 
 pub const DEFAULT_LANGUAGE: &str = "en-US";
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Info {
     pub areas: Vec<Area>,
     pub audience: Option<String>,

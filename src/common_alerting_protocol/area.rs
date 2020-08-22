@@ -5,8 +5,10 @@ use crate::common_alerting_protocol::polygon::{Polygon, POLYGON_TAG};
 use crate::common_alerting_protocol::utilities::*;
 use quick_xml::events::Event;
 use quick_xml::Reader;
+use serde::{Deserialize, Serialize};
 use std::str;
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Area {
     pub area_desc: Option<String>,
     pub altitude: Option<f64>,

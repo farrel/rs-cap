@@ -1,10 +1,9 @@
-use std::str;
-
-use quick_xml::events::Event;
-use quick_xml::Reader;
-
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::utilities::*;
+use quick_xml::events::Event;
+use quick_xml::Reader;
+use serde::{Deserialize, Serialize};
+use std::str;
 
 const RESOURCE_TAG: &[u8] = b"resource";
 const RESOURCE_DESC_TAG: &[u8] = b"resourceDesc";
@@ -14,6 +13,7 @@ const URI_TAG: &[u8] = b"uri";
 const DEREF_URI_TAG: &[u8] = b"derefUri";
 const DIGEST_TAG: &[u8] = b"digest";
 
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Resource {
     pub resource_desc: Option<String>,
     mime_type: Option<String>,
