@@ -27,11 +27,24 @@ const NOTE_TAG: &[u8] = b"note";
 const REFERENCES_TAG: &[u8] = b"references";
 const RESTRICTION_TAG: &[u8] = b"restriction";
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(PartialEq, Debug, Serialize, Deserialize)]
 pub enum Version {
     V1_0,
     V1_1,
     V1_2,
+}
+
+impl FromStr for Version {
+    type Err = ParseEnumError;
+
+    fn from_str(version_string: &str) -> Result<Version, ParseEnumError> {
+        match version_string {
+            VERSION_1_0 => Ok(Version::V1_0),
+            VERSION_1_1 => Ok(Version::V1_1),
+            VERSION_1_2 => Ok(Version::V1_2),
+            _ => Err(ParseEnumError::enum_not_found(version_string)),
+        }
+    }
 }
 
 #[derive(PartialEq, Debug, Serialize, Deserialize)]
@@ -153,7 +166,7 @@ impl Alert {
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
                 (Some(ns), Event::Start(e)) if ns == namespace => match e.local_name() {
-                    ALERT_TAG => (),
+                    ALERT_TAG => alert.version = Some(str::from_utf8(namespace)?.parse::<Version>()?),
 
                     CODE_TAG => alert.codes.push(read_string(namespace, reader, buf, ns_buf, CODE_TAG)?),
                     IDENTIFIER_TAG => alert.identifier = Some(read_string(namespace, reader, buf, ns_buf, IDENTIFIER_TAG)?),

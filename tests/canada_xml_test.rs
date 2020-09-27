@@ -11,6 +11,7 @@ fn deserialise_xml_file() {
     reader.trim_text(true);
 
     let alert = alert::Alert::deserialize_from_xml(alert::VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
+    assert_eq!(alert::Version::V1_2, alert.version.unwrap());
     assert_eq!("urn:oid:2.49.0.1.124.1576205950.2019", alert.identifier.unwrap());
     assert_eq!("cap-pac@canada.ca", alert.sender.unwrap());
     assert_eq!(Some(alert::Status::Actual), alert.status);
