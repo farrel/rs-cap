@@ -27,7 +27,7 @@ const NOTE_TAG: &[u8] = b"note";
 const REFERENCES_TAG: &[u8] = b"references";
 const RESTRICTION_TAG: &[u8] = b"restriction";
 
-#[derive(PartialEq, Debug, Serialize, Deserialize)]
+#[derive(PartialEq, Debug, Serialize, Deserialize, Clone)]
 pub enum Version {
     V1_0,
     V1_1,
@@ -47,7 +47,7 @@ impl FromStr for Version {
     }
 }
 
-#[derive(PartialEq, Debug, Serialize, Deserialize)]
+#[derive(PartialEq, Debug, Serialize, Deserialize, Clone)]
 pub enum Status {
     Actual,
     Exercise,
@@ -71,7 +71,7 @@ impl FromStr for Status {
     }
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub enum MsgType {
     Alert,
     Update,
@@ -95,7 +95,7 @@ impl FromStr for MsgType {
     }
 }
 
-#[derive(Debug, PartialEq, Deserialize, Serialize)]
+#[derive(Debug, PartialEq, Deserialize, Serialize, Clone)]
 pub enum Scope {
     Public,
     Restricted,
@@ -115,7 +115,7 @@ impl FromStr for Scope {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Alert {
     pub version: Option<Version>,
     pub identifier: Option<String>,

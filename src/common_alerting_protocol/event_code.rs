@@ -6,7 +6,7 @@ use std::str;
 const EVENT_CODE_TAG: &[u8] = b"eventCode";
 static EVENT_CODE: &str = "eventCode";
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EventCode {
     pub name: Option<String>,
     pub value: Option<String>,

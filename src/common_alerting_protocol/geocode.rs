@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 pub const GEOCODE_TAG: &[u8] = b"geocode";
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Geocode {
     name: Option<String>,
     value: Option<String>,

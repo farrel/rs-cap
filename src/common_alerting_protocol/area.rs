@@ -8,7 +8,7 @@ use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
 use std::str;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Area {
     pub area_desc: Option<String>,
     pub altitude: Option<f64>,

@@ -6,7 +6,7 @@ use std::str;
 
 pub const CIRCLE_TAG: &[u8] = b"circle";
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Circle {
     latitude: Option<f64>,
     longitude: Option<f64>,

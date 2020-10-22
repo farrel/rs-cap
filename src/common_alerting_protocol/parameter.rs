@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 pub const PARAMETER_TAG: &[u8] = b"parameter";
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Parameter {
     pub name: Option<String>,
     pub value: Option<String>,

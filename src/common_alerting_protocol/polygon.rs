@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 pub const POLYGON_TAG: &[u8] = b"polygon";
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Polygon {
     pub points: Vec<Point>,
 }

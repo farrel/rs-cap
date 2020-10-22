@@ -34,7 +34,7 @@ const SEVERITY_TAG: &[u8] = b"severity";
 const URGENCY_TAG: &[u8] = b"urgency";
 const WEB_TAG: &[u8] = b"web";
 
-#[derive(PartialEq, Debug, Serialize, Deserialize)]
+#[derive(PartialEq, Debug, Serialize, Deserialize, Clone)]
 pub enum Category {
     Geological,
     Meteorological,
@@ -72,7 +72,7 @@ impl FromStr for Category {
     }
 }
 
-#[derive(PartialEq, Debug, Serialize, Deserialize)]
+#[derive(PartialEq, Debug, Serialize, Deserialize, Clone)]
 pub enum Urgency {
     Immediate,
     Expected,
@@ -96,7 +96,7 @@ impl FromStr for Urgency {
     }
 }
 
-#[derive(PartialEq, Debug, Serialize, Deserialize)]
+#[derive(PartialEq, Debug, Serialize, Deserialize, Clone)]
 pub enum Severity {
     Extreme,
     Severe,
@@ -120,7 +120,7 @@ impl FromStr for Severity {
     }
 }
 
-#[derive(PartialEq, Debug, Serialize, Deserialize)]
+#[derive(PartialEq, Debug, Serialize, Deserialize, Clone)]
 pub enum Certainty {
     Observed,
     VeryLikely,
@@ -146,7 +146,7 @@ impl FromStr for Certainty {
     }
 }
 
-#[derive(PartialEq, Debug, Serialize, Deserialize)]
+#[derive(PartialEq, Debug, Serialize, Deserialize, Clone)]
 pub enum ResponseType {
     AllClear,
     Assess,
@@ -180,7 +180,7 @@ impl FromStr for ResponseType {
 
 pub const DEFAULT_LANGUAGE: &str = "en-US";
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Info {
     pub areas: Vec<Area>,
     pub audience: Option<String>,

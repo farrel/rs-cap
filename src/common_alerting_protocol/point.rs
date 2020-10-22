@@ -8,7 +8,7 @@ const MIN_LONGITUDE: f64 = -180.0;
 const MAX_LATITUDE: f64 = 90.0;
 const MIN_LATITUDE: f64 = -90.0;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Point {
     pub latitude: Option<f64>,
     pub longitude: Option<f64>,

@@ -13,7 +13,7 @@ const URI_TAG: &[u8] = b"uri";
 const DEREF_URI_TAG: &[u8] = b"derefUri";
 const DIGEST_TAG: &[u8] = b"digest";
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Resource {
     pub resource_desc: Option<String>,
     mime_type: Option<String>,
