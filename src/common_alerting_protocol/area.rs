@@ -1,8 +1,9 @@
 use crate::common_alerting_protocol::circle::{Circle, CIRCLE_TAG};
 use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::geocode::{Geocode, GEOCODE_TAG};
-use crate::common_alerting_protocol::polygon::{Polygon, POLYGON_TAG};
+use crate::common_alerting_protocol::polygon;
 use crate::common_alerting_protocol::utilities::*;
+use geo::Polygon;
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
@@ -15,7 +16,7 @@ pub struct Area {
     pub ceiling: Option<f64>,
     pub circles: Vec<Circle>,
     pub geocodes: Vec<Geocode>,
-    pub polygons: Vec<Polygon>,
+    pub polygons: Vec<Polygon<f64>>,
 }
 
 pub const AREA_TAG: &[u8] = b"area";
@@ -23,6 +24,7 @@ pub const AREA_TAG: &[u8] = b"area";
 const AREA_DESC_TAG: &[u8] = b"areaDesc";
 const ALTITUDE_TAG: &[u8] = b"altitude";
 const CEILING_TAG: &[u8] = b"ceiling";
+const POLYGON_TAG: &[u8] = b"polygon";
 
 impl Area {
     pub fn initialise() -> Area {
@@ -47,7 +49,7 @@ impl Area {
             match reader.read_namespaced_event(buf, ns_buf)? {
                 (Some(ns), Event::Start(ref e)) if ns == namespace => match e.local_name() {
                     AREA_DESC_TAG => area.area_desc = Some(read_string(namespace, reader, buf, ns_buf, AREA_DESC_TAG)?),
-                    POLYGON_TAG => area.polygons.push(Polygon::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
+                    POLYGON_TAG => area.polygons.push(polygon::deserialize_from_xml(namespace, reader)?),
                     GEOCODE_TAG => area.geocodes.push(Geocode::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
                     ALTITUDE_TAG => area.altitude = Some(read_string(namespace, reader, buf, ns_buf, ALTITUDE_TAG)?.parse::<f64>()?),
                     CEILING_TAG => area.ceiling = Some(read_string(namespace, reader, buf, ns_buf, CEILING_TAG)?.parse::<f64>()?),
@@ -79,15 +81,6 @@ impl Area {
         let mut geocode = Geocode::initialise();
         block(&mut geocode);
         self.geocodes.push(geocode);
-    }
-
-    pub fn add_polygon<F>(&mut self, block: F)
-    where
-        F: Fn(&mut Polygon),
-    {
-        let mut polygon = Polygon::initialise();
-        block(&mut polygon);
-        self.polygons.push(polygon);
     }
 }
 
@@ -146,12 +139,5 @@ mod tests {
         let area = Area::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
 
         assert_eq!(Some(String::from("City of Thunder Bay")), area.area_desc);
-        assert_eq!(1, area.polygons.len());
-        let point = &area.polygons[0].points[0];
-        assert_eq!(48.5448, point.latitude.unwrap());
-        assert_eq!(-89.0388, point.longitude.unwrap());
-        assert_eq!(6, area.geocodes.len());
-        assert_eq!(Some(100.0), area.altitude);
-        assert_eq!(Some(200.0), area.ceiling);
     }
 }
