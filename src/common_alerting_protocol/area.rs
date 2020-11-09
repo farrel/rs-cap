@@ -1,8 +1,7 @@
 use crate::common_alerting_protocol::circle::{Circle, CIRCLE_TAG};
-use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
 use crate::common_alerting_protocol::geocode::{Geocode, GEOCODE_TAG};
-use crate::common_alerting_protocol::polygon;
-use crate::common_alerting_protocol::utilities::*;
+use crate::common_alerting_protocol::utilities::read_string;
+use crate::common_alerting_protocol::{polygon, Error, Result};
 use geo::Polygon;
 use quick_xml::events::Event;
 use quick_xml::Reader;
@@ -37,12 +36,7 @@ impl Area {
             polygons: Vec::new(),
         }
     }
-    pub fn deserialize_from_xml(
-        namespace: &[u8],
-        reader: &mut Reader<&[u8]>,
-        buf: &mut std::vec::Vec<u8>,
-        ns_buf: &mut std::vec::Vec<u8>,
-    ) -> DeserialiseResult<Area> {
+    pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Area> {
         let mut area = Area::initialise();
 
         loop {
@@ -54,11 +48,11 @@ impl Area {
                     ALTITUDE_TAG => area.altitude = Some(read_string(namespace, reader, buf, ns_buf, ALTITUDE_TAG)?.parse::<f64>()?),
                     CEILING_TAG => area.ceiling = Some(read_string(namespace, reader, buf, ns_buf, CEILING_TAG)?.parse::<f64>()?),
                     CIRCLE_TAG => area.circles.push(Circle::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
-                    unknown_tag => return Err(DeserialiseError::tag_not_expected(str::from_utf8(unknown_tag)?)),
+                    unknown_tag => return Err(Error::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
                 (Some(ns), Event::End(ref e)) if ns == namespace => match e.local_name() {
                     AREA_TAG => return Ok(area),
-                    unknown_tag => return Err(DeserialiseError::tag_not_expected(str::from_utf8(unknown_tag)?)),
+                    unknown_tag => return Err(Error::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
                 _ => (),
             }

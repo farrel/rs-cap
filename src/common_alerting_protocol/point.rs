@@ -1,5 +1,4 @@
-use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
-use crate::common_alerting_protocol::utilities::*;
+use crate::common_alerting_protocol::{Error, Result};
 
 const MAX_LONGITUDE: f64 = 180.0;
 const MIN_LONGITUDE: f64 = -180.0;
@@ -7,17 +6,17 @@ const MIN_LONGITUDE: f64 = -180.0;
 const MAX_LATITUDE: f64 = 90.0;
 const MIN_LATITUDE: f64 = -90.0;
 
-pub fn parse_point_string(point_string: &str) -> DeserialiseResult<(f64, f64)> {
+pub fn parse_point_string(point_string: &str) -> Result<(f64, f64)> {
     let mut coords = point_string.split(',');
 
     if let (Some(latitude), Some(longitude)) = (coords.next(), coords.next()) {
         return Ok((latitude.parse::<f64>()?, longitude.parse::<f64>()?));
     } else {
-        return Err(DeserialiseError::error(&format!("Error parsing point string: {}", point_string)));
+        return Err(Error::error(&format!("Error parsing point string: {}", point_string)));
     }
 }
 
-pub fn parse_points_string(points_string: &str) -> DeserialiseResult<Vec<(f64, f64)>> {
+pub fn parse_points_string(points_string: &str) -> Result<Vec<(f64, f64)>> {
     let point_strings: Vec<&str> = points_string.split_whitespace().collect();
     let mut points = Vec::new();
 

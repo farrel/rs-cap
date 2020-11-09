@@ -1,5 +1,5 @@
-use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
-use crate::common_alerting_protocol::utilities::*;
+use crate::common_alerting_protocol::utilities::read_string;
+use crate::common_alerting_protocol::{Error, Result};
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
@@ -34,12 +34,7 @@ impl Resource {
             digest: None,
         }
     }
-    pub fn deserialize_from_xml(
-        namespace: &[u8],
-        reader: &mut Reader<&[u8]>,
-        buf: &mut std::vec::Vec<u8>,
-        ns_buf: &mut std::vec::Vec<u8>,
-    ) -> DeserialiseResult<Resource> {
+    pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Resource> {
         let mut resource = Resource::initialise();
 
         loop {
@@ -51,14 +46,14 @@ impl Resource {
                     URI_TAG => resource.uri = Some(read_string(namespace, reader, buf, ns_buf, URI_TAG)?),
                     DEREF_URI_TAG => resource.deref_uri = Some(read_string(namespace, reader, buf, ns_buf, DEREF_URI_TAG)?),
                     DIGEST_TAG => resource.digest = Some(read_string(namespace, reader, buf, ns_buf, DIGEST_TAG)?),
-                    unknown_tag => return Err(DeserialiseError::tag_not_recognised(&str::from_utf8(unknown_tag)?)),
+                    unknown_tag => return Err(Error::tag_not_recognised(&str::from_utf8(unknown_tag)?)),
                 },
 
                 (Some(ns), Event::End(ref e)) if ns == namespace => match e.local_name() {
                     RESOURCE_TAG => return Ok(resource),
-                    unknown_tag => return Err(DeserialiseError::tag_not_recognised(&str::from_utf8(unknown_tag)?)),
+                    unknown_tag => return Err(Error::tag_not_recognised(&str::from_utf8(unknown_tag)?)),
                 },
-                (_ns, event) => return Err(DeserialiseError::unknown_event(event)),
+                (_ns, event) => return Err(Error::unknown_event(event)),
             }
         }
     }

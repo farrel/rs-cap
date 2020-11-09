@@ -1,4 +1,5 @@
-use crate::common_alerting_protocol::utilities::*;
+use crate::common_alerting_protocol::utilities::parse_name_value_pair;
+use crate::common_alerting_protocol::Result;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
 use std::str;
@@ -22,7 +23,7 @@ impl EventCode {
         reader: &mut Reader<&[u8]>,
         buf: &mut std::vec::Vec<u8>,
         ns_buf: &mut std::vec::Vec<u8>,
-    ) -> DeserialiseResult<EventCode> {
+    ) -> Result<EventCode> {
         let (name, value) = parse_name_value_pair(reader, namespace, EVENT_CODE_TAG, buf, ns_buf)?;
 
         return Ok(EventCode {

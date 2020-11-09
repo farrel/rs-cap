@@ -1,6 +1,6 @@
-use crate::common_alerting_protocol::deserialise_error::{DeserialiseError, ParseEnumError};
 use crate::common_alerting_protocol::info::{Info, INFO_TAG};
 use crate::common_alerting_protocol::utilities::*;
+use crate::common_alerting_protocol::{Error, ParseEnumError, Result};
 use chrono::prelude::*;
 use quick_xml::events::Event;
 use quick_xml::Reader;
@@ -37,7 +37,7 @@ pub enum Version {
 impl FromStr for Version {
     type Err = ParseEnumError;
 
-    fn from_str(version_string: &str) -> Result<Version, ParseEnumError> {
+    fn from_str(version_string: &str) -> std::result::Result<Version, ParseEnumError> {
         match version_string {
             VERSION_1_0 => Ok(Version::V1_0),
             VERSION_1_1 => Ok(Version::V1_1),
@@ -59,7 +59,7 @@ pub enum Status {
 impl FromStr for Status {
     type Err = ParseEnumError;
 
-    fn from_str(enum_string: &str) -> Result<Status, ParseEnumError> {
+    fn from_str(enum_string: &str) -> std::result::Result<Status, ParseEnumError> {
         match enum_string {
             "Actual" => Ok(Status::Actual),
             "Exercise" => Ok(Status::Exercise),
@@ -83,7 +83,7 @@ pub enum MsgType {
 impl FromStr for MsgType {
     type Err = ParseEnumError;
 
-    fn from_str(enum_string: &str) -> Result<MsgType, ParseEnumError> {
+    fn from_str(enum_string: &str) -> std::result::Result<MsgType, ParseEnumError> {
         match enum_string {
             "Alert" => Ok(MsgType::Alert),
             "Update" => Ok(MsgType::Update),
@@ -105,7 +105,7 @@ pub enum Scope {
 impl FromStr for Scope {
     type Err = ParseEnumError;
 
-    fn from_str(enum_string: &str) -> Result<Scope, ParseEnumError> {
+    fn from_str(enum_string: &str) -> std::result::Result<Scope, ParseEnumError> {
         match enum_string {
             "Public" => Ok(Scope::Public),
             "Restricted" => Ok(Scope::Restricted),
@@ -155,12 +155,7 @@ impl Alert {
         };
     }
 
-    pub fn deserialize_from_xml(
-        namespace: &[u8],
-        reader: &mut Reader<&[u8]>,
-        buf: &mut std::vec::Vec<u8>,
-        ns_buf: &mut std::vec::Vec<u8>,
-    ) -> DeserialiseResult<Alert> {
+    pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Alert> {
         let mut alert = Alert::initialise();
 
         loop {
@@ -185,16 +180,16 @@ impl Alert {
 
                     INFO_TAG => alert.infos.push(Info::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
 
-                    unknown_tag => return Err(DeserialiseError::tag_not_expected(str::from_utf8(unknown_tag)?)),
+                    unknown_tag => return Err(Error::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
 
                 (Some(ns), Event::End(ref e)) if ns == namespace => match e.local_name() {
                     ALERT_TAG => return Ok(alert),
-                    unknown_tag => return Err(DeserialiseError::tag_not_expected(str::from_utf8(unknown_tag)?)),
+                    unknown_tag => return Err(Error::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
 
                 (_ns, Event::Eof) => {
-                    return Err(DeserialiseError::EofReached);
+                    return Err(Error::EofReached);
                 }
                 _ => (),
             }
@@ -211,7 +206,7 @@ impl Alert {
     }
 }
 
-pub fn parse(xml_string: &str) -> DeserialiseResult<Alert> {
+pub fn parse(xml_string: &str) -> Result<Alert> {
     let buf = &mut Vec::new();
     let ns_buf = &mut Vec::new();
     let reader = &mut Reader::from_str(xml_string);
@@ -220,6 +215,6 @@ pub fn parse(xml_string: &str) -> DeserialiseResult<Alert> {
     if let Some(namespace) = look_for_cap_namespace(xml_string) {
         Ok(Alert::deserialize_from_xml(namespace.as_bytes(), reader, buf, ns_buf)?)
     } else {
-        Err(DeserialiseError::NameSpaceNotFound)
+        Err(Error::NameSpaceNotFound)
     }
 }

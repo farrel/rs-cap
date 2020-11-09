@@ -1,5 +1,5 @@
-use crate::common_alerting_protocol::deserialise_error::DeserialiseError;
-use crate::common_alerting_protocol::utilities::*;
+use crate::common_alerting_protocol::utilities::read_string;
+use crate::common_alerting_protocol::{Error, Result};
 use geo::Point;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
@@ -13,7 +13,7 @@ pub struct Circle {
     radius: Option<f64>,
 }
 
-pub fn split_circle_string(circle_string: &str) -> DeserialiseResult<(f64, f64, f64)> {
+pub fn split_circle_string(circle_string: &str) -> Result<(f64, f64, f64)> {
     let mut point_and_radius = circle_string.split(' ');
 
     if let (Some(point_string), Some(radius)) = (point_and_radius.next(), point_and_radius.next()) {
@@ -22,10 +22,10 @@ pub fn split_circle_string(circle_string: &str) -> DeserialiseResult<(f64, f64, 
         if let (Some(latitude), Some(longitude)) = (coords.next(), coords.next()) {
             Ok((latitude.parse::<f64>()?, longitude.parse::<f64>()?, radius.parse::<f64>()?))
         } else {
-            Err(DeserialiseError::error(&format!("Could not parse {}", point_string)))
+            Err(Error::error(&format!("Could not parse {}", point_string)))
         }
     } else {
-        Err(DeserialiseError::error(&format!("Could not split points and radius {}", circle_string)))
+        Err(Error::error(&format!("Could not split points and radius {}", circle_string)))
     }
 }
 
@@ -34,12 +34,7 @@ impl Circle {
         Circle { location: None, radius: None }
     }
 
-    pub fn deserialize_from_xml(
-        namespace: &[u8],
-        reader: &mut Reader<&[u8]>,
-        buf: &mut std::vec::Vec<u8>,
-        ns_buf: &mut std::vec::Vec<u8>,
-    ) -> DeserialiseResult<Circle> {
+    pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Circle> {
         let (latitude, longitude, radius) = split_circle_string(read_string(namespace, reader, buf, ns_buf, CIRCLE_TAG)?.as_str())?;
 
         return Ok(Circle {

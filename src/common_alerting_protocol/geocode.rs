@@ -1,4 +1,5 @@
-use crate::common_alerting_protocol::utilities::*;
+use crate::common_alerting_protocol::utilities::parse_name_value_pair;
+use crate::common_alerting_protocol::Result;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
 
@@ -15,12 +16,7 @@ impl Geocode {
         Geocode { name: None, value: None }
     }
 
-    pub fn deserialize_from_xml(
-        namespace: &[u8],
-        reader: &mut Reader<&[u8]>,
-        buf: &mut std::vec::Vec<u8>,
-        ns_buf: &mut std::vec::Vec<u8>,
-    ) -> DeserialiseResult<Geocode> {
+    pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Geocode> {
         let (name, value) = parse_name_value_pair(reader, namespace, GEOCODE_TAG, buf, ns_buf)?;
 
         return Ok(Geocode {

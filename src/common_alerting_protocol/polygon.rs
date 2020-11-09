@@ -1,11 +1,11 @@
 use crate::common_alerting_protocol::point::parse_points_string;
-use crate::common_alerting_protocol::utilities::*;
+use crate::common_alerting_protocol::Result;
 use geo::{LineString, Polygon};
 use quick_xml::Reader;
 
 pub const POLYGON_TAG: &[u8] = b"polygon";
 
-pub fn deserialize_from_xml(_namespace: &[u8], reader: &mut Reader<&[u8]>) -> DeserialiseResult<Polygon<f64>> {
+pub fn deserialize_from_xml(_namespace: &[u8], reader: &mut Reader<&[u8]>) -> Result<Polygon<f64>> {
     return Ok(Polygon::new(
         LineString::from(parse_points_string(reader.read_text(POLYGON_TAG, &mut Vec::new())?.as_str())?),
         vec![],

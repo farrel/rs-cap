@@ -1,9 +1,9 @@
 use crate::common_alerting_protocol::area::{Area, AREA_TAG};
-use crate::common_alerting_protocol::deserialise_error::{DeserialiseError, ParseEnumError};
 use crate::common_alerting_protocol::event_code::EventCode;
 use crate::common_alerting_protocol::parameter::{Parameter, PARAMETER_TAG};
 use crate::common_alerting_protocol::resource::Resource;
 use crate::common_alerting_protocol::utilities::*;
+use crate::common_alerting_protocol::{Error, ParseEnumError, Result};
 use chrono::prelude::*;
 use chrono::DateTime;
 use quick_xml::events::Event;
@@ -53,7 +53,7 @@ pub enum Category {
 impl FromStr for Category {
     type Err = ParseEnumError;
 
-    fn from_str(enum_string: &str) -> Result<Category, ParseEnumError> {
+    fn from_str(enum_string: &str) -> std::result::Result<Category, ParseEnumError> {
         match enum_string {
             "Geo" => Ok(Category::Geological),
             "Met" => Ok(Category::Meteorological),
@@ -84,7 +84,7 @@ pub enum Urgency {
 impl FromStr for Urgency {
     type Err = ParseEnumError;
 
-    fn from_str(enum_string: &str) -> Result<Urgency, ParseEnumError> {
+    fn from_str(enum_string: &str) -> std::result::Result<Urgency, ParseEnumError> {
         match enum_string {
             "Immediate" => Ok(Urgency::Immediate),
             "Expected" => Ok(Urgency::Expected),
@@ -108,7 +108,7 @@ pub enum Severity {
 impl FromStr for Severity {
     type Err = ParseEnumError;
 
-    fn from_str(enum_string: &str) -> Result<Severity, ParseEnumError> {
+    fn from_str(enum_string: &str) -> std::result::Result<Severity, ParseEnumError> {
         match enum_string {
             "Extreme" => Ok(Severity::Extreme),
             "Severe" => Ok(Severity::Severe),
@@ -133,7 +133,7 @@ pub enum Certainty {
 impl FromStr for Certainty {
     type Err = ParseEnumError;
 
-    fn from_str(enum_string: &str) -> Result<Certainty, ParseEnumError> {
+    fn from_str(enum_string: &str) -> std::result::Result<Certainty, ParseEnumError> {
         match enum_string {
             "Observed" => Ok(Certainty::Observed),
             "VeryLikely" => Ok(Certainty::VeryLikely),
@@ -162,7 +162,7 @@ pub enum ResponseType {
 impl FromStr for ResponseType {
     type Err = ParseEnumError;
 
-    fn from_str(enum_string: &str) -> Result<ResponseType, ParseEnumError> {
+    fn from_str(enum_string: &str) -> std::result::Result<ResponseType, ParseEnumError> {
         match enum_string {
             "AllClear" => Ok(ResponseType::AllClear),
             "Assess" => Ok(ResponseType::Assess),
@@ -232,12 +232,7 @@ impl Info {
         };
     }
 
-    pub fn deserialize_from_xml(
-        namespace: &[u8],
-        reader: &mut Reader<&[u8]>,
-        buf: &mut std::vec::Vec<u8>,
-        ns_buf: &mut std::vec::Vec<u8>,
-    ) -> DeserialiseResult<Info> {
+    pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Info> {
         let mut info = Info::initialise();
 
         loop {
@@ -269,7 +264,7 @@ impl Info {
                     URGENCY_TAG => info.urgency = Some(read_string(namespace, reader, buf, ns_buf, URGENCY_TAG)?.parse::<Urgency>()?),
                     WEB_TAG => info.web = Some(read_string(namespace, reader, buf, ns_buf, WEB_TAG)?),
 
-                    unknown_tag => return Err(DeserialiseError::tag_not_expected(str::from_utf8(unknown_tag)?)),
+                    unknown_tag => return Err(Error::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
 
                 (Some(ns), Event::End(ref e)) if ns == namespace => match e.local_name() {
@@ -278,7 +273,7 @@ impl Info {
                     | EXPIRES_TAG | HEADLINE_TAG | INSTRUCTION_TAG | LANGUAGE_TAG | ONSET_TAG | PARAMETER_TAG | RESPONSE_TYPE_TAG | SENDER_NAME_TAG
                     | SEVERITY_TAG | URGENCY_TAG | WEB_TAG => (),
 
-                    unknown_tag => return Err(DeserialiseError::tag_not_expected(str::from_utf8(unknown_tag)?)),
+                    unknown_tag => return Err(Error::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
 
                 (_ns, _unknown_event) => (),
