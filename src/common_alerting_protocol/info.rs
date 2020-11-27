@@ -34,6 +34,19 @@ const SEVERITY_TAG: &[u8] = b"severity";
 const URGENCY_TAG: &[u8] = b"urgency";
 const WEB_TAG: &[u8] = b"web";
 
+const CATEGORY_GEO: &str = "Geo";
+const CATEGORY_MET: &str = "Met";
+const CATEGORY_SAFETY: &str = "Safety";
+const CATEGORY_SECURITY: &str = "Security";
+const CATEGORY_RESCUE: &str = "Rescue";
+const CATEGORY_FIRE: &str = "Fire";
+const CATEGORY_HEALTH: &str = "Health";
+const CATEGORY_ENV: &str = "Env";
+const CATEGORY_TRANSPORT: &str = "Transport";
+const CATEGORY_INFRA: &str = "Infra";
+const CATEGORY_CBRNE: &str = "CBRNE";
+const CATEGORY_OTHER: &str = "Other";
+
 #[derive(PartialEq, Debug, Serialize, Deserialize, Clone)]
 pub enum Category {
     Geological,
@@ -55,22 +68,28 @@ impl FromStr for Category {
 
     fn from_str(enum_string: &str) -> std::result::Result<Category, ParseEnumError> {
         match enum_string {
-            "Geo" => Ok(Category::Geological),
-            "Met" => Ok(Category::Meteorological),
-            "Safety" => Ok(Category::Safety),
-            "Security" => Ok(Category::Security),
-            "Rescue" => Ok(Category::Rescue),
-            "Fire" => Ok(Category::Fire),
-            "Health" => Ok(Category::Health),
-            "Env" => Ok(Category::Environmental),
-            "Transport" => Ok(Category::Transport),
-            "Infra" => Ok(Category::Infrastructure),
-            "CBRNE" => Ok(Category::CBRNE),
-            "Other" => Ok(Category::Other),
+            CATEGORY_GEO => Ok(Category::Geological),
+            CATEGORY_MET => Ok(Category::Meteorological),
+            CATEGORY_SAFETY => Ok(Category::Safety),
+            CATEGORY_SECURITY => Ok(Category::Security),
+            CATEGORY_RESCUE => Ok(Category::Rescue),
+            CATEGORY_FIRE => Ok(Category::Fire),
+            CATEGORY_HEALTH => Ok(Category::Health),
+            CATEGORY_ENV => Ok(Category::Environmental),
+            CATEGORY_TRANSPORT => Ok(Category::Transport),
+            CATEGORY_INFRA => Ok(Category::Infrastructure),
+            CATEGORY_CBRNE => Ok(Category::CBRNE),
+            CATEGORY_OTHER => Ok(Category::Other),
             _ => Err(ParseEnumError::enum_not_found(enum_string)),
         }
     }
 }
+
+const URGENCY_IMMEDIATE: &str = "Immediate";
+const URGENCY_EXPECTED: &str = "Expected";
+const URGENCY_FUTURE: &str = "Future";
+const URGENCY_PAST: &str = "Past";
+const URGENCY_UNKNOWN: &str = "Unknown";
 
 #[derive(PartialEq, Debug, Serialize, Deserialize, Clone)]
 pub enum Urgency {
@@ -86,15 +105,21 @@ impl FromStr for Urgency {
 
     fn from_str(enum_string: &str) -> std::result::Result<Urgency, ParseEnumError> {
         match enum_string {
-            "Immediate" => Ok(Urgency::Immediate),
-            "Expected" => Ok(Urgency::Expected),
-            "Future" => Ok(Urgency::Future),
-            "Past" => Ok(Urgency::Past),
-            "Unknown" => Ok(Urgency::Unknown),
+            URGENCY_IMMEDIATE => Ok(Urgency::Immediate),
+            URGENCY_EXPECTED => Ok(Urgency::Expected),
+            URGENCY_FUTURE => Ok(Urgency::Future),
+            URGENCY_PAST => Ok(Urgency::Past),
+            URGENCY_UNKNOWN => Ok(Urgency::Unknown),
             _ => Err(ParseEnumError::enum_not_found(enum_string)),
         }
     }
 }
+
+const SEVERITY_EXTREME: &str = "Extreme";
+const SEVERITY_SEVERE: &str = "Severe";
+const SEVERITY_MODERATE: &str = "Moderate";
+const SEVERITY_MINOR: &str = "Minor";
+const SEVERITY_UNKNOWN: &str = "Unknown";
 
 #[derive(PartialEq, Debug, Serialize, Deserialize, Clone)]
 pub enum Severity {
@@ -110,15 +135,22 @@ impl FromStr for Severity {
 
     fn from_str(enum_string: &str) -> std::result::Result<Severity, ParseEnumError> {
         match enum_string {
-            "Extreme" => Ok(Severity::Extreme),
-            "Severe" => Ok(Severity::Severe),
-            "Moderate" => Ok(Severity::Moderate),
-            "Minor" => Ok(Severity::Minor),
-            "Unknown" => Ok(Severity::Unknown),
+            SEVERITY_EXTREME => Ok(Severity::Extreme),
+            SEVERITY_SEVERE => Ok(Severity::Severe),
+            SEVERITY_MODERATE => Ok(Severity::Moderate),
+            SEVERITY_MINOR => Ok(Severity::Minor),
+            SEVERITY_UNKNOWN => Ok(Severity::Unknown),
             _ => Err(ParseEnumError::enum_not_found(enum_string)),
         }
     }
 }
+
+const CERTAINTY_OBSERVED: &str = "Observed";
+const CERTAINTY_VERYlIKELY: &str = "VeryLikely";
+const CERTAINTY_LIKELY: &str = "Likely";
+const CERTAINTY_POSSIBLE: &str = "Possible";
+const CERTAINTY_UNLIKELY: &str = "Unlikely";
+const CERTAINTY_UNKNOWN: &str = "Unknown";
 
 #[derive(PartialEq, Debug, Serialize, Deserialize, Clone)]
 pub enum Certainty {
@@ -135,16 +167,26 @@ impl FromStr for Certainty {
 
     fn from_str(enum_string: &str) -> std::result::Result<Certainty, ParseEnumError> {
         match enum_string {
-            "Observed" => Ok(Certainty::Observed),
-            "VeryLikely" => Ok(Certainty::VeryLikely),
-            "Likely" => Ok(Certainty::Likely),
-            "Possible" => Ok(Certainty::Possible),
-            "Unlikely" => Ok(Certainty::Unlikely),
-            "Unknown" => Ok(Certainty::Unknown),
+            CERTAINTY_OBSERVED => Ok(Certainty::Observed),
+            CERTAINTY_VERYlIKELY => Ok(Certainty::VeryLikely),
+            CERTAINTY_LIKELY => Ok(Certainty::Likely),
+            CERTAINTY_POSSIBLE => Ok(Certainty::Possible),
+            CERTAINTY_UNLIKELY => Ok(Certainty::Unlikely),
+            CERTAINTY_UNKNOWN => Ok(Certainty::Unknown),
             _ => Err(ParseEnumError::enum_not_found(enum_string)),
         }
     }
 }
+
+const RESPONSE_TYPE_ALLCLEAR: &str = "AllClear";
+const RESPONSE_TYPE_ASSESS: &str = "Assess";
+const RESPONSE_TYPE_AVOID: &str = "Avoid";
+const RESPONSE_TYPE_EVACUATE: &str = "Evacuate";
+const RESPONSE_TYPE_EXECUTE: &str = "Execute";
+const RESPONSE_TYPE_MONITOR: &str = "Monitor";
+const RESPONSE_TYPE_NONE: &str = "None";
+const RESPONSE_TYPE_PREPARE: &str = "Prepare";
+const RESPONSE_TYPE_SHELTER: &str = "Shelter";
 
 #[derive(PartialEq, Debug, Serialize, Deserialize, Clone)]
 pub enum ResponseType {
@@ -164,15 +206,15 @@ impl FromStr for ResponseType {
 
     fn from_str(enum_string: &str) -> std::result::Result<ResponseType, ParseEnumError> {
         match enum_string {
-            "AllClear" => Ok(ResponseType::AllClear),
-            "Assess" => Ok(ResponseType::Assess),
-            "Avoid" => Ok(ResponseType::Avoid),
-            "Evacuate" => Ok(ResponseType::Evacuate),
-            "Execute" => Ok(ResponseType::Execute),
-            "Monitor" => Ok(ResponseType::Monitor),
-            "None" => Ok(ResponseType::None),
-            "Prepare" => Ok(ResponseType::Prepare),
-            "Shelter" => Ok(ResponseType::Shelter),
+            RESPONSE_TYPE_ALLCLEAR => Ok(ResponseType::AllClear),
+            RESPONSE_TYPE_ASSESS => Ok(ResponseType::Assess),
+            RESPONSE_TYPE_AVOID => Ok(ResponseType::Avoid),
+            RESPONSE_TYPE_EVACUATE => Ok(ResponseType::Evacuate),
+            RESPONSE_TYPE_EXECUTE => Ok(ResponseType::Execute),
+            RESPONSE_TYPE_MONITOR => Ok(ResponseType::Monitor),
+            RESPONSE_TYPE_NONE => Ok(ResponseType::None),
+            RESPONSE_TYPE_PREPARE => Ok(ResponseType::Prepare),
+            RESPONSE_TYPE_SHELTER => Ok(ResponseType::Shelter),
             _ => Err(ParseEnumError::enum_not_found(enum_string)),
         }
     }

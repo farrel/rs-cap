@@ -27,6 +27,22 @@ const NOTE_TAG: &[u8] = b"note";
 const REFERENCES_TAG: &[u8] = b"references";
 const RESTRICTION_TAG: &[u8] = b"restriction";
 
+const STATUS_ACTUAL: &str = "Actual";
+const STATUS_EXERCISE: &str = "Exercise";
+const STATUS_SYSTEM: &str = "System";
+const STATUS_TEST: &str = "Test";
+const STATUS_DRAFT: &str = "Draft";
+
+const MSG_TYPE_ALERT: &str = "Alert";
+const MSG_TYPE_UPDATE: &str = "Update";
+const MSG_TYPE_CANCEL: &str = "Cancel";
+const MSG_TYPE_ACK: &str = "Ack";
+const MSG_TYPE_ERROR: &str = "Error";
+
+const SCOPE_PUBLIC: &str = "Public";
+const SCOPE_RESTRICTED: &str = "Restricted";
+const SCOPE_PRIVATE: &str = "Private";
+
 #[derive(PartialEq, Debug, Serialize, Deserialize, Clone)]
 pub enum Version {
     V1_0,
@@ -61,11 +77,11 @@ impl FromStr for Status {
 
     fn from_str(enum_string: &str) -> std::result::Result<Status, ParseEnumError> {
         match enum_string {
-            "Actual" => Ok(Status::Actual),
-            "Exercise" => Ok(Status::Exercise),
-            "System" => Ok(Status::System),
-            "Test" => Ok(Status::Test),
-            "Draft" => Ok(Status::Draft),
+            STATUS_ACTUAL => Ok(Status::Actual),
+            STATUS_EXERCISE => Ok(Status::Exercise),
+            STATUS_SYSTEM => Ok(Status::System),
+            STATUS_TEST => Ok(Status::Test),
+            STATUS_DRAFT => Ok(Status::Draft),
             _ => Err(ParseEnumError::enum_not_found(enum_string)),
         }
     }
@@ -85,11 +101,11 @@ impl FromStr for MsgType {
 
     fn from_str(enum_string: &str) -> std::result::Result<MsgType, ParseEnumError> {
         match enum_string {
-            "Alert" => Ok(MsgType::Alert),
-            "Update" => Ok(MsgType::Update),
-            "Cancel" => Ok(MsgType::Cancel),
-            "Ack" => Ok(MsgType::Ack),
-            "Error" => Ok(MsgType::Error),
+            MSG_TYPE_ALERT => Ok(MsgType::Alert),
+            MSG_TYPE_UPDATE => Ok(MsgType::Update),
+            MSG_TYPE_CANCEL => Ok(MsgType::Cancel),
+            MSG_TYPE_ACK => Ok(MsgType::Ack),
+            MSG_TYPE_ERROR => Ok(MsgType::Error),
             _ => Err(ParseEnumError::enum_not_found(enum_string)),
         }
     }
@@ -107,9 +123,9 @@ impl FromStr for Scope {
 
     fn from_str(enum_string: &str) -> std::result::Result<Scope, ParseEnumError> {
         match enum_string {
-            "Public" => Ok(Scope::Public),
-            "Restricted" => Ok(Scope::Restricted),
-            "Private" => Ok(Scope::Private),
+            SCOPE_PUBLIC => Ok(Scope::Public),
+            SCOPE_RESTRICTED => Ok(Scope::Restricted),
+            SCOPE_PRIVATE => Ok(Scope::Private),
             _ => Err(ParseEnumError::enum_not_found(enum_string)),
         }
     }
