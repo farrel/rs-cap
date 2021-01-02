@@ -5,6 +5,7 @@ use chrono::prelude::*;
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
+use std::fmt::{Display, Formatter};
 use std::str;
 use std::str::FromStr;
 use uuid::Uuid;
@@ -87,6 +88,18 @@ impl FromStr for Status {
     }
 }
 
+impl Display for Status {
+    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+        match self {
+            Status::Actual => write!(f, "{}", STATUS_ACTUAL),
+            Status::Exercise => write!(f, "{}", STATUS_EXERCISE),
+            Status::System => write!(f, "{}", STATUS_SYSTEM),
+            Status::Test => write!(f, "{}", STATUS_TEST),
+            Status::Draft => write!(f, "{}", STATUS_DRAFT),
+        }
+    }
+}
+
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub enum MsgType {
     Alert,
@@ -111,6 +124,18 @@ impl FromStr for MsgType {
     }
 }
 
+impl Display for MsgType {
+    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+        match self {
+            MsgType::Alert => write!(f, "{}", MSG_TYPE_ALERT),
+            MsgType::Update => write!(f, "{}", MSG_TYPE_UPDATE),
+            MsgType::Cancel => write!(f, "{}", MSG_TYPE_CANCEL),
+            MsgType::Ack => write!(f, "{}", MSG_TYPE_ACK),
+            MsgType::Error => write!(f, "{}", MSG_TYPE_ERROR),
+        }
+    }
+}
+
 #[derive(Debug, PartialEq, Deserialize, Serialize, Clone)]
 pub enum Scope {
     Public,
@@ -127,6 +152,16 @@ impl FromStr for Scope {
             SCOPE_RESTRICTED => Ok(Scope::Restricted),
             SCOPE_PRIVATE => Ok(Scope::Private),
             _ => Err(ParseEnumError::enum_not_found(enum_string)),
+        }
+    }
+}
+
+impl Display for Scope {
+    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+        match self {
+            Scope::Public => write!(f, "{}", SCOPE_PUBLIC),
+            Scope::Restricted => write!(f, "{}", SCOPE_RESTRICTED),
+            Scope::Private => write!(f, "{}", SCOPE_PRIVATE),
         }
     }
 }
