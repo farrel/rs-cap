@@ -9,6 +9,7 @@ use chrono::DateTime;
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
+use std::fmt::{Display, Formatter};
 use std::str;
 use std::str::FromStr;
 
@@ -85,6 +86,25 @@ impl FromStr for Category {
     }
 }
 
+impl Display for Category {
+    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+        match self {
+            Category::Geological => write!(f, "{}", CATEGORY_GEO),
+            Category::Meteorological => write!(f, "{}", CATEGORY_MET),
+            Category::Safety => write!(f, "{}", CATEGORY_SAFETY),
+            Category::Security => write!(f, "{}", CATEGORY_SECURITY),
+            Category::Rescue => write!(f, "{}", CATEGORY_RESCUE),
+            Category::Fire => write!(f, "{}", CATEGORY_FIRE),
+            Category::Health => write!(f, "{}", CATEGORY_HEALTH),
+            Category::Environmental => write!(f, "{}", CATEGORY_ENV),
+            Category::Transport => write!(f, "{}", CATEGORY_TRANSPORT),
+            Category::Infrastructure => write!(f, "{}", CATEGORY_INFRA),
+            Category::CBRNE => write!(f, "{}", CATEGORY_CBRNE),
+            Category::Other => write!(f, "{}", CATEGORY_OTHER),
+        }
+    }
+}
+
 const URGENCY_IMMEDIATE: &str = "Immediate";
 const URGENCY_EXPECTED: &str = "Expected";
 const URGENCY_FUTURE: &str = "Future";
@@ -111,6 +131,18 @@ impl FromStr for Urgency {
             URGENCY_PAST => Ok(Urgency::Past),
             URGENCY_UNKNOWN => Ok(Urgency::Unknown),
             _ => Err(ParseEnumError::enum_not_found(enum_string)),
+        }
+    }
+}
+
+impl Display for Urgency {
+    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+        match self {
+            Urgency::Immediate => write!(f, "{}", URGENCY_IMMEDIATE),
+            Urgency::Expected => write!(f, "{}", URGENCY_EXPECTED),
+            Urgency::Future => write!(f, "{}", URGENCY_FUTURE),
+            Urgency::Past => write!(f, "{}", URGENCY_PAST),
+            Urgency::Unknown => write!(f, "{}", URGENCY_UNKNOWN),
         }
     }
 }
@@ -145,6 +177,18 @@ impl FromStr for Severity {
     }
 }
 
+impl Display for Severity {
+    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+        match self {
+            Severity::Extreme => write!(f, "{}", SEVERITY_EXTREME),
+            Severity::Severe => write!(f, "{}", SEVERITY_SEVERE),
+            Severity::Moderate => write!(f, "{}", SEVERITY_MODERATE),
+            Severity::Minor => write!(f, "{}", SEVERITY_MINOR),
+            Severity::Unknown => write!(f, "{}", SEVERITY_UNKNOWN),
+        }
+    }
+}
+
 const CERTAINTY_OBSERVED: &str = "Observed";
 const CERTAINTY_VERYlIKELY: &str = "VeryLikely";
 const CERTAINTY_LIKELY: &str = "Likely";
@@ -174,6 +218,19 @@ impl FromStr for Certainty {
             CERTAINTY_UNLIKELY => Ok(Certainty::Unlikely),
             CERTAINTY_UNKNOWN => Ok(Certainty::Unknown),
             _ => Err(ParseEnumError::enum_not_found(enum_string)),
+        }
+    }
+}
+
+impl Display for Certainty {
+    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+        match self {
+            Certainty::Observed => write!(f, "{}", CERTAINTY_OBSERVED),
+            Certainty::VeryLikely => write!(f, "{}", CERTAINTY_VERYlIKELY),
+            Certainty::Likely => write!(f, "{}", CERTAINTY_LIKELY),
+            Certainty::Possible => write!(f, "{}", CERTAINTY_POSSIBLE),
+            Certainty::Unlikely => write!(f, "{}", CERTAINTY_UNLIKELY),
+            Certainty::Unknown => write!(f, "{}", CERTAINTY_UNKNOWN),
         }
     }
 }
@@ -216,6 +273,22 @@ impl FromStr for ResponseType {
             RESPONSE_TYPE_PREPARE => Ok(ResponseType::Prepare),
             RESPONSE_TYPE_SHELTER => Ok(ResponseType::Shelter),
             _ => Err(ParseEnumError::enum_not_found(enum_string)),
+        }
+    }
+}
+
+impl Display for ResponseType {
+    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+        match self {
+            ResponseType::AllClear => write!(f, "{}", RESPONSE_TYPE_ALLCLEAR),
+            ResponseType::Assess => write!(f, "{}", RESPONSE_TYPE_ASSESS),
+            ResponseType::Avoid => write!(f, "{}", RESPONSE_TYPE_AVOID),
+            ResponseType::Evacuate => write!(f, "{}", RESPONSE_TYPE_EVACUATE),
+            ResponseType::Execute => write!(f, "{}", RESPONSE_TYPE_EXECUTE),
+            ResponseType::Monitor => write!(f, "{}", RESPONSE_TYPE_MONITOR),
+            ResponseType::None => write!(f, "{}", RESPONSE_TYPE_NONE),
+            ResponseType::Prepare => write!(f, "{}", RESPONSE_TYPE_PREPARE),
+            ResponseType::Shelter => write!(f, "{}", RESPONSE_TYPE_SHELTER),
         }
     }
 }
