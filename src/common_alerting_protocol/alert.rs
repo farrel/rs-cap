@@ -257,6 +257,15 @@ impl Alert {
     }
 }
 
+impl Display for Alert {
+    fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
+        match self.identifier.clone() {
+            Some(value) => write!(f, "{}", value),
+            None => write!(f, ""),
+        }
+    }
+}
+
 pub fn parse(xml_string: &str) -> Result<Alert> {
     let buf = &mut Vec::new();
     let ns_buf = &mut Vec::new();

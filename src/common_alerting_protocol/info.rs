@@ -190,7 +190,7 @@ impl Display for Severity {
 }
 
 const CERTAINTY_OBSERVED: &str = "Observed";
-const CERTAINTY_VERYlIKELY: &str = "VeryLikely";
+const CERTAINTY_VERY_LIKELY: &str = "VeryLikely";
 const CERTAINTY_LIKELY: &str = "Likely";
 const CERTAINTY_POSSIBLE: &str = "Possible";
 const CERTAINTY_UNLIKELY: &str = "Unlikely";
@@ -212,7 +212,7 @@ impl FromStr for Certainty {
     fn from_str(enum_string: &str) -> std::result::Result<Certainty, ParseEnumError> {
         match enum_string {
             CERTAINTY_OBSERVED => Ok(Certainty::Observed),
-            CERTAINTY_VERYlIKELY => Ok(Certainty::VeryLikely),
+            CERTAINTY_VERY_LIKELY => Ok(Certainty::VeryLikely),
             CERTAINTY_LIKELY => Ok(Certainty::Likely),
             CERTAINTY_POSSIBLE => Ok(Certainty::Possible),
             CERTAINTY_UNLIKELY => Ok(Certainty::Unlikely),
@@ -226,7 +226,7 @@ impl Display for Certainty {
     fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
         match self {
             Certainty::Observed => write!(f, "{}", CERTAINTY_OBSERVED),
-            Certainty::VeryLikely => write!(f, "{}", CERTAINTY_VERYlIKELY),
+            Certainty::VeryLikely => write!(f, "{}", CERTAINTY_VERY_LIKELY),
             Certainty::Likely => write!(f, "{}", CERTAINTY_LIKELY),
             Certainty::Possible => write!(f, "{}", CERTAINTY_POSSIBLE),
             Certainty::Unlikely => write!(f, "{}", CERTAINTY_UNLIKELY),
