@@ -7,6 +7,7 @@ pub mod info;
 pub mod parameter;
 pub mod point;
 pub mod polygon;
+pub mod reference;
 pub mod resource;
 pub mod utilities;
 

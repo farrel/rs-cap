@@ -1,4 +1,5 @@
 use crate::common_alerting_protocol::info::{Info, INFO_TAG};
+use crate::common_alerting_protocol::reference::Reference;
 use crate::common_alerting_protocol::utilities::*;
 use crate::common_alerting_protocol::{Error, ParseEnumError, Result};
 use chrono::prelude::*;
@@ -180,7 +181,7 @@ pub struct Alert {
     pub note: Option<String>,
     pub addresses: Vec<String>,
     pub codes: Vec<String>,
-    pub references: Vec<String>,
+    pub references: Vec<Reference>,
     pub incidents: Option<String>,
     pub infos: Vec<Info>,
 }
@@ -219,9 +220,11 @@ impl Alert {
                     INCIDENTS_TAG => alert.incidents = Some(read_string(namespace, reader, buf, ns_buf, INCIDENTS_TAG)?),
                     MSG_TYPE_TAG => alert.msg_type = Some(read_string(namespace, reader, buf, ns_buf, MSG_TYPE_TAG)?.parse::<MsgType>()?),
                     NOTE_TAG => alert.note = Some(read_string(namespace, reader, buf, ns_buf, NOTE_TAG)?),
-                    REFERENCES_TAG => split_string(&read_string(namespace, reader, buf, ns_buf, REFERENCES_TAG)?)?
-                        .into_iter()
-                        .for_each(|reference| alert.references.push(reference.to_string())),
+                    REFERENCES_TAG => {
+                        for reference_str in split_string(&read_string(namespace, reader, buf, ns_buf, REFERENCES_TAG)?)? {
+                            alert.references.push(Reference::parse_string(reference_str)?)
+                        }
+                    }
                     RESTRICTION_TAG => alert.restriction = Some(read_string(namespace, reader, buf, ns_buf, RESTRICTION_TAG)?),
                     SCOPE_TAG => alert.scope = Some(read_string(namespace, reader, buf, ns_buf, SCOPE_TAG)?.parse::<Scope>()?),
                     SENDER_TAG => alert.sender = Some(read_string(namespace, reader, buf, ns_buf, SENDER_TAG)?),
