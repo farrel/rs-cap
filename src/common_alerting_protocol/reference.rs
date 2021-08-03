@@ -4,9 +4,9 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Reference {
-    sender: String,
-    identifier: String,
-    sent: DateTime<FixedOffset>,
+    pub sender: String,
+    pub identifier: String,
+    pub sent: DateTime<FixedOffset>,
 }
 
 impl Reference {
