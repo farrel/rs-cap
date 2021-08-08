@@ -40,12 +40,12 @@ impl Resource {
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
                 (Some(ns), Event::Start(ref e)) if ns == namespace => match e.local_name() {
-                    RESOURCE_DESC_TAG => resource.resource_desc = Some(read_string(namespace, reader, buf, ns_buf, RESOURCE_DESC_TAG)?),
-                    MIME_TYPE_TAG => resource.mime_type = Some(read_string(namespace, reader, buf, ns_buf, MIME_TYPE_TAG)?),
-                    SIZE_TAG => resource.size = Some(read_string(namespace, reader, buf, ns_buf, SIZE_TAG)?.parse::<u64>()?),
-                    URI_TAG => resource.uri = Some(read_string(namespace, reader, buf, ns_buf, URI_TAG)?),
-                    DEREF_URI_TAG => resource.deref_uri = Some(read_string(namespace, reader, buf, ns_buf, DEREF_URI_TAG)?),
-                    DIGEST_TAG => resource.digest = Some(read_string(namespace, reader, buf, ns_buf, DIGEST_TAG)?),
+                    RESOURCE_DESC_TAG => resource.resource_desc = read_string(namespace, reader, buf, ns_buf, RESOURCE_DESC_TAG)?,
+                    MIME_TYPE_TAG => resource.mime_type = read_string(namespace, reader, buf, ns_buf, MIME_TYPE_TAG)?,
+                    SIZE_TAG => resource.size = read_string(namespace, reader, buf, ns_buf, SIZE_TAG)?.and_then(|string| string.parse::<u64>().ok()),
+                    URI_TAG => resource.uri = read_string(namespace, reader, buf, ns_buf, URI_TAG)?,
+                    DEREF_URI_TAG => resource.deref_uri = read_string(namespace, reader, buf, ns_buf, DEREF_URI_TAG)?,
+                    DIGEST_TAG => resource.digest = read_string(namespace, reader, buf, ns_buf, DIGEST_TAG)?,
                     unknown_tag => return Err(Error::tag_not_recognised(&str::from_utf8(unknown_tag)?)),
                 },
 

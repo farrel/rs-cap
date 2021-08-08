@@ -25,20 +25,16 @@ pub fn parse_name_value_pair(
     end_tag: &[u8],
     buf: &mut std::vec::Vec<u8>,
     ns_buf: &mut std::vec::Vec<u8>,
-) -> Result<(String, String)> {
-    let mut name = String::new();
-    let mut value = String::new();
+) -> Result<(Option<String>, Option<String>)> {
+    let mut name: Option<String> = None;
+    let mut value: Option<String> = None;
 
     loop {
         match reader.read_namespaced_event(buf, ns_buf)? {
             (_, Event::Eof) => return Err(Error::EofReached),
             (Some(ns), Event::Start(e)) => match e.local_name() {
-                NAME_TAG if ns == namespace => {
-                    name.push_str(read_string(namespace, reader, buf, ns_buf, NAME_TAG)?.as_str());
-                }
-                VALUE_TAG if ns == namespace => {
-                    value.push_str(read_string(namespace, reader, buf, ns_buf, VALUE_TAG)?.as_str());
-                }
+                NAME_TAG if ns == namespace => name = read_string(namespace, reader, buf, ns_buf, NAME_TAG)?,
+                VALUE_TAG if ns == namespace => value = read_string(namespace, reader, buf, ns_buf, VALUE_TAG)?,
                 unknown_tag => return Err(Error::tag_not_recognised(str::from_utf8(unknown_tag)?)),
             },
             (Some(ns), Event::End(e)) => {
@@ -62,13 +58,19 @@ pub fn read_string(
     buf: &mut std::vec::Vec<u8>,
     ns_buf: &mut std::vec::Vec<u8>,
     closing_tag: &[u8],
-) -> Result<String> {
+) -> Result<Option<String>> {
     let mut string = String::new();
 
     loop {
         match reader.read_namespaced_event(buf, ns_buf)? {
             (None, Event::Text(text)) => string.push_str(&text.unescape_and_decode(&reader)?),
-            (Some(ns), Event::End(end)) if ns == namespace && end.local_name() == closing_tag => return Ok(string),
+            (Some(ns), Event::End(end)) if ns == namespace && end.local_name() == closing_tag => {
+                if string.len() > 0 {
+                    return Ok(Some(string));
+                } else {
+                    return Ok(None);
+                }
+            }
             _ => return Err(Error::error(&format!("No end tag found: {}", str::from_utf8(closing_tag)?))),
         }
     }

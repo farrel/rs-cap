@@ -26,10 +26,7 @@ impl EventCode {
     ) -> Result<EventCode> {
         let (name, value) = parse_name_value_pair(reader, namespace, EVENT_CODE_TAG, buf, ns_buf)?;
 
-        return Ok(EventCode {
-            name: Some(name),
-            value: Some(value),
-        });
+        return Ok(EventCode { name, value });
     }
 }
 

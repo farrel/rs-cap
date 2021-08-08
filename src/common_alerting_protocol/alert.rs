@@ -215,22 +215,33 @@ impl Alert {
                 (Some(ns), Event::Start(e)) if ns == namespace => match e.local_name() {
                     ALERT_TAG => alert.version = Some(str::from_utf8(namespace)?.parse::<Version>()?),
 
-                    CODE_TAG => alert.codes.push(read_string(namespace, reader, buf, ns_buf, CODE_TAG)?),
-                    IDENTIFIER_TAG => alert.identifier = Some(read_string(namespace, reader, buf, ns_buf, IDENTIFIER_TAG)?),
-                    INCIDENTS_TAG => alert.incidents = Some(read_string(namespace, reader, buf, ns_buf, INCIDENTS_TAG)?),
-                    MSG_TYPE_TAG => alert.msg_type = Some(read_string(namespace, reader, buf, ns_buf, MSG_TYPE_TAG)?.parse::<MsgType>()?),
-                    NOTE_TAG => alert.note = Some(read_string(namespace, reader, buf, ns_buf, NOTE_TAG)?),
-                    REFERENCES_TAG => {
-                        for reference_str in split_string(&read_string(namespace, reader, buf, ns_buf, REFERENCES_TAG)?)? {
-                            alert.references.push(Reference::parse_string(reference_str)?)
-                        }
+                    CODE_TAG => match read_string(namespace, reader, buf, ns_buf, CODE_TAG)? {
+                        Some(string) => alert.codes.push(string),
+                        None => (),
+                    },
+                    IDENTIFIER_TAG => alert.identifier = read_string(namespace, reader, buf, ns_buf, IDENTIFIER_TAG)?,
+                    INCIDENTS_TAG => alert.incidents = read_string(namespace, reader, buf, ns_buf, INCIDENTS_TAG)?,
+                    MSG_TYPE_TAG => {
+                        alert.msg_type = read_string(namespace, reader, buf, ns_buf, MSG_TYPE_TAG)?.and_then(|string| string.parse::<MsgType>().ok())
                     }
-                    RESTRICTION_TAG => alert.restriction = Some(read_string(namespace, reader, buf, ns_buf, RESTRICTION_TAG)?),
-                    SCOPE_TAG => alert.scope = Some(read_string(namespace, reader, buf, ns_buf, SCOPE_TAG)?.parse::<Scope>()?),
-                    SENDER_TAG => alert.sender = Some(read_string(namespace, reader, buf, ns_buf, SENDER_TAG)?),
-                    SENT_TAG => alert.sent = Some(DateTime::parse_from_rfc3339(&read_string(namespace, reader, buf, ns_buf, SENT_TAG)?)?),
-                    SOURCE_TAG => alert.source = Some(read_string(namespace, reader, buf, ns_buf, SOURCE_TAG)?),
-                    STATUS_TAG => alert.status = Some(read_string(namespace, reader, buf, ns_buf, STATUS_TAG)?.parse::<Status>()?),
+
+                    NOTE_TAG => alert.note = read_string(namespace, reader, buf, ns_buf, NOTE_TAG)?,
+                    REFERENCES_TAG => match read_string(namespace, reader, buf, ns_buf, REFERENCES_TAG)? {
+                        Some(string) => {
+                            for reference_str in split_string(&string)? {
+                                alert.references.push(Reference::parse_string(reference_str)?)
+                            }
+                        }
+                        None => (),
+                    },
+                    RESTRICTION_TAG => alert.restriction = read_string(namespace, reader, buf, ns_buf, RESTRICTION_TAG)?,
+                    SCOPE_TAG => alert.scope = read_string(namespace, reader, buf, ns_buf, SCOPE_TAG)?.and_then(|string| string.parse::<Scope>().ok()),
+                    SENDER_TAG => alert.sender = read_string(namespace, reader, buf, ns_buf, SENDER_TAG)?,
+                    SENT_TAG => {
+                        alert.sent = read_string(namespace, reader, buf, ns_buf, SENT_TAG)?.and_then(|string| DateTime::parse_from_rfc3339(&string).ok())
+                    }
+                    SOURCE_TAG => alert.source = read_string(namespace, reader, buf, ns_buf, SOURCE_TAG)?,
+                    STATUS_TAG => alert.status = read_string(namespace, reader, buf, ns_buf, STATUS_TAG)?.and_then(|string| string.parse::<Status>().ok()),
 
                     INFO_TAG => alert.infos.push(Info::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
 

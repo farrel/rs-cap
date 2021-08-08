@@ -42,11 +42,11 @@ impl Area {
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
                 (Some(ns), Event::Start(ref e)) if ns == namespace => match e.local_name() {
-                    AREA_DESC_TAG => area.area_desc = Some(read_string(namespace, reader, buf, ns_buf, AREA_DESC_TAG)?),
+                    AREA_DESC_TAG => area.area_desc = read_string(namespace, reader, buf, ns_buf, AREA_DESC_TAG)?,
                     POLYGON_TAG => area.polygons.push(polygon::deserialize_from_xml(namespace, reader)?),
                     GEOCODE_TAG => area.geocodes.push(Geocode::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
-                    ALTITUDE_TAG => area.altitude = Some(read_string(namespace, reader, buf, ns_buf, ALTITUDE_TAG)?.parse::<f64>()?),
-                    CEILING_TAG => area.ceiling = Some(read_string(namespace, reader, buf, ns_buf, CEILING_TAG)?.parse::<f64>()?),
+                    ALTITUDE_TAG => area.altitude = read_string(namespace, reader, buf, ns_buf, ALTITUDE_TAG)?.and_then(|string| string.parse::<f64>().ok()),
+                    CEILING_TAG => area.ceiling = read_string(namespace, reader, buf, ns_buf, CEILING_TAG)?.and_then(|string| string.parse::<f64>().ok()),
                     CIRCLE_TAG => area.circles.push(Circle::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
                     unknown_tag => return Err(Error::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },

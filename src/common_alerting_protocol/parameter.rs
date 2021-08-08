@@ -24,10 +24,7 @@ impl Parameter {
     ) -> Result<Parameter> {
         let (name, value) = parse_name_value_pair(reader, namespace, PARAMETER_TAG, buf, ns_buf)?;
 
-        return Ok(Parameter {
-            name: Some(name),
-            value: Some(value),
-        });
+        Ok(Parameter { name, value })
     }
 }
 

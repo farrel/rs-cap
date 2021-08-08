@@ -35,12 +35,13 @@ impl Circle {
     }
 
     pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Circle> {
-        let (latitude, longitude, radius) = split_circle_string(read_string(namespace, reader, buf, ns_buf, CIRCLE_TAG)?.as_str())?;
-
-        return Ok(Circle {
-            location: Some(Point::new(longitude, latitude)),
-            radius: Some(radius),
-        });
+        match read_string(namespace, reader, buf, ns_buf, CIRCLE_TAG)?.and_then(|string| split_circle_string(&string).ok()) {
+            Some((latitude, longitude, radius)) => Ok(Circle {
+                location: Some(Point::new(longitude, latitude)),
+                radius: Some(radius),
+            }),
+            None => Err(Error::error("No circle")),
+        }
     }
 }
 

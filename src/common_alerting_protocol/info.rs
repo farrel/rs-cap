@@ -354,30 +354,43 @@ impl Info {
             match reader.read_namespaced_event(buf, ns_buf)? {
                 (Some(ns), Event::Start(e)) if ns == namespace => match e.local_name() {
                     AREA_TAG => info.areas.push(Area::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
-                    AUDIENCE_TAG => info.audience = Some(read_string(namespace, reader, buf, ns_buf, AUDIENCE_TAG)?),
-                    CATEGORY_TAG => info
-                        .categories
-                        .push(read_string(namespace, reader, buf, ns_buf, CATEGORY_TAG)?.parse::<Category>()?),
-                    CERTAINTY_TAG => info.certainty = Some(read_string(namespace, reader, buf, ns_buf, CERTAINTY_TAG)?.parse::<Certainty>()?),
-                    CONTACT_TAG => info.contact = Some(read_string(namespace, reader, buf, ns_buf, CONTACT_TAG)?),
-                    DESCRIPTION_TAG => info.description = Some(read_string(namespace, reader, buf, ns_buf, DESCRIPTION_TAG)?),
-                    EFFECTIVE_TAG => info.effective = Some(DateTime::parse_from_rfc3339(&read_string(namespace, reader, buf, ns_buf, EFFECTIVE_TAG)?)?),
+                    AUDIENCE_TAG => info.audience = read_string(namespace, reader, buf, ns_buf, AUDIENCE_TAG)?,
+                    CATEGORY_TAG => match read_string(namespace, reader, buf, ns_buf, CATEGORY_TAG)? {
+                        Some(string) => info.categories.push(string.parse::<Category>()?),
+                        None => (),
+                    },
+                    CERTAINTY_TAG => {
+                        info.certainty = read_string(namespace, reader, buf, ns_buf, CERTAINTY_TAG)?.and_then(|string| string.parse::<Certainty>().ok())
+                    }
+                    CONTACT_TAG => info.contact = read_string(namespace, reader, buf, ns_buf, CONTACT_TAG)?,
+                    DESCRIPTION_TAG => info.description = read_string(namespace, reader, buf, ns_buf, DESCRIPTION_TAG)?,
+                    EFFECTIVE_TAG => {
+                        info.effective =
+                            read_string(namespace, reader, buf, ns_buf, EFFECTIVE_TAG)?.and_then(|string| DateTime::parse_from_rfc3339(&string).ok())
+                    }
                     EVENT_CODE_TAG => info.event_codes.push(EventCode::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
-                    EVENT_TAG => info.event = Some(read_string(namespace, reader, buf, ns_buf, EVENT_TAG)?),
-                    EXPIRES_TAG => info.effective = Some(DateTime::parse_from_rfc3339(&read_string(namespace, reader, buf, ns_buf, EXPIRES_TAG)?)?),
-                    HEADLINE_TAG => info.headline = Some(read_string(namespace, reader, buf, ns_buf, HEADLINE_TAG)?),
-                    INSTRUCTION_TAG => info.instruction = Some(read_string(namespace, reader, buf, ns_buf, INSTRUCTION_TAG)?),
-                    LANGUAGE_TAG => info.language = Some(read_string(namespace, reader, buf, ns_buf, LANGUAGE_TAG)?),
-                    ONSET_TAG => info.effective = Some(DateTime::parse_from_rfc3339(&read_string(namespace, reader, buf, ns_buf, ONSET_TAG)?)?),
+                    EVENT_TAG => info.event = read_string(namespace, reader, buf, ns_buf, EVENT_TAG)?,
+                    EXPIRES_TAG => {
+                        info.effective = read_string(namespace, reader, buf, ns_buf, EXPIRES_TAG)?.and_then(|string| DateTime::parse_from_rfc3339(&string).ok())
+                    }
+                    HEADLINE_TAG => info.headline = read_string(namespace, reader, buf, ns_buf, HEADLINE_TAG)?,
+                    INSTRUCTION_TAG => info.instruction = read_string(namespace, reader, buf, ns_buf, INSTRUCTION_TAG)?,
+                    LANGUAGE_TAG => info.language = read_string(namespace, reader, buf, ns_buf, LANGUAGE_TAG)?,
+                    ONSET_TAG => {
+                        info.effective = read_string(namespace, reader, buf, ns_buf, ONSET_TAG)?.and_then(|string| DateTime::parse_from_rfc3339(&string).ok())
+                    }
                     PARAMETER_TAG => info.parameters.push(Parameter::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
                     RESOURCE_TAG => info.resources.push(Resource::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
-                    RESPONSE_TYPE_TAG => info
-                        .response_types
-                        .push(read_string(namespace, reader, buf, ns_buf, RESPONSE_TYPE_TAG)?.parse::<ResponseType>()?),
-                    SENDER_NAME_TAG => info.sender_name = Some(read_string(namespace, reader, buf, ns_buf, SENDER_NAME_TAG)?),
-                    SEVERITY_TAG => info.severity = Some(read_string(namespace, reader, buf, ns_buf, SEVERITY_TAG)?.parse::<Severity>()?),
-                    URGENCY_TAG => info.urgency = Some(read_string(namespace, reader, buf, ns_buf, URGENCY_TAG)?.parse::<Urgency>()?),
-                    WEB_TAG => info.web = Some(read_string(namespace, reader, buf, ns_buf, WEB_TAG)?),
+                    RESPONSE_TYPE_TAG => match read_string(namespace, reader, buf, ns_buf, RESPONSE_TYPE_TAG)? {
+                        Some(string) => info.response_types.push(string.parse::<ResponseType>()?),
+                        None => (),
+                    },
+                    SENDER_NAME_TAG => info.sender_name = read_string(namespace, reader, buf, ns_buf, SENDER_NAME_TAG)?,
+                    SEVERITY_TAG => {
+                        info.severity = read_string(namespace, reader, buf, ns_buf, SEVERITY_TAG)?.and_then(|string| string.parse::<Severity>().ok())
+                    }
+                    URGENCY_TAG => info.urgency = read_string(namespace, reader, buf, ns_buf, URGENCY_TAG)?.and_then(|string| string.parse::<Urgency>().ok()),
+                    WEB_TAG => info.web = read_string(namespace, reader, buf, ns_buf, WEB_TAG)?,
 
                     unknown_tag => return Err(Error::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
