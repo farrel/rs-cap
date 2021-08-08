@@ -34,13 +34,18 @@ impl Circle {
         Circle { location: None, radius: None }
     }
 
-    pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Circle> {
+    pub fn deserialize_from_xml(
+        namespace: &[u8],
+        reader: &mut Reader<&[u8]>,
+        buf: &mut std::vec::Vec<u8>,
+        ns_buf: &mut std::vec::Vec<u8>,
+    ) -> Result<Option<Circle>> {
         match read_string(namespace, reader, buf, ns_buf, CIRCLE_TAG)?.and_then(|string| split_circle_string(&string).ok()) {
-            Some((latitude, longitude, radius)) => Ok(Circle {
+            Some((latitude, longitude, radius)) => Ok(Some(Circle {
                 location: Some(Point::new(longitude, latitude)),
                 radius: Some(radius),
-            }),
-            None => Err(Error::error("No circle")),
+            })),
+            None => Ok(None),
         }
     }
 }
@@ -60,7 +65,7 @@ mod tests {
         reader.trim_text(true);
         reader.read_namespaced_event(buf, ns_buf).unwrap();
 
-        let circle = Circle::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, buf, ns_buf).unwrap();
+        let circle = Circle::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, buf, ns_buf).unwrap().unwrap();
 
         assert_eq!(80.0, circle.location.unwrap().lat());
         assert_eq!(20.7, circle.location.unwrap().lng());

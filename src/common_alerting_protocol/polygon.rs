@@ -5,11 +5,11 @@ use quick_xml::Reader;
 
 pub const POLYGON_TAG: &[u8] = b"polygon";
 
-pub fn deserialize_from_xml(_namespace: &[u8], reader: &mut Reader<&[u8]>) -> Result<Polygon<f64>> {
-    return Ok(Polygon::new(
-        LineString::from(parse_points_string(reader.read_text(POLYGON_TAG, &mut Vec::new())?.as_str())?),
-        vec![],
-    ));
+pub fn deserialize_from_xml(_namespace: &[u8], reader: &mut Reader<&[u8]>) -> Result<Option<Polygon<f64>>> {
+    match parse_points_string(&reader.read_text(POLYGON_TAG, &mut Vec::new())?)? {
+        Some(coords) => Ok(Some(Polygon::new(LineString::from(coords), vec![]))),
+        None => Ok(None),
+    }
 }
 
 #[test]
@@ -30,6 +30,6 @@ fn test_deserialise_from_xml() {
     reader.trim_text(true);
     reader.read_namespaced_event(&mut buf, &mut ns_buf).unwrap();
 
-    let polygon = deserialize_from_xml(VERSION_1_2.as_bytes(), reader).unwrap();
+    let polygon = deserialize_from_xml(VERSION_1_2.as_bytes(), reader).unwrap().unwrap();
     assert_eq!(19, polygon.exterior().num_coords());
 }
