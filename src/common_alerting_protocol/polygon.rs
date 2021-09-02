@@ -1,13 +1,22 @@
 use crate::common_alerting_protocol::point::parse_points_string;
+use crate::common_alerting_protocol::utilities::read_string;
 use crate::common_alerting_protocol::Result;
 use geo::{LineString, Polygon};
 use quick_xml::Reader;
 
 pub const POLYGON_TAG: &[u8] = b"polygon";
 
-pub fn deserialize_from_xml(_namespace: &[u8], reader: &mut Reader<&[u8]>) -> Result<Option<Polygon<f64>>> {
-    match parse_points_string(&reader.read_text(POLYGON_TAG, &mut Vec::new())?)? {
-        Some(coords) => Ok(Some(Polygon::new(LineString::from(coords), vec![]))),
+pub fn deserialize_from_xml(
+    namespace: &[u8],
+    reader: &mut Reader<&[u8]>,
+    buf: &mut std::vec::Vec<u8>,
+    ns_buf: &mut std::vec::Vec<u8>,
+) -> Result<Option<Polygon<f64>>> {
+    match read_string(namespace, reader, buf, ns_buf, POLYGON_TAG)? {
+        Some(points_string) => match parse_points_string(&points_string)? {
+            Some(coords) => Ok(Some(Polygon::new(LineString::from(coords), vec![]))),
+            None => Ok(None),
+        },
         None => Ok(None),
     }
 }
@@ -30,6 +39,23 @@ fn test_deserialise_from_xml() {
     reader.trim_text(true);
     reader.read_namespaced_event(&mut buf, &mut ns_buf).unwrap();
 
-    let polygon = deserialize_from_xml(VERSION_1_2.as_bytes(), reader).unwrap().unwrap();
+    let polygon = deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap().unwrap();
     assert_eq!(19, polygon.exterior().num_coords());
+}
+
+#[test]
+fn test_deserialise_from_namespaced_xml() {
+    use crate::common_alerting_protocol::alert::VERSION_1_2;
+    use quick_xml::Reader;
+
+    let xml = r#"<cap:polygon xmlns:cap="urn:oasis:names:tc:emergency:cap:1.2">-27.77,-64.50 -27.86,-64.06 -28.47,-63.38 -28.86,-63.85 -28.14,-64.57 -27.77,-64.50</cap:polygon>"#;
+
+    let mut buf = Vec::new();
+    let mut ns_buf = Vec::new();
+    let reader = &mut Reader::from_str(xml);
+    reader.trim_text(true);
+    reader.read_namespaced_event(&mut buf, &mut ns_buf).unwrap();
+
+    let polygon = deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap().unwrap();
+    assert_eq!(6, polygon.exterior().num_coords());
 }

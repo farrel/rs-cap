@@ -43,7 +43,7 @@ impl Area {
             match reader.read_namespaced_event(buf, ns_buf)? {
                 (Some(ns), Event::Start(ref e)) if ns == namespace => match e.local_name() {
                     AREA_DESC_TAG => area.area_desc = read_string(namespace, reader, buf, ns_buf, AREA_DESC_TAG)?,
-                    POLYGON_TAG => match polygon::deserialize_from_xml(namespace, reader)? {
+                    POLYGON_TAG => match polygon::deserialize_from_xml(namespace, reader, buf, ns_buf)? {
                         Some(polygon) => area.polygons.push(polygon),
                         None => (),
                     },
