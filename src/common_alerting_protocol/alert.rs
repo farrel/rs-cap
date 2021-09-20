@@ -188,7 +188,7 @@ pub struct Alert {
 
 impl Alert {
     pub fn initialise() -> Alert {
-        return Alert {
+        Alert {
             version: None,
             identifier: Some(Uuid::new_v4().to_hyphenated().to_string()),
             sender: None,
@@ -204,7 +204,7 @@ impl Alert {
             references: Vec::new(),
             incidents: None,
             infos: Vec::new(),
-        };
+        }
     }
 
     pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Alert> {
@@ -215,10 +215,11 @@ impl Alert {
                 (Some(ns), Event::Start(e)) if ns == namespace => match e.local_name() {
                     ALERT_TAG => alert.version = Some(str::from_utf8(namespace)?.parse::<Version>()?),
 
-                    CODE_TAG => match read_string(namespace, reader, buf, ns_buf, CODE_TAG)? {
-                        Some(string) => alert.codes.push(string),
-                        None => (),
-                    },
+                    CODE_TAG => {
+                        if let Some(string) = read_string(namespace, reader, buf, ns_buf, CODE_TAG)? {
+                            alert.codes.push(string)
+                        }
+                    }
                     IDENTIFIER_TAG => alert.identifier = read_string(namespace, reader, buf, ns_buf, IDENTIFIER_TAG)?,
                     INCIDENTS_TAG => alert.incidents = read_string(namespace, reader, buf, ns_buf, INCIDENTS_TAG)?,
                     MSG_TYPE_TAG => {
@@ -226,14 +227,13 @@ impl Alert {
                     }
 
                     NOTE_TAG => alert.note = read_string(namespace, reader, buf, ns_buf, NOTE_TAG)?,
-                    REFERENCES_TAG => match read_string(namespace, reader, buf, ns_buf, REFERENCES_TAG)? {
-                        Some(string) => {
+                    REFERENCES_TAG => {
+                        if let Some(string) = read_string(namespace, reader, buf, ns_buf, REFERENCES_TAG)? {
                             for reference_str in split_string(&string)? {
                                 alert.references.push(Reference::parse_string(reference_str)?)
                             }
                         }
-                        None => (),
-                    },
+                    }
                     RESTRICTION_TAG => alert.restriction = read_string(namespace, reader, buf, ns_buf, RESTRICTION_TAG)?,
                     SCOPE_TAG => alert.scope = read_string(namespace, reader, buf, ns_buf, SCOPE_TAG)?.and_then(|string| string.parse::<Scope>().ok()),
                     SENDER_TAG => alert.sender = read_string(namespace, reader, buf, ns_buf, SENDER_TAG)?,
@@ -261,7 +261,7 @@ impl Alert {
         }
     }
 
-    pub fn add_info<F>(&mut self, block: F) -> ()
+    pub fn add_info<F>(&mut self, block: F)
     where
         F: Fn(&mut Info),
     {

@@ -1,4 +1,4 @@
-use crate::common_alerting_protocol::{Error, Result};
+use crate::common_alerting_protocol::Result;
 
 const MAX_LONGITUDE: f64 = 180.0;
 const MIN_LONGITUDE: f64 = -180.0;
@@ -18,10 +18,10 @@ pub fn parse_points_string(points_string: &str) -> Result<Option<Vec<(f64, f64)>
     let points: Vec<(f64, f64)> = points_string
         .split_whitespace()
         .filter_map(|point_string| parse_point_string(point_string).ok())
-        .filter_map(|option| option)
+        .flatten()
         .collect();
 
-    if points.len() > 0 {
+    if !points.is_empty() {
         Ok(Some(points))
     } else {
         Ok(None)

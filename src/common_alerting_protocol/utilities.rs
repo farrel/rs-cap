@@ -8,11 +8,11 @@ const NAME_TAG: &[u8] = b"valueName";
 const VALUE_TAG: &[u8] = b"value";
 
 pub fn look_for_cap_namespace(xml_string: &str) -> Option<&str> {
-    if xml_string.find(VERSION_1_0).is_some() {
+    if xml_string.contains(VERSION_1_0) {
         Some(VERSION_1_0)
-    } else if xml_string.find(VERSION_1_1).is_some() {
+    } else if xml_string.contains(VERSION_1_1) {
         Some(VERSION_1_1)
-    } else if xml_string.find(VERSION_1_2).is_some() {
+    } else if xml_string.contains(VERSION_1_2) {
         Some(VERSION_1_2)
     } else {
         None
@@ -63,15 +63,15 @@ pub fn read_string(
 
     loop {
         match reader.read_namespaced_event(buf, ns_buf)? {
-            (None, Event::Text(text)) => string.push_str(&text.unescape_and_decode(&reader)?),
+            (None, Event::Text(text)) => string.push_str(&text.unescape_and_decode(reader)?),
             (Some(ns), Event::End(end)) if ns == namespace && end.local_name() == closing_tag => {
-                if string.len() > 0 {
+                if !string.is_empty() {
                     return Ok(Some(string));
                 } else {
                     return Ok(None);
                 }
             }
-            _ => return Err(Error::error(&format!("No end tag found: {}", str::from_utf8(closing_tag)?))),
+            _ => return Err(Error::Other(format!("No end tag found: {}", str::from_utf8(closing_tag)?))),
         }
     }
 }

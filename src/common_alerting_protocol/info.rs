@@ -322,7 +322,7 @@ pub struct Info {
 
 impl Info {
     pub fn initialise() -> Info {
-        return Info {
+        Info {
             areas: Vec::new(),
             audience: None,
             categories: Vec::new(),
@@ -344,7 +344,7 @@ impl Info {
             severity: None,
             urgency: None,
             web: None,
-        };
+        }
     }
 
     pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Info> {
@@ -355,10 +355,11 @@ impl Info {
                 (Some(ns), Event::Start(e)) if ns == namespace => match e.local_name() {
                     AREA_TAG => info.areas.push(Area::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
                     AUDIENCE_TAG => info.audience = read_string(namespace, reader, buf, ns_buf, AUDIENCE_TAG)?,
-                    CATEGORY_TAG => match read_string(namespace, reader, buf, ns_buf, CATEGORY_TAG)? {
-                        Some(string) => info.categories.push(string.parse::<Category>()?),
-                        None => (),
-                    },
+                    CATEGORY_TAG => {
+                        if let Some(string) = read_string(namespace, reader, buf, ns_buf, CATEGORY_TAG)? {
+                            info.categories.push(string.parse::<Category>()?)
+                        }
+                    }
                     CERTAINTY_TAG => {
                         info.certainty = read_string(namespace, reader, buf, ns_buf, CERTAINTY_TAG)?.and_then(|string| string.parse::<Certainty>().ok())
                     }
@@ -381,10 +382,11 @@ impl Info {
                     }
                     PARAMETER_TAG => info.parameters.push(Parameter::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
                     RESOURCE_TAG => info.resources.push(Resource::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
-                    RESPONSE_TYPE_TAG => match read_string(namespace, reader, buf, ns_buf, RESPONSE_TYPE_TAG)? {
-                        Some(string) => info.response_types.push(string.parse::<ResponseType>()?),
-                        None => (),
-                    },
+                    RESPONSE_TYPE_TAG => {
+                        if let Some(string) = read_string(namespace, reader, buf, ns_buf, RESPONSE_TYPE_TAG)? {
+                            info.response_types.push(string.parse::<ResponseType>()?)
+                        }
+                    }
                     SENDER_NAME_TAG => info.sender_name = read_string(namespace, reader, buf, ns_buf, SENDER_NAME_TAG)?,
                     SEVERITY_TAG => {
                         info.severity = read_string(namespace, reader, buf, ns_buf, SEVERITY_TAG)?.and_then(|string| string.parse::<Severity>().ok())

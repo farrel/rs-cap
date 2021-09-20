@@ -33,7 +33,7 @@ pub enum Error {
     ParseIntError(::std::num::ParseIntError),
     ParseFloatError(::std::num::ParseFloatError),
     ParseDatError(chrono::ParseError),
-    Error(String),
+    Other(String),
     TextNotFound(String),
     TagNotRecognised(String),
     TagNotFound(String),
@@ -45,10 +45,6 @@ pub enum Error {
 }
 
 impl Error {
-    pub fn error(error_message: &str) -> Self {
-        Error::Error(format!("{}", error_message))
-    }
-
     pub fn text_not_found(error_message: &str) -> Self {
         Error::TextNotFound(format!("Text not found: {}", error_message))
     }

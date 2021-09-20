@@ -46,12 +46,12 @@ impl Resource {
                     URI_TAG => resource.uri = read_string(namespace, reader, buf, ns_buf, URI_TAG)?,
                     DEREF_URI_TAG => resource.deref_uri = read_string(namespace, reader, buf, ns_buf, DEREF_URI_TAG)?,
                     DIGEST_TAG => resource.digest = read_string(namespace, reader, buf, ns_buf, DIGEST_TAG)?,
-                    unknown_tag => return Err(Error::tag_not_recognised(&str::from_utf8(unknown_tag)?)),
+                    unknown_tag => return Err(Error::tag_not_recognised(str::from_utf8(unknown_tag)?)),
                 },
 
                 (Some(ns), Event::End(ref e)) if ns == namespace => match e.local_name() {
                     RESOURCE_TAG => return Ok(resource),
-                    unknown_tag => return Err(Error::tag_not_recognised(&str::from_utf8(unknown_tag)?)),
+                    unknown_tag => return Err(Error::tag_not_recognised(str::from_utf8(unknown_tag)?)),
                 },
                 (_ns, event) => return Err(Error::unknown_event(event)),
             }

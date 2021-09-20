@@ -5,7 +5,6 @@ use serde::{Deserialize, Serialize};
 use std::str;
 
 const EVENT_CODE_TAG: &[u8] = b"eventCode";
-static EVENT_CODE: &str = "eventCode";
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EventCode {
@@ -26,7 +25,7 @@ impl EventCode {
     ) -> Result<EventCode> {
         let (name, value) = parse_name_value_pair(reader, namespace, EVENT_CODE_TAG, buf, ns_buf)?;
 
-        return Ok(EventCode { name, value });
+        Ok(EventCode { name, value })
     }
 }
 

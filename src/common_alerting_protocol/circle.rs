@@ -22,10 +22,10 @@ pub fn split_circle_string(circle_string: &str) -> Result<(f64, f64, f64)> {
         if let (Some(latitude), Some(longitude)) = (coords.next(), coords.next()) {
             Ok((latitude.parse::<f64>()?, longitude.parse::<f64>()?, radius.parse::<f64>()?))
         } else {
-            Err(Error::error(&format!("Could not parse {}", point_string)))
+            Err(Error::Other(format!("Could not parse {}", point_string)))
         }
     } else {
-        Err(Error::error(&format!("Could not split points and radius {}", circle_string)))
+        Err(Error::Other(format!("Could not split points and radius {}", circle_string)))
     }
 }
 

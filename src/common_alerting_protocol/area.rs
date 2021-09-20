@@ -43,20 +43,23 @@ impl Area {
             match reader.read_namespaced_event(buf, ns_buf)? {
                 (Some(ns), Event::Start(ref e)) if ns == namespace => match e.local_name() {
                     AREA_DESC_TAG => area.area_desc = read_string(namespace, reader, buf, ns_buf, AREA_DESC_TAG)?,
-                    POLYGON_TAG => match polygon::deserialize_from_xml(namespace, reader, buf, ns_buf)? {
-                        Some(polygon) => area.polygons.push(polygon),
-                        None => (),
-                    },
-                    GEOCODE_TAG => match Geocode::deserialize_from_xml(namespace, reader, buf, ns_buf)? {
-                        Some(geocode) => area.geocodes.push(geocode),
-                        None => (),
-                    },
+                    POLYGON_TAG => {
+                        if let Some(polygon) = polygon::deserialize_from_xml(namespace, reader, buf, ns_buf)? {
+                            area.polygons.push(polygon)
+                        }
+                    }
+                    GEOCODE_TAG => {
+                        if let Some(geocode) = Geocode::deserialize_from_xml(namespace, reader, buf, ns_buf)? {
+                            area.geocodes.push(geocode)
+                        }
+                    }
                     ALTITUDE_TAG => area.altitude = read_string(namespace, reader, buf, ns_buf, ALTITUDE_TAG)?.and_then(|string| string.parse::<f64>().ok()),
                     CEILING_TAG => area.ceiling = read_string(namespace, reader, buf, ns_buf, CEILING_TAG)?.and_then(|string| string.parse::<f64>().ok()),
-                    CIRCLE_TAG => match Circle::deserialize_from_xml(namespace, reader, buf, ns_buf)? {
-                        Some(circle) => area.circles.push(circle),
-                        None => (),
-                    },
+                    CIRCLE_TAG => {
+                        if let Some(circle) = Circle::deserialize_from_xml(namespace, reader, buf, ns_buf)? {
+                            area.circles.push(circle)
+                        }
+                    }
                     unknown_tag => return Err(Error::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
                 (Some(ns), Event::End(ref e)) if ns == namespace => match e.local_name() {
