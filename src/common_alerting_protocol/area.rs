@@ -71,21 +71,21 @@ impl Area {
         }
     }
 
-    pub fn add_circle<F>(&mut self, block: F)
+    pub fn add_circle<F>(&mut self, build_circle: F)
     where
         F: Fn(&mut Circle),
     {
         let mut circle = Circle::initialise();
-        block(&mut circle);
+        build_circle(&mut circle);
         self.circles.push(circle);
     }
 
-    pub fn add_geocode<F>(&mut self, block: F)
+    pub fn add_geocode<F>(&mut self, build_geocode: F)
     where
         F: Fn(&mut Geocode),
     {
         let mut geocode = Geocode::initialise();
-        block(&mut geocode);
+        build_geocode(&mut geocode);
         self.geocodes.push(geocode);
     }
 }

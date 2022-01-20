@@ -261,12 +261,12 @@ impl Alert {
         }
     }
 
-    pub fn add_info<F>(&mut self, block: F)
+    pub fn add_info<F>(&mut self, build_info: F)
     where
         F: Fn(&mut Info),
     {
         let mut info = Info::initialise();
-        block(&mut info);
+        build_info(&mut info);
         self.infos.push(info);
     }
 }

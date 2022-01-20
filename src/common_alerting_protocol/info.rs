@@ -411,39 +411,39 @@ impl Info {
         }
     }
 
-    pub fn add_area<F>(&mut self, block: F)
+    pub fn add_area<F>(&mut self, build_area: F)
     where
         F: Fn(&mut Area),
     {
         let mut area = Area::initialise();
-        block(&mut area);
+        build_area(&mut area);
         self.areas.push(area);
     }
 
-    pub fn add_event_code<F>(&mut self, block: F)
+    pub fn add_event_code<F>(&mut self, build_event_code: F)
     where
         F: Fn(&mut EventCode),
     {
         let mut event_code = EventCode::initialise();
-        block(&mut event_code);
+        build_event_code(&mut event_code);
         self.event_codes.push(event_code);
     }
 
-    pub fn add_parameter<F>(&mut self, block: F)
+    pub fn add_parameter<F>(&mut self, build_parameter: F)
     where
         F: Fn(&mut Parameter),
     {
         let mut parameter = Parameter::initialise();
-        block(&mut parameter);
+        build_parameter(&mut parameter);
         self.parameters.push(parameter);
     }
 
-    pub fn add_resource<F>(&mut self, block: F)
+    pub fn add_resource<F>(&mut self, build_resource: F)
     where
         F: Fn(&mut Resource),
     {
         let mut resource = Resource::initialise();
-        block(&mut resource);
+        build_resource(&mut resource);
         self.resources.push(resource);
     }
 }
