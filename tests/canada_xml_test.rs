@@ -1,5 +1,5 @@
 use quick_xml::Reader;
-use rs_cap::common_alerting_protocol::alert;
+use rs_cap::alert;
 use std::fs;
 
 #[test]

@@ -1,5 +1,5 @@
-use rs_cap::common_alerting_protocol::alert::*;
-use rs_cap::common_alerting_protocol::info::*;
+use rs_cap::alert::*;
+use rs_cap::info::*;
 
 #[test]
 fn test_builder() {
@@ -7,7 +7,7 @@ fn test_builder() {
 
     alert.add_info(|info| {
         info.audience = Some(String::from("Test"));
-        info.certainty = Some(rs_cap::common_alerting_protocol::info::Certainty::Observed);
+        info.certainty = Some(rs_cap::info::Certainty::Observed);
 
         info.add_event_code(|event_code| {
             event_code.name = Some(String::from("Name1"));
@@ -31,7 +31,7 @@ fn test_builder() {
 
     let info = alert.infos.last().unwrap();
 
-    assert_eq!(Some(rs_cap::common_alerting_protocol::info::Certainty::Observed), info.certainty);
+    assert_eq!(Some(rs_cap::info::Certainty::Observed), info.certainty);
     assert_eq!(1, info.event_codes.len());
     assert_eq!(1, info.parameters.len());
     assert_eq!(1, info.categories.len());

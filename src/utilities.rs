@@ -1,5 +1,5 @@
-use crate::common_alerting_protocol::alert::{VERSION_1_0, VERSION_1_1, VERSION_1_2};
-use crate::common_alerting_protocol::{Error, Result};
+use crate::alert::{VERSION_1_0, VERSION_1_1, VERSION_1_2};
+use crate::{Error, Result};
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use std::str;

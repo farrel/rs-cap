@@ -1,4 +1,4 @@
-use crate::common_alerting_protocol::Result;
+use crate::Result;
 
 const MAX_LONGITUDE: f64 = 180.0;
 const MIN_LONGITUDE: f64 = -180.0;

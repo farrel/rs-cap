@@ -1,5 +1,5 @@
-use crate::common_alerting_protocol::utilities::read_string;
-use crate::common_alerting_protocol::{Error, Result};
+use crate::utilities::read_string;
+use crate::{Error, Result};
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
@@ -61,8 +61,8 @@ impl Resource {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::VERSION_1_2;
-    use crate::common_alerting_protocol::resource::Resource;
+    use crate::alert::VERSION_1_2;
+    use crate::resource::Resource;
     use quick_xml::Reader;
 
     #[test]

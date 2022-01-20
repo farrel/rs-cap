@@ -1,7 +1,7 @@
-use crate::common_alerting_protocol::circle::{Circle, CIRCLE_TAG};
-use crate::common_alerting_protocol::geocode::{Geocode, GEOCODE_TAG};
-use crate::common_alerting_protocol::utilities::read_string;
-use crate::common_alerting_protocol::{polygon, Error, Result};
+use crate::circle::{Circle, CIRCLE_TAG};
+use crate::geocode::{Geocode, GEOCODE_TAG};
+use crate::utilities::read_string;
+use crate::{polygon, Error, Result};
 use geo::Polygon;
 use quick_xml::events::Event;
 use quick_xml::Reader;
@@ -92,8 +92,8 @@ impl Area {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::VERSION_1_2;
-    use crate::common_alerting_protocol::area::Area;
+    use crate::alert::VERSION_1_2;
+    use crate::area::Area;
     use quick_xml::Reader;
 
     #[test]

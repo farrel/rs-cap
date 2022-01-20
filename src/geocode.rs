@@ -1,5 +1,5 @@
-use crate::common_alerting_protocol::utilities::parse_name_value_pair;
-use crate::common_alerting_protocol::Result;
+use crate::utilities::parse_name_value_pair;
+use crate::Result;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
 
@@ -31,8 +31,8 @@ impl Geocode {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::VERSION_1_2;
-    use crate::common_alerting_protocol::geocode::Geocode;
+    use crate::alert::VERSION_1_2;
+    use crate::geocode::Geocode;
     use quick_xml::Reader;
 
     #[test]

@@ -1,9 +1,9 @@
-use crate::common_alerting_protocol::area::{Area, AREA_TAG};
-use crate::common_alerting_protocol::event_code::EventCode;
-use crate::common_alerting_protocol::parameter::{Parameter, PARAMETER_TAG};
-use crate::common_alerting_protocol::resource::Resource;
-use crate::common_alerting_protocol::utilities::*;
-use crate::common_alerting_protocol::{Error, ParseEnumError, Result};
+use crate::area::{Area, AREA_TAG};
+use crate::event_code::EventCode;
+use crate::parameter::{Parameter, PARAMETER_TAG};
+use crate::resource::Resource;
+use crate::utilities::*;
+use crate::{Error, ParseEnumError, Result};
 use chrono::prelude::*;
 use chrono::DateTime;
 use quick_xml::events::Event;
@@ -450,8 +450,8 @@ impl Info {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::VERSION_1_2;
-    use crate::common_alerting_protocol::info::Info;
+    use crate::alert::VERSION_1_2;
+    use crate::info::Info;
     use quick_xml::Reader;
 
     use std::str::FromStr;

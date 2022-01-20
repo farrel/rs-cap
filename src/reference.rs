@@ -1,4 +1,4 @@
-use crate::common_alerting_protocol::Result;
+use crate::Result;
 use chrono::prelude::*;
 use serde::{Deserialize, Serialize};
 

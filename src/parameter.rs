@@ -1,5 +1,5 @@
-use crate::common_alerting_protocol::utilities::parse_name_value_pair;
-use crate::common_alerting_protocol::Result;
+use crate::utilities::parse_name_value_pair;
+use crate::Result;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
 
@@ -30,8 +30,8 @@ impl Parameter {
 
 #[cfg(test)]
 mod tests {
-    use crate::common_alerting_protocol::alert::VERSION_1_2;
-    use crate::common_alerting_protocol::parameter::Parameter;
+    use crate::alert::VERSION_1_2;
+    use crate::parameter::Parameter;
     use quick_xml::Reader;
 
     #[test]

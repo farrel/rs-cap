@@ -1,7 +1,7 @@
-use crate::common_alerting_protocol::info::{Info, INFO_TAG};
-use crate::common_alerting_protocol::reference::Reference;
-use crate::common_alerting_protocol::utilities::*;
-use crate::common_alerting_protocol::{Error, ParseEnumError, Result};
+use crate::info::{Info, INFO_TAG};
+use crate::reference::Reference;
+use crate::utilities::*;
+use crate::{Error, ParseEnumError, Result};
 use chrono::prelude::*;
 use quick_xml::events::Event;
 use quick_xml::Reader;

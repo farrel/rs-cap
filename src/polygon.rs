@@ -1,6 +1,6 @@
-use crate::common_alerting_protocol::point::parse_points_string;
-use crate::common_alerting_protocol::utilities::read_string;
-use crate::common_alerting_protocol::Result;
+use crate::point::parse_points_string;
+use crate::utilities::read_string;
+use crate::Result;
 use geo::{LineString, Polygon};
 use quick_xml::Reader;
 
@@ -23,7 +23,7 @@ pub fn deserialize_from_xml(
 
 #[test]
 fn test_deserialise_from_xml() {
-    use crate::common_alerting_protocol::alert::VERSION_1_2;
+    use crate::alert::VERSION_1_2;
     use quick_xml::Reader;
 
     let xml = r#"<polygon xmlns="urn:oasis:names:tc:emergency:cap:1.2">48.5448,-89.0388 48.5001,-89.0231 48.4482,-89.0071 48.3079,-89.1102
@@ -45,7 +45,7 @@ fn test_deserialise_from_xml() {
 
 #[test]
 fn test_deserialise_from_namespaced_xml() {
-    use crate::common_alerting_protocol::alert::VERSION_1_2;
+    use crate::alert::VERSION_1_2;
     use quick_xml::Reader;
 
     let xml = r#"<cap:polygon xmlns:cap="urn:oasis:names:tc:emergency:cap:1.2">-27.77,-64.50 -27.86,-64.06 -28.47,-63.38 -28.86,-63.85 -28.14,-64.57 -27.77,-64.50</cap:polygon>"#;
