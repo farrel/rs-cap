@@ -1,6 +1,6 @@
 use crate::point::parse_points_string;
+use crate::result::Result;
 use crate::utilities::read_string;
-use crate::Result;
 use geo::{LineString, Polygon};
 use quick_xml::Reader;
 

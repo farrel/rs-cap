@@ -1,5 +1,6 @@
 use crate::alert::{VERSION_1_0, VERSION_1_1, VERSION_1_2};
-use crate::{Error, Result};
+use crate::error::Error;
+use crate::result::Result;
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use std::str;

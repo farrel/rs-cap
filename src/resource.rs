@@ -1,5 +1,6 @@
+use crate::error::Error;
+use crate::result::Result;
 use crate::utilities::read_string;
-use crate::{Error, Result};
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
@@ -13,7 +14,7 @@ const URI_TAG: &[u8] = b"uri";
 const DEREF_URI_TAG: &[u8] = b"derefUri";
 const DIGEST_TAG: &[u8] = b"digest";
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Resource {
     pub resource_desc: Option<String>,
     mime_type: Option<String>,
@@ -24,18 +25,8 @@ pub struct Resource {
 }
 
 impl Resource {
-    pub fn initialise() -> Resource {
-        Resource {
-            resource_desc: None,
-            mime_type: None,
-            size: None,
-            uri: None,
-            deref_uri: None,
-            digest: None,
-        }
-    }
     pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Resource> {
-        let mut resource = Resource::initialise();
+        let mut resource = Resource::default();
 
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {

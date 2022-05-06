@@ -1,7 +1,8 @@
+use crate::error::{Error, ParseEnumError};
 use crate::info::{Info, INFO_TAG};
 use crate::reference::Reference;
+use crate::result::Result;
 use crate::utilities::*;
-use crate::{Error, ParseEnumError, Result};
 use chrono::prelude::*;
 use quick_xml::events::Event;
 use quick_xml::Reader;
@@ -167,7 +168,7 @@ impl Display for Scope {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Alert {
     pub version: Option<Version>,
     pub identifier: Option<String>,
@@ -187,28 +188,8 @@ pub struct Alert {
 }
 
 impl Alert {
-    pub fn initialise() -> Alert {
-        Alert {
-            version: None,
-            identifier: Some(Uuid::new_v4().to_hyphenated().to_string()),
-            sender: None,
-            sent: None,
-            status: None,
-            msg_type: None,
-            scope: None,
-            source: None,
-            restriction: None,
-            note: None,
-            addresses: Vec::new(),
-            codes: Vec::new(),
-            references: Vec::new(),
-            incidents: None,
-            infos: Vec::new(),
-        }
-    }
-
     pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Alert> {
-        let mut alert = Alert::initialise();
+        let mut alert = Alert::default();
 
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
@@ -265,7 +246,7 @@ impl Alert {
     where
         F: Fn(&mut Info),
     {
-        let mut info = Info::initialise();
+        let mut info = Info::default();
         build_info(&mut info);
         self.infos.push(info);
     }

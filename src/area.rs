@@ -1,14 +1,16 @@
 use crate::circle::{Circle, CIRCLE_TAG};
+use crate::error::Error;
 use crate::geocode::{Geocode, GEOCODE_TAG};
+use crate::polygon;
+use crate::result::Result;
 use crate::utilities::read_string;
-use crate::{polygon, Error, Result};
 use geo::Polygon;
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
 use std::str;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Area {
     pub area_desc: Option<String>,
     pub altitude: Option<f64>,
@@ -26,18 +28,8 @@ const CEILING_TAG: &[u8] = b"ceiling";
 const POLYGON_TAG: &[u8] = b"polygon";
 
 impl Area {
-    pub fn initialise() -> Area {
-        Area {
-            area_desc: None,
-            altitude: None,
-            ceiling: None,
-            circles: Vec::new(),
-            geocodes: Vec::new(),
-            polygons: Vec::new(),
-        }
-    }
     pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Area> {
-        let mut area = Area::initialise();
+        let mut area = Area::default();
 
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
@@ -75,7 +67,7 @@ impl Area {
     where
         F: Fn(&mut Circle),
     {
-        let mut circle = Circle::initialise();
+        let mut circle = Circle::default();
         build_circle(&mut circle);
         self.circles.push(circle);
     }

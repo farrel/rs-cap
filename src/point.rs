@@ -1,4 +1,4 @@
-use crate::Result;
+use crate::result::Result;
 
 const MAX_LONGITUDE: f64 = 180.0;
 const MIN_LONGITUDE: f64 = -180.0;

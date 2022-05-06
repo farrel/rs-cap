@@ -1,5 +1,5 @@
+use crate::result::Result;
 use crate::utilities::parse_name_value_pair;
-use crate::Result;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
 
@@ -46,7 +46,7 @@ mod tests {
         let mut ns_buf = Vec::new();
         let reader = &mut Reader::from_str(xml);
         reader.trim_text(true);
-        reader.read_namespaced_event(&mut buf, &mut ns_buf);
+        reader.read_namespaced_event(&mut buf, &mut ns_buf).unwrap();
         let geocode = Geocode::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf)
             .unwrap()
             .unwrap();
@@ -59,7 +59,7 @@ mod tests {
         let mut ns_buf = Vec::new();
         let reader = &mut Reader::from_str(xml);
         reader.trim_text(true);
-        reader.read_namespaced_event(&mut buf, &mut ns_buf);
+        reader.read_namespaced_event(&mut buf, &mut ns_buf).unwrap();
         let geocode = Geocode::deserialize_from_xml(VERSION_1_2.as_bytes(), reader, &mut buf, &mut ns_buf).unwrap();
         assert_eq!(None, geocode);
     }

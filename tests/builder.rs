@@ -3,7 +3,7 @@ use rs_cap::info::*;
 
 #[test]
 fn test_builder() {
-    let mut alert = Alert::initialise();
+    let mut alert = Alert::default();
 
     alert.add_info(|info| {
         info.audience = Some(String::from("Test"));

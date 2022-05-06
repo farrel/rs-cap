@@ -1,21 +1,17 @@
+use crate::result::Result;
 use crate::utilities::parse_name_value_pair;
-use crate::Result;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
 
 pub const PARAMETER_TAG: &[u8] = b"parameter";
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Parameter {
     pub name: Option<String>,
     pub value: Option<String>,
 }
 
 impl Parameter {
-    pub fn initialise() -> Parameter {
-        Parameter { name: None, value: None }
-    }
-
     pub fn deserialize_from_xml(
         namespace: &[u8],
         reader: &mut Reader<&[u8]>,

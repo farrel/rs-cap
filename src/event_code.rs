@@ -1,22 +1,18 @@
+use crate::result::Result;
 use crate::utilities::parse_name_value_pair;
-use crate::Result;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
 use std::str;
 
 const EVENT_CODE_TAG: &[u8] = b"eventCode";
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct EventCode {
     pub name: Option<String>,
     pub value: Option<String>,
 }
 
 impl EventCode {
-    pub fn initialise() -> EventCode {
-        EventCode { name: None, value: None }
-    }
-
     pub fn deserialize_from_xml(
         namespace: &[u8],
         reader: &mut Reader<&[u8]>,

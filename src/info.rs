@@ -1,9 +1,10 @@
 use crate::area::{Area, AREA_TAG};
+use crate::error::{Error, ParseEnumError};
 use crate::event_code::EventCode;
 use crate::parameter::{Parameter, PARAMETER_TAG};
 use crate::resource::Resource;
+use crate::result::Result;
 use crate::utilities::*;
-use crate::{Error, ParseEnumError, Result};
 use chrono::prelude::*;
 use chrono::DateTime;
 use quick_xml::events::Event;
@@ -295,7 +296,7 @@ impl Display for ResponseType {
 
 pub const DEFAULT_LANGUAGE: &str = "en-US";
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Info {
     pub areas: Vec<Area>,
     pub audience: Option<String>,
@@ -321,34 +322,8 @@ pub struct Info {
 }
 
 impl Info {
-    pub fn initialise() -> Info {
-        Info {
-            areas: Vec::new(),
-            audience: None,
-            categories: Vec::new(),
-            certainty: None,
-            contact: None,
-            description: None,
-            effective: None,
-            event_codes: Vec::new(),
-            event: None,
-            expires: None,
-            headline: None,
-            instruction: None,
-            language: None,
-            onset: None,
-            parameters: Vec::new(),
-            response_types: Vec::new(),
-            resources: Vec::new(),
-            sender_name: None,
-            severity: None,
-            urgency: None,
-            web: None,
-        }
-    }
-
     pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Info> {
-        let mut info = Info::initialise();
+        let mut info = Info::default();
 
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
@@ -415,7 +390,7 @@ impl Info {
     where
         F: Fn(&mut Area),
     {
-        let mut area = Area::initialise();
+        let mut area = Area::default();
         build_area(&mut area);
         self.areas.push(area);
     }
@@ -424,7 +399,7 @@ impl Info {
     where
         F: Fn(&mut EventCode),
     {
-        let mut event_code = EventCode::initialise();
+        let mut event_code = EventCode::default();
         build_event_code(&mut event_code);
         self.event_codes.push(event_code);
     }
@@ -433,7 +408,7 @@ impl Info {
     where
         F: Fn(&mut Parameter),
     {
-        let mut parameter = Parameter::initialise();
+        let mut parameter = Parameter::default();
         build_parameter(&mut parameter);
         self.parameters.push(parameter);
     }
@@ -442,7 +417,7 @@ impl Info {
     where
         F: Fn(&mut Resource),
     {
-        let mut resource = Resource::initialise();
+        let mut resource = Resource::default();
         build_resource(&mut resource);
         self.resources.push(resource);
     }
