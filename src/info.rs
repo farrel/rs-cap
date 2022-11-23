@@ -52,7 +52,7 @@ const CATEGORY_OTHER: &str = "Other";
 #[derive(PartialEq, Debug, Serialize, Deserialize, Clone)]
 pub enum Category {
     Geological,
-    Meteorological,
+    Met,
     Safety,
     Security,
     Rescue,
@@ -71,7 +71,7 @@ impl FromStr for Category {
     fn from_str(enum_string: &str) -> std::result::Result<Category, ParseEnumError> {
         match enum_string {
             CATEGORY_GEO => Ok(Category::Geological),
-            CATEGORY_MET => Ok(Category::Meteorological),
+            CATEGORY_MET => Ok(Category::Met),
             CATEGORY_SAFETY => Ok(Category::Safety),
             CATEGORY_SECURITY => Ok(Category::Security),
             CATEGORY_RESCUE => Ok(Category::Rescue),
@@ -91,7 +91,7 @@ impl Display for Category {
     fn fmt(&self, f: &mut Formatter) -> std::fmt::Result {
         match self {
             Category::Geological => write!(f, "{}", CATEGORY_GEO),
-            Category::Meteorological => write!(f, "{}", CATEGORY_MET),
+            Category::Met => write!(f, "{}", CATEGORY_MET),
             Category::Safety => write!(f, "{}", CATEGORY_SAFETY),
             Category::Security => write!(f, "{}", CATEGORY_SECURITY),
             Category::Rescue => write!(f, "{}", CATEGORY_RESCUE),
@@ -420,6 +420,30 @@ impl Info {
         let mut resource = Resource::default();
         build_resource(&mut resource);
         self.resources.push(resource);
+    }
+
+    pub fn urgency_expected(&self) -> bool {
+        self.urgency == Some(Urgency::Expected)
+    }
+
+    pub fn urgency_immediate(&self) -> bool {
+        self.urgency == Some(Urgency::Immediate)
+    }
+
+    pub fn severity_extreme(&self) -> bool {
+        self.severity == Some(Severity::Extreme)
+    }
+
+    pub fn severity_severe(&self) -> bool {
+        self.severity == Some(Severity::Severe)
+    }
+
+    pub fn certainty_observed(&self) -> bool {
+        self.certainty == Some(Certainty::Observed)
+    }
+
+    pub fn certainty_very_likely(&self) -> bool {
+        self.certainty == Some(Certainty::VeryLikely)
     }
 }
 

@@ -4,14 +4,13 @@ use crate::utilities::read_string;
 use geo::Point;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
-use std::str;
 
 pub const CIRCLE_TAG: &[u8] = b"circle";
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Circle {
-    location: Option<Point<f64>>,
-    radius: Option<f64>,
+    pub location: Option<Point<f64>>,
+    pub radius: Option<f64>,
 }
 
 pub fn split_circle_string(circle_string: &str) -> Result<(f64, f64, f64)> {
@@ -44,6 +43,10 @@ impl Circle {
             })),
             None => Ok(None),
         }
+    }
+
+    pub fn valid(&self) -> bool {
+        self.location.is_some() && self.radius.is_some()
     }
 }
 
