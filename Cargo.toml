@@ -4,7 +4,8 @@ version = "0.2.0"
 authors = ["Farrel Lifson <farrel.lifson@aimred.com>"]
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+postgis = ["dep:postgis"]
 
 [dependencies]
 chrono = {version = "0.4", features = ["serde"]}
@@ -12,3 +13,6 @@ quick-xml = "0.22"
 uuid = { version = "0.8", features = ["v4"]}
 serde = { version = "1", features = ["derive"] }
 geo = { version="0.15", features = ["use-serde"]}
+postgis = {version = "0.9", optional=true}
+
+
