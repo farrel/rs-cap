@@ -5,6 +5,9 @@ use geo::Point;
 use quick_xml::Reader;
 use serde::{Deserialize, Serialize};
 
+#[cfg(feature = "postgis")]
+use postgis::ewkb::Point as PgPoint;
+
 pub const CIRCLE_TAG: &[u8] = b"circle";
 
 #[derive(Serialize, Deserialize, Debug, Clone, Default)]
@@ -47,6 +50,18 @@ impl Circle {
 
     pub fn valid(&self) -> bool {
         self.location.is_some() && self.radius.is_some()
+    }
+}
+
+#[cfg(feature = "postgis")]
+impl From<(PgPoint, f64)> for Circle {
+    fn from(circle_data: (PgPoint, f64)) -> Self {
+        let (pg_point, radius) = circle_data;
+
+        Self {
+            location: Some(Point::new(pg_point.x, pg_point.y)),
+            radius: Some(radius),
+        }
     }
 }
 

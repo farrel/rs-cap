@@ -1,8 +1,13 @@
+pub use geo::{LineString, Polygon};
+use quick_xml::Reader;
+
+#[cfg(feature = "postgis")]
+use postgis::ewkb::Polygon as PgPolygon;
+
+use crate::error::Error;
 use crate::point::parse_points_string;
 use crate::result::Result;
 use crate::utilities::read_string;
-use geo::{LineString, Polygon};
-use quick_xml::Reader;
 
 pub const POLYGON_TAG: &[u8] = b"polygon";
 
@@ -19,6 +24,23 @@ pub fn deserialize_from_xml(
         },
         None => Ok(None),
     }
+}
+
+#[cfg(feature = "postgis")]
+pub fn from_postgis_polygon(pg_polygon: &PgPolygon) -> Result<Polygon<f64>> {
+    Ok(Polygon::new(
+        LineString::from(
+            pg_polygon
+                .rings
+                .first()
+                .ok_or(Error::Postgis)?
+                .points
+                .iter()
+                .map(|point| geo::Point::new(point.x, point.y))
+                .collect::<Vec<_>>(),
+        ),
+        vec![],
+    ))
 }
 
 #[test]

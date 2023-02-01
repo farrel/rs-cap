@@ -27,6 +27,8 @@ pub enum Error {
     EofReached,
     UnknownEvent(String),
     NameSpaceNotFound,
+    Postgis,
+    ParseReference(String),
 }
 
 impl Error {

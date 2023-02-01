@@ -191,89 +191,53 @@ pub struct Alert {
 }
 
 impl Alert {
-    pub fn deserialize_from_xml(
-        namespace: &[u8],
-        reader: &mut Reader<&[u8]>,
-        buf: &mut std::vec::Vec<u8>,
-        ns_buf: &mut std::vec::Vec<u8>,
-    ) -> Result<Alert> {
+    pub fn deserialize_from_xml(namespace: &[u8], reader: &mut Reader<&[u8]>, buf: &mut std::vec::Vec<u8>, ns_buf: &mut std::vec::Vec<u8>) -> Result<Alert> {
         let mut alert = Alert::default();
 
         loop {
             match reader.read_namespaced_event(buf, ns_buf)? {
                 (Some(ns), Event::Start(e)) if ns == namespace => match e.local_name() {
-                    ALERT_TAG => {
-                        alert.version = Some(str::from_utf8(namespace)?.parse::<Version>()?)
-                    }
+                    ALERT_TAG => alert.version = Some(str::from_utf8(namespace)?.parse::<Version>()?),
 
                     CODE_TAG => {
-                        if let Some(string) = read_string(namespace, reader, buf, ns_buf, CODE_TAG)?
-                        {
+                        if let Some(string) = read_string(namespace, reader, buf, ns_buf, CODE_TAG)? {
                             alert.codes.push(string)
                         }
                     }
-                    IDENTIFIER_TAG => {
-                        alert.identifier =
-                            read_string(namespace, reader, buf, ns_buf, IDENTIFIER_TAG)?
-                    }
-                    INCIDENTS_TAG => {
-                        alert.incidents =
-                            read_string(namespace, reader, buf, ns_buf, INCIDENTS_TAG)?
-                    }
+                    IDENTIFIER_TAG => alert.identifier = read_string(namespace, reader, buf, ns_buf, IDENTIFIER_TAG)?,
+                    INCIDENTS_TAG => alert.incidents = read_string(namespace, reader, buf, ns_buf, INCIDENTS_TAG)?,
                     MSG_TYPE_TAG => {
-                        alert.msg_type = read_string(namespace, reader, buf, ns_buf, MSG_TYPE_TAG)?
-                            .and_then(|string| string.parse::<MsgType>().ok())
+                        alert.msg_type = read_string(namespace, reader, buf, ns_buf, MSG_TYPE_TAG)?.and_then(|string| string.parse::<MsgType>().ok())
                     }
 
                     NOTE_TAG => alert.note = read_string(namespace, reader, buf, ns_buf, NOTE_TAG)?,
                     REFERENCES_TAG => {
-                        if let Some(string) =
-                            read_string(namespace, reader, buf, ns_buf, REFERENCES_TAG)?
-                        {
+                        if let Some(string) = read_string(namespace, reader, buf, ns_buf, REFERENCES_TAG)? {
                             for reference_str in split_string(&string)? {
-                                alert
-                                    .references
-                                    .push(Reference::parse_string(reference_str)?)
+                                match Reference::parse_string(reference_str) {
+                                    Ok(reference) => alert.references.push(reference),
+                                    Err(error) => (),
+                                }
                             }
                         }
                     }
-                    RESTRICTION_TAG => {
-                        alert.restriction =
-                            read_string(namespace, reader, buf, ns_buf, RESTRICTION_TAG)?
-                    }
-                    SCOPE_TAG => {
-                        alert.scope = read_string(namespace, reader, buf, ns_buf, SCOPE_TAG)?
-                            .and_then(|string| string.parse::<Scope>().ok())
-                    }
-                    SENDER_TAG => {
-                        alert.sender = read_string(namespace, reader, buf, ns_buf, SENDER_TAG)?
-                    }
+                    RESTRICTION_TAG => alert.restriction = read_string(namespace, reader, buf, ns_buf, RESTRICTION_TAG)?,
+                    SCOPE_TAG => alert.scope = read_string(namespace, reader, buf, ns_buf, SCOPE_TAG)?.and_then(|string| string.parse::<Scope>().ok()),
+                    SENDER_TAG => alert.sender = read_string(namespace, reader, buf, ns_buf, SENDER_TAG)?,
                     SENT_TAG => {
-                        alert.sent = read_string(namespace, reader, buf, ns_buf, SENT_TAG)?
-                            .and_then(|string| DateTime::parse_from_rfc3339(&string).ok())
+                        alert.sent = read_string(namespace, reader, buf, ns_buf, SENT_TAG)?.and_then(|string| DateTime::parse_from_rfc3339(&string).ok())
                     }
-                    SOURCE_TAG => {
-                        alert.source = read_string(namespace, reader, buf, ns_buf, SOURCE_TAG)?
-                    }
-                    STATUS_TAG => {
-                        alert.status = read_string(namespace, reader, buf, ns_buf, STATUS_TAG)?
-                            .and_then(|string| string.parse::<Status>().ok())
-                    }
+                    SOURCE_TAG => alert.source = read_string(namespace, reader, buf, ns_buf, SOURCE_TAG)?,
+                    STATUS_TAG => alert.status = read_string(namespace, reader, buf, ns_buf, STATUS_TAG)?.and_then(|string| string.parse::<Status>().ok()),
 
-                    INFO_TAG => alert
-                        .infos
-                        .push(Info::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
+                    INFO_TAG => alert.infos.push(Info::deserialize_from_xml(namespace, reader, buf, ns_buf)?),
 
-                    unknown_tag => {
-                        return Err(Error::tag_not_expected(str::from_utf8(unknown_tag)?))
-                    }
+                    unknown_tag => return Err(Error::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
 
                 (Some(ns), Event::End(ref e)) if ns == namespace => match e.local_name() {
                     ALERT_TAG => return Ok(alert),
-                    unknown_tag => {
-                        return Err(Error::tag_not_expected(str::from_utf8(unknown_tag)?))
-                    }
+                    unknown_tag => return Err(Error::tag_not_expected(str::from_utf8(unknown_tag)?)),
                 },
 
                 (_ns, Event::Eof) => {
@@ -326,12 +290,7 @@ pub fn parse(xml_string: &str) -> Result<Alert> {
     reader.trim_text(true);
 
     if let Some(namespace) = look_for_cap_namespace(xml_string) {
-        Ok(Alert::deserialize_from_xml(
-            namespace.as_bytes(),
-            reader,
-            buf,
-            ns_buf,
-        )?)
+        Ok(Alert::deserialize_from_xml(namespace.as_bytes(), reader, buf, ns_buf)?)
     } else {
         Err(Error::NameSpaceNotFound)
     }
